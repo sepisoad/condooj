@@ -14,6 +14,9 @@
       <File Name="src/dropbox/dropbox.h"/>
       <File Name="src/dropbox/dropbox.c"/>
     </VirtualDirectory>
+    <File Name="src/config_manager.h"/>
+    <File Name="src/globals.h"/>
+    <File Name="src/config_manager.c"/>
   </VirtualDirectory>
   <Settings Type="Executable">
     <GlobalSettings>

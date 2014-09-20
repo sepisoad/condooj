@@ -13,7 +13,7 @@ CurrentFileName        :=
 CurrentFilePath        :=
 CurrentFileFullPath    :=
 User                   :=Sepehr Aryani
-Date                   :=09/17/14
+Date                   :=09/20/14
 CodeLitePath           :="/home/sepisoad/.codelite"
 LinkerName             :=/usr/bin/g++ 
 SharedObjectLinkerName :=/usr/bin/g++ -shared -fPIC
@@ -60,7 +60,7 @@ AS       := /usr/bin/as
 ## User defined environment variables
 ##
 CodeLiteDir:=/usr/share/codelite
-Objects0=$(IntermediateDirectory)/src_main.c$(ObjectSuffix) $(IntermediateDirectory)/json_cJSON.c$(ObjectSuffix) $(IntermediateDirectory)/dropbox_rest_utils.c$(ObjectSuffix) $(IntermediateDirectory)/dropbox_dropbox.c$(ObjectSuffix) 
+Objects0=$(IntermediateDirectory)/src_main.c$(ObjectSuffix) $(IntermediateDirectory)/src_config_manager.c$(ObjectSuffix) $(IntermediateDirectory)/json_cJSON.c$(ObjectSuffix) $(IntermediateDirectory)/dropbox_rest_utils.c$(ObjectSuffix) $(IntermediateDirectory)/dropbox_dropbox.c$(ObjectSuffix) 
 
 
 
@@ -94,6 +94,14 @@ $(IntermediateDirectory)/src_main.c$(DependSuffix): src/main.c
 
 $(IntermediateDirectory)/src_main.c$(PreprocessSuffix): src/main.c
 	@$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_main.c$(PreprocessSuffix) "src/main.c"
+
+$(IntermediateDirectory)/src_config_manager.c$(ObjectSuffix): src/config_manager.c $(IntermediateDirectory)/src_config_manager.c$(DependSuffix)
+	$(CC) $(SourceSwitch) "/home/sepisoad/Projects/github/condooj/src/config_manager.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_config_manager.c$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/src_config_manager.c$(DependSuffix): src/config_manager.c
+	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_config_manager.c$(ObjectSuffix) -MF$(IntermediateDirectory)/src_config_manager.c$(DependSuffix) -MM "src/config_manager.c"
+
+$(IntermediateDirectory)/src_config_manager.c$(PreprocessSuffix): src/config_manager.c
+	@$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_config_manager.c$(PreprocessSuffix) "src/config_manager.c"
 
 $(IntermediateDirectory)/json_cJSON.c$(ObjectSuffix): src/json/cJSON.c $(IntermediateDirectory)/json_cJSON.c$(DependSuffix)
 	$(CC) $(SourceSwitch) "/home/sepisoad/Projects/github/condooj/src/json/cJSON.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/json_cJSON.c$(ObjectSuffix) $(IncludePath)
