@@ -7,14 +7,10 @@ extern char* config_user_info_uid;
 extern char* config_user_info_access_token;
 extern char* config_user_info_access_token_secret;
 
-typedef strcut 
-{
-	char* access_token;
-	char* access_token_secret;
-}UserInfo;
-
-char* read_config_file(const char* section, const char* key);
-int create_config_file(); //FIXME
-int update_config_file(const char* section, const char* key, const char* value);
+char* get_config_file_path();
+int config_file_exist();
+int create_config_file();
+char* read_config_file(const char* section, const char* key); //FIXME
+int update_config_file(const char* section, const char* key, const char* value); //FIXME
 
 #endif // CONFIG_MANAGER_HEADER

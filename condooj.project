@@ -14,9 +14,17 @@
       <File Name="src/dropbox/dropbox.h"/>
       <File Name="src/dropbox/dropbox.c"/>
     </VirtualDirectory>
-    <File Name="src/config_manager.h"/>
-    <File Name="src/globals.h"/>
-    <File Name="src/config_manager.c"/>
+    <File Name="src/utils.h"/>
+    <File Name="src/utils.c"/>
+    <VirtualDirectory Name="tests">
+      <File Name="src/tests/tests.h"/>
+      <File Name="src/tests/tests.c"/>
+      <File Name="src/tests/test_runner.c"/>
+    </VirtualDirectory>
+    <File Name="src/app.h"/>
+    <File Name="src/app.c"/>
+    <File Name="src/config.h"/>
+    <File Name="src/config.c"/>
   </VirtualDirectory>
   <Settings Type="Executable">
     <GlobalSettings>
@@ -109,4 +117,6 @@
       </Completion>
     </Configuration>
   </Settings>
+  <Dependencies Name="Debug"/>
+  <Dependencies Name="Release"/>
 </CodeLite_Project>

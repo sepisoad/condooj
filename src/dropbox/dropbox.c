@@ -173,7 +173,6 @@ int dropbox_access_token(	const char* consumer_key,
 		strcpy(*access_token, token_key_pairs->token);
 		strcpy(*access_token_secret, token_key_pairs->token_secret);
 		
-		//on next api calls we will check this flag
 		is_there_already_a_token_pair = 1;
 	}while(0);
 		

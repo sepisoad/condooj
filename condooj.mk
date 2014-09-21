@@ -13,7 +13,7 @@ CurrentFileName        :=
 CurrentFilePath        :=
 CurrentFileFullPath    :=
 User                   :=Sepehr Aryani
-Date                   :=09/20/14
+Date                   :=09/21/14
 CodeLitePath           :="/home/sepisoad/.codelite"
 LinkerName             :=/usr/bin/g++ 
 SharedObjectLinkerName :=/usr/bin/g++ -shared -fPIC
@@ -60,7 +60,7 @@ AS       := /usr/bin/as
 ## User defined environment variables
 ##
 CodeLiteDir:=/usr/share/codelite
-Objects0=$(IntermediateDirectory)/src_main.c$(ObjectSuffix) $(IntermediateDirectory)/src_config_manager.c$(ObjectSuffix) $(IntermediateDirectory)/json_cJSON.c$(ObjectSuffix) $(IntermediateDirectory)/dropbox_rest_utils.c$(ObjectSuffix) $(IntermediateDirectory)/dropbox_dropbox.c$(ObjectSuffix) 
+Objects0=$(IntermediateDirectory)/src_main.c$(ObjectSuffix) $(IntermediateDirectory)/src_utils.c$(ObjectSuffix) $(IntermediateDirectory)/src_app.c$(ObjectSuffix) $(IntermediateDirectory)/src_config.c$(ObjectSuffix) $(IntermediateDirectory)/json_cJSON.c$(ObjectSuffix) $(IntermediateDirectory)/dropbox_rest_utils.c$(ObjectSuffix) $(IntermediateDirectory)/dropbox_dropbox.c$(ObjectSuffix) $(IntermediateDirectory)/tests_tests.c$(ObjectSuffix) $(IntermediateDirectory)/tests_test_runner.c$(ObjectSuffix) 
 
 
 
@@ -95,13 +95,29 @@ $(IntermediateDirectory)/src_main.c$(DependSuffix): src/main.c
 $(IntermediateDirectory)/src_main.c$(PreprocessSuffix): src/main.c
 	@$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_main.c$(PreprocessSuffix) "src/main.c"
 
-$(IntermediateDirectory)/src_config_manager.c$(ObjectSuffix): src/config_manager.c $(IntermediateDirectory)/src_config_manager.c$(DependSuffix)
-	$(CC) $(SourceSwitch) "/home/sepisoad/Projects/github/condooj/src/config_manager.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_config_manager.c$(ObjectSuffix) $(IncludePath)
-$(IntermediateDirectory)/src_config_manager.c$(DependSuffix): src/config_manager.c
-	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_config_manager.c$(ObjectSuffix) -MF$(IntermediateDirectory)/src_config_manager.c$(DependSuffix) -MM "src/config_manager.c"
+$(IntermediateDirectory)/src_utils.c$(ObjectSuffix): src/utils.c $(IntermediateDirectory)/src_utils.c$(DependSuffix)
+	$(CC) $(SourceSwitch) "/home/sepisoad/Projects/github/condooj/src/utils.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_utils.c$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/src_utils.c$(DependSuffix): src/utils.c
+	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_utils.c$(ObjectSuffix) -MF$(IntermediateDirectory)/src_utils.c$(DependSuffix) -MM "src/utils.c"
 
-$(IntermediateDirectory)/src_config_manager.c$(PreprocessSuffix): src/config_manager.c
-	@$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_config_manager.c$(PreprocessSuffix) "src/config_manager.c"
+$(IntermediateDirectory)/src_utils.c$(PreprocessSuffix): src/utils.c
+	@$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_utils.c$(PreprocessSuffix) "src/utils.c"
+
+$(IntermediateDirectory)/src_app.c$(ObjectSuffix): src/app.c $(IntermediateDirectory)/src_app.c$(DependSuffix)
+	$(CC) $(SourceSwitch) "/home/sepisoad/Projects/github/condooj/src/app.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_app.c$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/src_app.c$(DependSuffix): src/app.c
+	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_app.c$(ObjectSuffix) -MF$(IntermediateDirectory)/src_app.c$(DependSuffix) -MM "src/app.c"
+
+$(IntermediateDirectory)/src_app.c$(PreprocessSuffix): src/app.c
+	@$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_app.c$(PreprocessSuffix) "src/app.c"
+
+$(IntermediateDirectory)/src_config.c$(ObjectSuffix): src/config.c $(IntermediateDirectory)/src_config.c$(DependSuffix)
+	$(CC) $(SourceSwitch) "/home/sepisoad/Projects/github/condooj/src/config.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_config.c$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/src_config.c$(DependSuffix): src/config.c
+	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_config.c$(ObjectSuffix) -MF$(IntermediateDirectory)/src_config.c$(DependSuffix) -MM "src/config.c"
+
+$(IntermediateDirectory)/src_config.c$(PreprocessSuffix): src/config.c
+	@$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_config.c$(PreprocessSuffix) "src/config.c"
 
 $(IntermediateDirectory)/json_cJSON.c$(ObjectSuffix): src/json/cJSON.c $(IntermediateDirectory)/json_cJSON.c$(DependSuffix)
 	$(CC) $(SourceSwitch) "/home/sepisoad/Projects/github/condooj/src/json/cJSON.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/json_cJSON.c$(ObjectSuffix) $(IncludePath)
@@ -126,6 +142,22 @@ $(IntermediateDirectory)/dropbox_dropbox.c$(DependSuffix): src/dropbox/dropbox.c
 
 $(IntermediateDirectory)/dropbox_dropbox.c$(PreprocessSuffix): src/dropbox/dropbox.c
 	@$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/dropbox_dropbox.c$(PreprocessSuffix) "src/dropbox/dropbox.c"
+
+$(IntermediateDirectory)/tests_tests.c$(ObjectSuffix): src/tests/tests.c $(IntermediateDirectory)/tests_tests.c$(DependSuffix)
+	$(CC) $(SourceSwitch) "/home/sepisoad/Projects/github/condooj/src/tests/tests.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/tests_tests.c$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/tests_tests.c$(DependSuffix): src/tests/tests.c
+	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/tests_tests.c$(ObjectSuffix) -MF$(IntermediateDirectory)/tests_tests.c$(DependSuffix) -MM "src/tests/tests.c"
+
+$(IntermediateDirectory)/tests_tests.c$(PreprocessSuffix): src/tests/tests.c
+	@$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/tests_tests.c$(PreprocessSuffix) "src/tests/tests.c"
+
+$(IntermediateDirectory)/tests_test_runner.c$(ObjectSuffix): src/tests/test_runner.c $(IntermediateDirectory)/tests_test_runner.c$(DependSuffix)
+	$(CC) $(SourceSwitch) "/home/sepisoad/Projects/github/condooj/src/tests/test_runner.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/tests_test_runner.c$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/tests_test_runner.c$(DependSuffix): src/tests/test_runner.c
+	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/tests_test_runner.c$(ObjectSuffix) -MF$(IntermediateDirectory)/tests_test_runner.c$(DependSuffix) -MM "src/tests/test_runner.c"
+
+$(IntermediateDirectory)/tests_test_runner.c$(PreprocessSuffix): src/tests/test_runner.c
+	@$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/tests_test_runner.c$(PreprocessSuffix) "src/tests/test_runner.c"
 
 
 -include $(IntermediateDirectory)/*$(DependSuffix)
