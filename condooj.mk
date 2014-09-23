@@ -13,7 +13,7 @@ CurrentFileName        :=
 CurrentFilePath        :=
 CurrentFileFullPath    :=
 User                   :=Sepehr Aryani
-Date                   :=09/21/14
+Date                   :=09/24/14
 CodeLitePath           :="/home/sepisoad/.codelite"
 LinkerName             :=/usr/bin/g++ 
 SharedObjectLinkerName :=/usr/bin/g++ -shared -fPIC
@@ -60,7 +60,8 @@ AS       := /usr/bin/as
 ## User defined environment variables
 ##
 CodeLiteDir:=/usr/share/codelite
-Objects0=$(IntermediateDirectory)/src_main.c$(ObjectSuffix) $(IntermediateDirectory)/src_utils.c$(ObjectSuffix) $(IntermediateDirectory)/src_app.c$(ObjectSuffix) $(IntermediateDirectory)/src_config.c$(ObjectSuffix) $(IntermediateDirectory)/json_cJSON.c$(ObjectSuffix) $(IntermediateDirectory)/dropbox_rest_utils.c$(ObjectSuffix) $(IntermediateDirectory)/dropbox_dropbox.c$(ObjectSuffix) $(IntermediateDirectory)/tests_tests.c$(ObjectSuffix) $(IntermediateDirectory)/tests_test_runner.c$(ObjectSuffix) 
+Objects0=$(IntermediateDirectory)/src_main.c$(ObjectSuffix) $(IntermediateDirectory)/src_utils.c$(ObjectSuffix) $(IntermediateDirectory)/src_app.c$(ObjectSuffix) $(IntermediateDirectory)/src_config.c$(ObjectSuffix) $(IntermediateDirectory)/src_user.c$(ObjectSuffix) $(IntermediateDirectory)/json_cJSON.c$(ObjectSuffix) $(IntermediateDirectory)/dropbox_rest_utils.c$(ObjectSuffix) $(IntermediateDirectory)/dropbox_dropbox.c$(ObjectSuffix) $(IntermediateDirectory)/tests_tests.c$(ObjectSuffix) $(IntermediateDirectory)/tests_test_runner.c$(ObjectSuffix) \
+	$(IntermediateDirectory)/encryption_sha256.c$(ObjectSuffix) $(IntermediateDirectory)/encryption_sha1.c$(ObjectSuffix) $(IntermediateDirectory)/encryption_aes.c$(ObjectSuffix) 
 
 
 
@@ -119,6 +120,14 @@ $(IntermediateDirectory)/src_config.c$(DependSuffix): src/config.c
 $(IntermediateDirectory)/src_config.c$(PreprocessSuffix): src/config.c
 	@$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_config.c$(PreprocessSuffix) "src/config.c"
 
+$(IntermediateDirectory)/src_user.c$(ObjectSuffix): src/user.c $(IntermediateDirectory)/src_user.c$(DependSuffix)
+	$(CC) $(SourceSwitch) "/home/sepisoad/Projects/github/condooj/src/user.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_user.c$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/src_user.c$(DependSuffix): src/user.c
+	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_user.c$(ObjectSuffix) -MF$(IntermediateDirectory)/src_user.c$(DependSuffix) -MM "src/user.c"
+
+$(IntermediateDirectory)/src_user.c$(PreprocessSuffix): src/user.c
+	@$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_user.c$(PreprocessSuffix) "src/user.c"
+
 $(IntermediateDirectory)/json_cJSON.c$(ObjectSuffix): src/json/cJSON.c $(IntermediateDirectory)/json_cJSON.c$(DependSuffix)
 	$(CC) $(SourceSwitch) "/home/sepisoad/Projects/github/condooj/src/json/cJSON.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/json_cJSON.c$(ObjectSuffix) $(IncludePath)
 $(IntermediateDirectory)/json_cJSON.c$(DependSuffix): src/json/cJSON.c
@@ -158,6 +167,30 @@ $(IntermediateDirectory)/tests_test_runner.c$(DependSuffix): src/tests/test_runn
 
 $(IntermediateDirectory)/tests_test_runner.c$(PreprocessSuffix): src/tests/test_runner.c
 	@$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/tests_test_runner.c$(PreprocessSuffix) "src/tests/test_runner.c"
+
+$(IntermediateDirectory)/encryption_sha256.c$(ObjectSuffix): src/encryption/sha256.c $(IntermediateDirectory)/encryption_sha256.c$(DependSuffix)
+	$(CC) $(SourceSwitch) "/home/sepisoad/Projects/github/condooj/src/encryption/sha256.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/encryption_sha256.c$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/encryption_sha256.c$(DependSuffix): src/encryption/sha256.c
+	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/encryption_sha256.c$(ObjectSuffix) -MF$(IntermediateDirectory)/encryption_sha256.c$(DependSuffix) -MM "src/encryption/sha256.c"
+
+$(IntermediateDirectory)/encryption_sha256.c$(PreprocessSuffix): src/encryption/sha256.c
+	@$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/encryption_sha256.c$(PreprocessSuffix) "src/encryption/sha256.c"
+
+$(IntermediateDirectory)/encryption_sha1.c$(ObjectSuffix): src/encryption/sha1.c $(IntermediateDirectory)/encryption_sha1.c$(DependSuffix)
+	$(CC) $(SourceSwitch) "/home/sepisoad/Projects/github/condooj/src/encryption/sha1.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/encryption_sha1.c$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/encryption_sha1.c$(DependSuffix): src/encryption/sha1.c
+	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/encryption_sha1.c$(ObjectSuffix) -MF$(IntermediateDirectory)/encryption_sha1.c$(DependSuffix) -MM "src/encryption/sha1.c"
+
+$(IntermediateDirectory)/encryption_sha1.c$(PreprocessSuffix): src/encryption/sha1.c
+	@$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/encryption_sha1.c$(PreprocessSuffix) "src/encryption/sha1.c"
+
+$(IntermediateDirectory)/encryption_aes.c$(ObjectSuffix): src/encryption/aes.c $(IntermediateDirectory)/encryption_aes.c$(DependSuffix)
+	$(CC) $(SourceSwitch) "/home/sepisoad/Projects/github/condooj/src/encryption/aes.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/encryption_aes.c$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/encryption_aes.c$(DependSuffix): src/encryption/aes.c
+	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/encryption_aes.c$(ObjectSuffix) -MF$(IntermediateDirectory)/encryption_aes.c$(DependSuffix) -MM "src/encryption/aes.c"
+
+$(IntermediateDirectory)/encryption_aes.c$(PreprocessSuffix): src/encryption/aes.c
+	@$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/encryption_aes.c$(PreprocessSuffix) "src/encryption/aes.c"
 
 
 -include $(IntermediateDirectory)/*$(DependSuffix)
