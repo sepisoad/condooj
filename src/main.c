@@ -1,6 +1,8 @@
 #include "app.h"
 #include "tests/tests.h"
 
+#undef RUN_TESTS
+
 int main(int argc, char **argv)
 {
 #ifndef RUN_TESTS
@@ -10,19 +12,3 @@ int main(int argc, char **argv)
 #endif
 	return 0;
 }
-
-#if 0
-int was_successful = 0;
-	
-do{
-	
-	was_successful = 1;
-}while(0);
-
-if(!was_successful)
-{
-	
-}
-
-return was_successful;
-#endif

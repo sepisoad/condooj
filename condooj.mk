@@ -13,7 +13,7 @@ CurrentFileName        :=
 CurrentFilePath        :=
 CurrentFileFullPath    :=
 User                   :=Sepehr Aryani
-Date                   :=09/24/14
+Date                   :=09/25/14
 CodeLitePath           :="/home/sepisoad/.codelite"
 LinkerName             :=/usr/bin/g++ 
 SharedObjectLinkerName :=/usr/bin/g++ -shared -fPIC
@@ -60,8 +60,8 @@ AS       := /usr/bin/as
 ## User defined environment variables
 ##
 CodeLiteDir:=/usr/share/codelite
-Objects0=$(IntermediateDirectory)/src_main.c$(ObjectSuffix) $(IntermediateDirectory)/src_utils.c$(ObjectSuffix) $(IntermediateDirectory)/src_app.c$(ObjectSuffix) $(IntermediateDirectory)/src_config.c$(ObjectSuffix) $(IntermediateDirectory)/src_user.c$(ObjectSuffix) $(IntermediateDirectory)/json_cJSON.c$(ObjectSuffix) $(IntermediateDirectory)/dropbox_rest_utils.c$(ObjectSuffix) $(IntermediateDirectory)/dropbox_dropbox.c$(ObjectSuffix) $(IntermediateDirectory)/tests_tests.c$(ObjectSuffix) $(IntermediateDirectory)/tests_test_runner.c$(ObjectSuffix) \
-	$(IntermediateDirectory)/encryption_sha256.c$(ObjectSuffix) $(IntermediateDirectory)/encryption_sha1.c$(ObjectSuffix) $(IntermediateDirectory)/encryption_aes.c$(ObjectSuffix) 
+Objects0=$(IntermediateDirectory)/src_main.c$(ObjectSuffix) $(IntermediateDirectory)/src_utils.c$(ObjectSuffix) $(IntermediateDirectory)/src_app.c$(ObjectSuffix) $(IntermediateDirectory)/src_config.c$(ObjectSuffix) $(IntermediateDirectory)/src_user.c$(ObjectSuffix) $(IntermediateDirectory)/src_passphrase.c$(ObjectSuffix) $(IntermediateDirectory)/json_cJSON.c$(ObjectSuffix) $(IntermediateDirectory)/dropbox_rest_utils.c$(ObjectSuffix) $(IntermediateDirectory)/dropbox_dropbox.c$(ObjectSuffix) $(IntermediateDirectory)/tests_tests.c$(ObjectSuffix) \
+	$(IntermediateDirectory)/tests_test_runner.c$(ObjectSuffix) $(IntermediateDirectory)/encryption_sha256.c$(ObjectSuffix) $(IntermediateDirectory)/encryption_sha1.c$(ObjectSuffix) $(IntermediateDirectory)/encryption_aes.c$(ObjectSuffix) 
 
 
 
@@ -127,6 +127,14 @@ $(IntermediateDirectory)/src_user.c$(DependSuffix): src/user.c
 
 $(IntermediateDirectory)/src_user.c$(PreprocessSuffix): src/user.c
 	@$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_user.c$(PreprocessSuffix) "src/user.c"
+
+$(IntermediateDirectory)/src_passphrase.c$(ObjectSuffix): src/passphrase.c $(IntermediateDirectory)/src_passphrase.c$(DependSuffix)
+	$(CC) $(SourceSwitch) "/home/sepisoad/Projects/github/condooj/src/passphrase.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_passphrase.c$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/src_passphrase.c$(DependSuffix): src/passphrase.c
+	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_passphrase.c$(ObjectSuffix) -MF$(IntermediateDirectory)/src_passphrase.c$(DependSuffix) -MM "src/passphrase.c"
+
+$(IntermediateDirectory)/src_passphrase.c$(PreprocessSuffix): src/passphrase.c
+	@$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_passphrase.c$(PreprocessSuffix) "src/passphrase.c"
 
 $(IntermediateDirectory)/json_cJSON.c$(ObjectSuffix): src/json/cJSON.c $(IntermediateDirectory)/json_cJSON.c$(DependSuffix)
 	$(CC) $(SourceSwitch) "/home/sepisoad/Projects/github/condooj/src/json/cJSON.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/json_cJSON.c$(ObjectSuffix) $(IncludePath)

@@ -20,7 +20,7 @@ char* get_config_file_path()
 		if(!app_folder_path)
 			break;
 			
-		app_config_file_path = build_path(app_folder_path, CONFIG_FILE_NAME);
+		app_config_file_path = build_path(app_folder_path, CONFIG_FILE);
 		if(!app_config_file_path)
 			break;
 			

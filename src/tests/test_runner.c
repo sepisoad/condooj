@@ -5,7 +5,13 @@ int run_all_tests()
 	int was_successful = 0;
 	
 	do{
-		if(!run_test(test_dir_exist))
+//		if(!test_sha256())
+//			break;
+//			
+//		if(!test_aes())
+//			break;
+			
+		if(!test_sha256_aes())
 			break;
 
 		was_successful = 1;

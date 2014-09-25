@@ -5,15 +5,31 @@
 #include "utils.h"
 #include "config.h"
 #include "user.h"
+#include "passphrase.h"
 #include "dropbox/dropbox.h"
 
 int start_app()
 {
 	if(!user_exist())
 	{
-		unsigned char passphrase[] = "this is a sample passphrase";
+		//unsigned char passphrase[] = "this is a sample passphrase";
 		//unsigned char passphrase[] = "you mother fucker";
 		//unsigned char passphrase[] = {"bitch"};
+		//
+		char passphrase[513] = {0};
+		
+		printf("in order to protect your informations from others the app will encrypt your data,");
+		printf("\n in order to do this you have to enter a passphrase string. the lenght of \n");
+		printf("should be bigger than 20 characters and less than 512 characters\n");
+		printf("please enter your passphrase here: ");
+		fgets(passphrase, 513, stdin);
+		
+		if(!create_passphrase(passphrase))
+		{
+			return 0;
+		}
+		
+		printf("%s\n", get_passphrase());
 		
 		if(!create_user(passphrase))
 		{
@@ -66,7 +82,6 @@ int authorize_dropbox_user()
 	char* signed_url = 0;
 	char* access_token = 0;
 	char* access_token_secret = 0;
-	unsigned char* passphrase = 0;
 	char answer = 'n';
 	
 	do{
@@ -83,7 +98,7 @@ int authorize_dropbox_user()
 			dropbox_access_token(CONSUMER_KEY, CONSUMER_SECRET, &access_token, &access_token_secret);
 			if(access_token || access_token_secret)
 			{
-				if(update_user(passphrase, access_token, access_token_secret))
+				if(update_user(access_token, access_token_secret))
 				{
 					break;
 				}
