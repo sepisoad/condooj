@@ -18,4 +18,8 @@ int test_sha256();
 int test_aes();
 int test_sha256_aes();
 
+int test_encrypt_memory();
+int test_decrypt_memory();
+int test_encrypt_decrypt_memory();
+
 #endif //TESTS_HEADER

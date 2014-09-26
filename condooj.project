@@ -35,8 +35,8 @@
       <File Name="src/encryption/aes.h"/>
       <File Name="src/encryption/aes.c"/>
     </VirtualDirectory>
-    <File Name="src/passphrase.h"/>
-    <File Name="src/passphrase.c"/>
+    <File Name="src/protection.h"/>
+    <File Name="src/protection.c"/>
   </VirtualDirectory>
   <Settings Type="Executable">
     <GlobalSettings>

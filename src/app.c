@@ -5,31 +5,30 @@
 #include "utils.h"
 #include "config.h"
 #include "user.h"
-#include "passphrase.h"
+#include "protection.h"
 #include "dropbox/dropbox.h"
+
+unsigned char passphrase_digest[32] = {0};
 
 int start_app()
 {
 	if(!user_exist())
 	{
-		//unsigned char passphrase[] = "this is a sample passphrase";
-		//unsigned char passphrase[] = "you mother fucker";
-		//unsigned char passphrase[] = {"bitch"};
-		//
-		char passphrase[513] = {0};
+		unsigned char passphrase[513] = {0};
 		
 		printf("in order to protect your informations from others the app will encrypt your data,");
 		printf("\n in order to do this you have to enter a passphrase string. the lenght of \n");
 		printf("should be bigger than 20 characters and less than 512 characters\n");
 		printf("please enter your passphrase here: ");
-		fgets(passphrase, 513, stdin);
 		
-		if(!create_passphrase(passphrase))
+		fgets((char*)passphrase, 513, stdin);
+		
+		if(!create_passphrase_digest(passphrase, passphrase_digest))
 		{
 			return 0;
 		}
 		
-		printf("%s\n", get_passphrase());
+		printf("%s\n", passphrase_digest);
 		
 		if(!create_user(passphrase))
 		{

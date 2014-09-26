@@ -1,11 +1,9 @@
 #include "app.h"
 #include "tests/tests.h"
 
-#undef RUN_TESTS
-
 int main(int argc, char **argv)
 {
-#ifndef RUN_TESTS
+#if 0
 	start_app();
 #else
 	run_all_tests();

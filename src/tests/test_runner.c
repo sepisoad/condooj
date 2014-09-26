@@ -10,8 +10,11 @@ int run_all_tests()
 //			
 //		if(!test_aes())
 //			break;
+//			
+//		if(!test_sha256_aes())
+//			break;
 			
-		if(!test_sha256_aes())
+		if(!test_encrypt_decrypt_memory())
 			break;
 
 		was_successful = 1;

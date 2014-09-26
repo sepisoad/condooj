@@ -5,6 +5,7 @@
 #include "../utils.h"
 #include "../encryption/sha256.h"
 #include "../encryption/aes.h"
+#include "../protection.h"
 
 int run_test (callback test)
 {
@@ -116,7 +117,7 @@ int test_sha256_aes()
 	int index = 0;
 	int can_break = 0;
 	
-	aes_key_setup(passphrase, key_schedule, 256);
+	aes_key_setup(digest, key_schedule, 256);
 	do
 	{
 		int count;
@@ -156,6 +157,57 @@ int test_sha256_aes()
 		printf("\n");
 		
 	}while(!can_break);
+	
+	return 1;
+}
+
+int test_encrypt_memory()
+{
+	unsigned char data[] = "my name is sepehr aryani, what the fuck does the name mean? ha?";
+	unsigned char passphrase[] = "shitty passphrase";
+	unsigned char digest[32] = {0};
+	unsigned char* enc_data = 0;
+	size_t enc_data_len = 0;
+	
+	if(!create_passphrase_digest(passphrase, digest))
+		return 0;
+	
+	if(!encrypt_memory(data, strlen((char*)data), digest, &enc_data, &enc_data_len))
+		return 0;
+		
+	printf("\n%s\n", enc_data);
+	
+	return 1;
+}
+int test_decrypt_memory();
+
+int test_encrypt_decrypt_memory()
+{
+	unsigned char data[] = "my name is sepehr aryani, what the fuck does the name mean? ha? why don't you ask the kids at te...";
+	unsigned char passphrase[] = "shitty passphrase";
+	unsigned char digest[32] = {0};
+	unsigned char* enc_data = 0;
+	unsigned char* dec_data = 0;
+	size_t enc_data_len = 0;
+	size_t dec_data_len = 0;
+	
+	if(!create_passphrase_digest(passphrase, digest))
+		return 0;
+	
+	if(!encrypt_memory(data, strlen((char*)data), digest, &enc_data, &enc_data_len))
+		return 0;
+	
+	printf("%s", enc_data);
+	printf("\n============\n");
+		
+	if(!decrypt_memory(enc_data, enc_data_len, digest, &dec_data, &dec_data_len))
+		return 0;
+	
+	printf("%s", dec_data);
+	printf("\n============\n");
+	
+	free(enc_data);
+	free(dec_data);
 	
 	return 1;
 }
