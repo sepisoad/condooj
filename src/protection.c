@@ -2,12 +2,9 @@
 #include <stdio.h>
 #include <string.h>
 #include "protection.h"
-#include "app.h"
 #include "utils.h"
 #include "encryption/sha256.h"
 #include "encryption/aes.h"
-
-//#define JUST_FOR_DEBUG
 
 int create_passphrase_digest(const unsigned char* passphrase, unsigned char* digest)
 {

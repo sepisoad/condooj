@@ -14,6 +14,8 @@ int test_remove_file();
 int test_load_file_to_mem();
 int test_get_user_home_folder();
 
+int test_update_user();
+
 int test_sha256();
 int test_aes();
 int test_sha256_aes();

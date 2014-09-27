@@ -3,7 +3,7 @@
 
 int main(int argc, char **argv)
 {
-#if 0
+#if 1
 	start_app();
 #else
 	run_all_tests();

@@ -13,8 +13,11 @@ int run_all_tests()
 //			
 //		if(!test_sha256_aes())
 //			break;
-			
-		if(!test_encrypt_decrypt_memory())
+//			
+//		if(!test_encrypt_decrypt_memory())
+//			break;
+//			
+		if(!test_update_user())
 			break;
 
 		was_successful = 1;

@@ -12,13 +12,16 @@ unsigned char passphrase_digest[32] = {0};
 
 int start_app()
 {
+	if(!config_file_exist())
+	{
+		if(!create_config_file())
+			return 0;
+	}
+	
 	if(!user_exist())
 	{
 		unsigned char passphrase[513] = {0};
-		
-		printf("in order to protect your informations from others the app will encrypt your data,");
-		printf("\n in order to do this you have to enter a passphrase string. the lenght of \n");
-		printf("should be bigger than 20 characters and less than 512 characters\n");
+
 		printf("please enter your passphrase here: ");
 		
 		fgets((char*)passphrase, 513, stdin);
@@ -27,8 +30,6 @@ int start_app()
 		{
 			return 0;
 		}
-		
-		printf("%s\n", passphrase_digest);
 		
 		if(!create_user(passphrase))
 		{
@@ -82,6 +83,14 @@ int authorize_dropbox_user()
 	char* access_token = 0;
 	char* access_token_secret = 0;
 	char answer = 'n';
+	
+#if 1 //FIXME
+	if(update_user("abcde", "123456"));
+	{
+		return 0;
+	}
+	return 1;
+#endif
 	
 	do{
 		dropbox_request_token(CONSUMER_KEY, CONSUMER_SECRET);

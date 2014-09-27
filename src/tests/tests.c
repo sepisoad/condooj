@@ -6,6 +6,7 @@
 #include "../encryption/sha256.h"
 #include "../encryption/aes.h"
 #include "../protection.h"
+#include "../user.h"
 
 int run_test (callback test)
 {
@@ -212,3 +213,24 @@ int test_encrypt_decrypt_memory()
 	return 1;
 }
 
+
+int test_update_user()
+{
+	int was_successful = 0;
+	
+	do{
+		if(!update_user("sepi", "soad"))
+			break;
+			
+		if(!update_user("fuck", "you"))
+			break;
+		was_successful = 1;
+	}while(0);
+
+	if(!was_successful)
+	{
+	
+	}
+
+	return was_successful;
+}

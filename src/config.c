@@ -87,7 +87,7 @@ int config_file_exist()
 	return was_successful;
 }
 
-int create_config_file(const char* path)
+int create_config_file()
 {
 	int was_successful = 0;
 	char* app_folder_path = 0;
@@ -114,27 +114,6 @@ int create_config_file(const char* path)
 			config_file = fopen(app_config_file_path, "w");
 			if(!config_file)
 				break;
-			
-			fprintf(config_file,"{\n\t\"AppInfo\" : \n\t{\n");
-			fprintf(config_file,"\t\t\"Name\" : \"condooj\",\n");
-			fprintf(config_file,"\t\t\"Version\" : \"0.0.0\",\n");
-			fprintf(config_file,"\t\t\"License\" : \"GPLv3\",\n");
-			fprintf(config_file,"\t\t\"Description\" : \"\",\n\t},");
-			
-			fprintf(config_file,"\n\n\t\"AuthorInfo\" : \n\t{\n");
-			fprintf(config_file,"\t\t\"Name\" : \"Sepehr Aryani\",\n");
-			fprintf(config_file,"\t\t\"Email\" : \"sepehr.aryani@gmail.com\",\n");
-			fprintf(config_file,"\t\t\"github\" : \"@sepisoad\",\n");
-			fprintf(config_file,"\t\t\"twitter\" : \"@sepisoad\",\n\t},");
-			
-			fprintf(config_file,"\n\n\t\"UserInfo\" : \n\t{\n");
-			fprintf(config_file,"\t\t\"DisplayName\" : \"\",\n");
-			fprintf(config_file,"\t\t\"AccessToken\" : \"\",\n");
-			fprintf(config_file,"\t\t\"AccessTokenSecret\" : \"\",\n");
-			fprintf(config_file,"\t\t\"UID\" : \"\",\n");
-			fprintf(config_file,"\t\t\"ReferralLink\" : \"\",\n\t},");
-			
-			fprintf(config_file,"\n}\n");
 		}
 		
 		was_successful = 1;
