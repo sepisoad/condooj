@@ -12,25 +12,23 @@ unsigned char passphrase_digest[32] = {0};
 
 int start_app()
 {
+	unsigned char passphrase[513] = {0};
+	
 	if(!config_file_exist())
 	{
 		if(!create_config_file())
 			return 0;
 	}
 	
+	printf("please enter your passphrase here: ");
+	fgets((char*)passphrase, 513, stdin);
+	if(!create_passphrase_digest(passphrase, passphrase_digest))
+	{
+		return 0;
+	}
+	
 	if(!user_exist())
 	{
-		unsigned char passphrase[513] = {0};
-
-		printf("please enter your passphrase here: ");
-		
-		fgets((char*)passphrase, 513, stdin);
-		
-		if(!create_passphrase_digest(passphrase, passphrase_digest))
-		{
-			return 0;
-		}
-		
 		if(!create_user(passphrase))
 		{
 			return 0;
@@ -41,8 +39,20 @@ int start_app()
 			return 0;
 		}
 	}
+	else
+	{
+		char access_token[KEY_BUF_SIZE] = {0};
+		char access_token_secret[KEY_BUF_SIZE] = {0};
+		
+		if(!get_user_data(access_token, access_token_secret))
+		{
+			return 0;
+		}
+		
+		printf("%s : %s \n", access_token, access_token_secret);
+	}
 	
-	return 0;
+	return 1;
 }
 
 char* get_app_folder_path()
@@ -83,30 +93,23 @@ int authorize_dropbox_user()
 	char* access_token = 0;
 	char* access_token_secret = 0;
 	char answer = 'n';
-	
-#if 1 //FIXME
-	if(update_user("abcde", "123456"));
-	{
-		return 0;
-	}
-	return 1;
-#endif
-	
+		
 	do{
 		dropbox_request_token(CONSUMER_KEY, CONSUMER_SECRET);
 		signed_url = dropbox_authorize(CONSUMER_KEY, CONSUMER_SECRET);
 		
-		printf("please copy the link below in you favourite browser and authorize the app,");
+		printf("\nplease copy the link below in you favourite browser and authorize the app,");
 		printf(" the app will wait for you to perform authorization...\n");
 		printf("%s\n", signed_url);
-		printf("did you authorized the app (y/n)? ");
-		answer = getchar();
+		printf("\ndid you authorized the app (y/n)? ");
+		fflush (stdout);
+		scanf("%c", &answer);
 		if(answer == 'y')
 		{
 			dropbox_access_token(CONSUMER_KEY, CONSUMER_SECRET, &access_token, &access_token_secret);
 			if(access_token || access_token_secret)
 			{
-				if(update_user(access_token, access_token_secret))
+				if(!update_user(access_token, access_token_secret))
 				{
 					break;
 				}

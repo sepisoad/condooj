@@ -6,6 +6,7 @@
 #include "utils.h"
 #include "json/cJSON.h"
 #include "protection.h"
+#include "dropbox/rest_utils.h"
 
 char* get_user_data_file_path()
 {
@@ -221,7 +222,7 @@ int update_user(const char* access_token,
 				 user_file) < encrypted_buffer_len)
 			break;
 		
-		 if(!decrypt_memory(encrypted_buffer, 
+		if(!decrypt_memory(	encrypted_buffer, 
 							encrypted_buffer_len,
 							passphrase_digest,
 							&decrypted_buffer,
@@ -229,12 +230,7 @@ int update_user(const char* access_token,
 		{
 			break;
 		}
-		
-		printf("%s\n", encrypted_buffer);
-		printf("====================\n");
-		printf("%s\n", decrypted_buffer);
-		printf("====================\n");
-		
+				
 		json = cJSON_Parse((char*)decrypted_buffer);
 		if(!json)
 			break;
@@ -254,21 +250,21 @@ int update_user(const char* access_token,
 		if(!decrypted_buffer)
 			break;
 			
+		decrypted_buffer_len = (size_t) strlen((char*)decrypted_buffer);
+			
 		// these two lines prevent stack crash
 		// i still don't know where things go wrong
 		// i hope there is no memory leak in this fucntion
 		cJSON_GetObjectItem(root, "AccessToken")->valuestring = 0;
 		cJSON_GetObjectItem(root, "AccessTokenSecret")->valuestring = 0;
 		
-		//encryot buffer content and then
-		//save it back to user file
 		if(encrypted_buffer)
 		{
 			free(encrypted_buffer);
 			encrypted_buffer = 0;
 			encrypted_buffer_len = 0;
 		}
-		
+
 		if(!encrypt_memory(	decrypted_buffer,
 							decrypted_buffer_len,
 							passphrase_digest,
@@ -335,6 +331,110 @@ int update_user(const char* access_token,
 	if(access_token_secret_copy)
 	{
 		free(access_token_secret_copy);
+	}
+
+	return was_successful;
+}
+
+int get_user_data(	char* access_token,
+					char* access_token_secret)
+{
+	int was_successful = 0;
+	char* user_data_file_path = 0;
+	unsigned char* encrypted_buffer = 0;
+	size_t encrypted_buffer_len = 0;
+	unsigned char* decrypted_buffer = 0;
+	size_t decrypted_buffer_len = 0;
+	FILE* user_file = 0;
+	cJSON* json = 0;
+	
+	do{
+		if(!access_token || !access_token_secret)
+			break;
+			
+		if(!user_exist())
+			break;
+			
+		user_data_file_path = get_user_data_file_path();
+		if(!user_data_file_path)
+			break;
+			
+		if(!file_exist(user_data_file_path))
+			break;
+			
+		user_file = fopen(user_data_file_path, "r");
+		if(!user_file)
+			break;
+			
+		fseek(user_file, 0, SEEK_END);
+		encrypted_buffer_len = ftell(user_file);
+		rewind(user_file);
+			
+		encrypted_buffer = (unsigned char*) malloc(sizeof(char) * encrypted_buffer_len);
+		if(!encrypted_buffer)
+			break;
+			
+		memset(encrypted_buffer, 0, encrypted_buffer_len);
+		
+		if(fread((void*)encrypted_buffer, 
+				 sizeof(char), 
+				 encrypted_buffer_len, 
+				 user_file) < encrypted_buffer_len)
+			break;
+		
+		 if(!decrypt_memory(encrypted_buffer, 
+							encrypted_buffer_len,
+							passphrase_digest,
+							&decrypted_buffer,
+							&decrypted_buffer_len))
+		{
+			break;
+		}
+		
+		json = cJSON_Parse((char*)decrypted_buffer);
+		if(!json)
+			break;
+			
+		cJSON* root = json;
+		char* str = 0;
+		
+		str = cJSON_GetObjectItem(root, "AccessToken")->valuestring;
+		strncpy(access_token, str, KEY_BUF_SIZE);
+		
+		str = cJSON_GetObjectItem(root, "AccessTokenSecret")->valuestring ;
+		strncpy(access_token_secret, str, KEY_BUF_SIZE);
+		
+		was_successful = 1;
+	}while(0);
+
+	if(!was_successful)
+	{
+		
+	}
+	
+	if(json)
+	{
+		cJSON_Delete(json);
+	}
+	
+	if(user_data_file_path)
+	{
+		free(user_data_file_path);
+	}
+	
+	if(user_file)
+	{
+		fclose(user_file);
+	}
+	
+	if(encrypted_buffer)
+	{
+		free(encrypted_buffer);
+	}
+	
+	if(decrypted_buffer)
+	{
+		free(decrypted_buffer);
 	}
 
 	return was_successful;

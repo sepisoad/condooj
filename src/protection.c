@@ -86,7 +86,7 @@ int encrypt_memory(const unsigned char* buffer,
 				index += 16;
 			}
 			
-			aes_encrypt(input, cipher, key_schedule, 256);				
+			aes_encrypt(input, cipher, key_schedule, 256);	
 			memcpy(ptr_encrypted_buffer, cipher, 16);
 
 			ptr_encrypted_buffer += 16;
@@ -163,6 +163,7 @@ int decrypt_memory(const unsigned char* buffer,
 			
 		was_successful = 1;
 	}while(0);
+	
 
 	if(!was_successful)
 	{
