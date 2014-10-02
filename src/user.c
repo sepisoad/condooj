@@ -6,7 +6,7 @@
 #include "utils.h"
 #include "json/cJSON.h"
 #include "protection.h"
-#include "dropbox/rest_utils.h"
+#include "dropbox/dropbox.h"
 
 char* get_user_data_file_path()
 {

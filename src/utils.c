@@ -187,3 +187,49 @@ char* build_path(const char* old_path, const char* ext)
 	
 	return new_path;
 }
+
+Buffer* create_buffer(size_t size)
+{
+	Buffer* buf = (Buffer*) malloc (sizeof(Buffer));
+	
+	if(!buf)
+	{
+		return 0;
+	}
+	
+	if(size <= 0)
+	{
+		buf->data = 0;
+		buf->size = 0;
+		return buf;
+	}
+	
+	buf->data = (char*) malloc (sizeof(char) * size);
+	
+	if(!buf->data)
+	{
+		return 0;
+	}
+	
+	buf->size = size;
+	
+	memset(buf->data, 0, buf->size);
+	
+	return buf;
+}
+
+void free_buffer(Buffer* buf)
+{
+	if(buf)
+	{
+		if(buf->data)
+		{
+			free(buf->data);
+			buf->data = 0;
+			buf->size = 0;
+		}
+		
+		free(buf);
+		buf = 0;
+	}
+}

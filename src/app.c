@@ -49,7 +49,15 @@ int start_app()
 			return 0;
 		}
 		
-		printf("%s : %s \n", access_token, access_token_secret);
+		if(!set_dropbox_access_tokens(access_token, access_token_secret))
+		{
+			return 0;
+		}
+		
+		if(!dropbox_account_info(CONSUMER_KEY, CONSUMER_SECRET))
+		{
+			return 0;
+		}
 	}
 	
 	return 1;
@@ -95,8 +103,16 @@ int authorize_dropbox_user()
 	char answer = 'n';
 		
 	do{
-		dropbox_request_token(CONSUMER_KEY, CONSUMER_SECRET);
+		if(!dropbox_request_token(CONSUMER_KEY, CONSUMER_SECRET))
+		{
+			break;
+		}
+		
 		signed_url = dropbox_authorize(CONSUMER_KEY, CONSUMER_SECRET);
+		if(!signed_url)
+		{
+			break;
+		}
 		
 		printf("\nplease copy the link below in you favourite browser and authorize the app,");
 		printf(" the app will wait for you to perform authorization...\n");

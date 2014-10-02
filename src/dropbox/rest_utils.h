@@ -2,10 +2,16 @@
 #define REST_UTILS_HEADER
 
 #include <string.h>
+#include "../utils.h"
 #include "../json/cJSON.h"
 
-#define KEY_BUF_SIZE 256
 #define CURL_BUF_SIZE 2048
+
+typedef enum{
+	HTTP_METHOD_NONE = 0,
+	HTTP_METHOD_GET,
+	HTTP_METHOD_POST
+}HttpMethod;
 
 typedef struct{
 	char* token;
@@ -13,11 +19,6 @@ typedef struct{
 	size_t token_size;
 	size_t token_secret_size;
 }OauthTokenPairs;
-
-typedef struct{
-	char* data;
-	size_t size;
-}CurlBuffer;
 
 OauthTokenPairs* create_oauth_token_pairs(	size_t token_size, 
 											size_t token_secret_size);
@@ -28,10 +29,8 @@ int set_oauth_token_pairs(	OauthTokenPairs* pair,
 							const char* token, 
 							const char* token_secret);
 							
-CurlBuffer* create_curl_buffer(size_t size);
-
-void free_curl_buffer(CurlBuffer* buf);
-
+int zero_oauth_token_pairs(OauthTokenPairs* pair);
+						
 size_t write_into_curl_buffer(	char* data, 
 								size_t data_size, 
 								size_t nmemb, 
@@ -45,7 +44,14 @@ char* perform_link_http_request(const char* URL,
 								OauthTokenPairs* consumer_keys, 
 								OauthTokenPairs* tokens);
 								
-int parse_rest_call_response(	CurlBuffer* curl_buffer, 
+Buffer* perform_http_request(	const char* URL, 
+								HttpMethod method,
+								OauthTokenPairs* consumer_keys, 
+								OauthTokenPairs* tokens);
+
+int is_http_result_ok(const Buffer* curl_buffer);
+								
+int parse_rest_call_response(	const Buffer* curl_buffer, 
 								OauthTokenPairs* tokens);
 
 #endif //REST_UTILS_HEADER

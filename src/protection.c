@@ -91,7 +91,7 @@ int encrypt_memory(const unsigned char* buffer,
 
 			ptr_encrypted_buffer += 16;
 		}while(!can_break);
-			
+		
 		was_successful = 1;
 	}while(0);
 
@@ -160,7 +160,7 @@ int decrypt_memory(const unsigned char* buffer,
 
 			ptr_decrypted_buffer += 16;
 		}while(!can_break);
-			
+
 		was_successful = 1;
 	}while(0);
 	

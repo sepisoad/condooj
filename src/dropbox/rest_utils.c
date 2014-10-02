@@ -73,50 +73,17 @@ int set_oauth_token_pairs(OauthTokenPairs* pair, const char* token, const char* 
 	return 1;
 }
 
-CurlBuffer* create_curl_buffer(size_t size)
+int zero_oauth_token_pairs(OauthTokenPairs* pair)
 {
-	CurlBuffer* buf = (CurlBuffer*) malloc (sizeof(CurlBuffer));
-	
-	if(!buf)
+	if(!pair)
 	{
 		return 0;
 	}
-	
-	if(size <= 0)
-	{
-		buf->data = 0;
-		buf->size = 0;
-		return buf;
-	}
-	
-	buf->data = (char*) malloc (sizeof(char) * size);
-	
-	if(!buf->data)
-	{
-		return 0;
-	}
-	
-	buf->size = size;
-	
-	memset(buf->data, 0, buf->size);
-	
-	return buf;
-}
 
-void free_curl_buffer(CurlBuffer* buf)
-{
-	if(buf)
-	{
-		if(buf->data)
-		{
-			free(buf->data);
-			buf->data = 0;
-			buf->size = 0;
-		}
-		
-		free(buf);
-		buf = 0;
-	}
+	memset(pair->token, 0, pair->token_size);
+	memset(pair->token_secret, 0, pair->token_secret_size);
+	
+	return 1;
 }
 
 size_t write_into_curl_buffer(char* data, size_t data_size, size_t nmemb, void* buf)
@@ -128,7 +95,7 @@ size_t write_into_curl_buffer(char* data, size_t data_size, size_t nmemb, void* 
 		return 0;
 	}
 	
-	CurlBuffer* tbuf = (CurlBuffer*) buf;
+	Buffer* tbuf = (Buffer*) buf;
 	
 	tbuf->data = (char*) realloc(tbuf->data, tbuf->size + real_size + 1);
 	if(tbuf->data)
@@ -145,24 +112,22 @@ int perform_token_http_request(	const char* URL,
 								OauthTokenPairs* consumer_keys, 
 								OauthTokenPairs* tokens)
 {
-	int was_successful = 1;
+	int was_successful = 0;
 	char* oauth_post_args = 0;
 	char* oauth_result = 0;
 	CURL* curl_handler = 0;
 	CURLcode curl_result = 0;
-	CurlBuffer* curl_buffer = 0;
+	Buffer* curl_buffer = 0;
 	
 	do
 	{
 		if(!URL)
 		{
-			was_successful = 0;
 			break;
 		}
 		
 		if(0 == consumer_keys)
 		{
-			was_successful = 0;
 			break;
 		}
 		
@@ -176,18 +141,16 @@ int perform_token_http_request(	const char* URL,
 										tokens->token_secret);
 		if(!oauth_result)
 		{
-			was_successful = 0;
 			break;
 		}
 		
 		curl_handler = curl_easy_init();
 		if(!curl_handler)
 		{
-			was_successful = 0;
 			break;
 		}
 		
-		curl_buffer = create_curl_buffer(0);
+		curl_buffer = create_buffer(0);
 		
 		curl_easy_setopt(curl_handler, CURLOPT_URL, URL);
 		curl_easy_setopt(curl_handler, CURLOPT_POSTFIELDS, oauth_post_args);
@@ -197,16 +160,15 @@ int perform_token_http_request(	const char* URL,
 		curl_result = curl_easy_perform(curl_handler);
 		if(curl_result != 0)
 		{
-			was_successful = 0;
 			break;
 		}
 		
 		if(!parse_rest_call_response(curl_buffer, tokens))
 		{
-			was_successful = 0;
 			break;
 		}
 		
+		was_successful = 1;
 	}while(0);
 		
 	if(!was_successful){
@@ -229,7 +191,7 @@ int perform_token_http_request(	const char* URL,
 	
 	if(curl_buffer)
 	{
-		free_curl_buffer(curl_buffer);
+		free_buffer(curl_buffer);
 	}
 	
 	if(curl_handler)
@@ -244,7 +206,7 @@ char* perform_link_http_request(const char* URL,
 								OauthTokenPairs* consumer_keys, 
 								OauthTokenPairs* tokens)
 {
-	int was_successful = 1;
+	int was_successful = 0;
 	char* oauth_post_args = 0;
 	char* oauth_result = 0;
 	char* signed_url = 0;
@@ -253,13 +215,11 @@ char* perform_link_http_request(const char* URL,
 	{
 		if(!URL)
 		{
-			was_successful = 0;
 			break;
 		}
 		
 		if(0 == consumer_keys)
 		{
-			was_successful = 0;
 			break;
 		}
 		
@@ -273,7 +233,6 @@ char* perform_link_http_request(const char* URL,
 										tokens->token_secret);
 		if(!oauth_result)
 		{
-			was_successful = 0;
 			break;
 		}
 		
@@ -281,7 +240,6 @@ char* perform_link_http_request(const char* URL,
 		signed_url = (char*) malloc(sizeof(char) * signed_url_size);
 		if(!signed_url)
 		{
-			was_successful = 0;
 			break;
 		}
 		memset(signed_url, 0, signed_url_size);
@@ -290,6 +248,7 @@ char* perform_link_http_request(const char* URL,
 		strcat(signed_url, "?");
 		strcat(signed_url, oauth_post_args);
 		
+		was_successful = 1;
 	}while(0);
 		
 	if(!was_successful){
@@ -313,25 +272,131 @@ char* perform_link_http_request(const char* URL,
 	return signed_url;
 }
 
-int perform_jason_http_request(const char* URL, OauthTokenPairs* consumer_keys, OauthTokenPairs* tokens)
+Buffer* perform_http_request(	const char* URL, 
+								HttpMethod method,
+								OauthTokenPairs* consumer_keys, 
+								OauthTokenPairs* tokens)
 {
-	int was_successful = 1;
+	int was_successful = 0;
+	char* oauth_post_args = 0;
+	char* oauth_result = 0;
+	CURL* curl_handler = 0;
+	CURLcode curl_result = 0;
+	Buffer* buffer = 0;
 	
-	do{
+	do
+	{
+		if(!URL)
+		{
+			break;
+		}
 		
+		if(0 == consumer_keys)
+		{
+			break;
+		}
+		
+		oauth_result = oauth_sign_url2( URL,
+										&oauth_post_args,
+										OA_HMAC, 
+										0,
+										consumer_keys->token,
+										consumer_keys->token_secret,
+										tokens->token,
+										tokens->token_secret);
+		if(!oauth_result)
+		{
+			break;
+		}
+		
+		curl_handler = curl_easy_init();
+		if(!curl_handler)
+		{
+			break;
+		}
+		
+		buffer = create_buffer(0);
+		
+		curl_easy_setopt(curl_handler, CURLOPT_URL, URL);
+		curl_easy_setopt(curl_handler, CURLOPT_POSTFIELDS, oauth_post_args);
+		curl_easy_setopt(curl_handler, CURLOPT_WRITEDATA, (void*)buffer);
+		curl_easy_setopt(curl_handler, CURLOPT_WRITEFUNCTION, write_into_curl_buffer);		
+		
+		curl_result = curl_easy_perform(curl_handler);
+		if(curl_result != 0)
+		{
+			break;
+		}
+		
+		if(!is_http_result_ok(buffer))
+		{
+			break;
+		}
+		
+		was_successful = 1;
 	}while(0);
-	
+		
 	if(!was_successful)
 	{
-		
+		if(buffer)
+		{
+			free_buffer(buffer);
+			buffer = 0;
+		}
 	}
 	
+	if(oauth_result)
+	{
+		if(oauth_post_args)
+		{
+			free(oauth_post_args);
+			oauth_post_args = 0;
+		}
+		if(oauth_result)
+		{
+			free(oauth_result);
+			oauth_result = 0;
+		}
+	}
+	
+	if(curl_handler)
+	{
+		curl_easy_cleanup(curl_handler);
+	}
+	
+	return buffer;
+}
+
+int is_http_result_ok(const Buffer* curl_buffer)
+{
+	int was_successful = 0;
+	
+	do{
+		if(strstr(curl_buffer->data, "error"))
+		{
+			break;
+		}
+		
+		if(strstr(curl_buffer->data, "Unauthorized"))
+		{
+			break;
+		}
+		
+		was_successful = 1;
+	}while(0);
+
+	if(!was_successful)
+	{
+	
+	}
+
 	return was_successful;
 }
 
-int parse_rest_call_response(CurlBuffer* curl_buffer, OauthTokenPairs* tokens)
+int parse_rest_call_response(const Buffer* curl_buffer, OauthTokenPairs* tokens)
 {
 	int was_successful = 1;
+	char* buffer = 0;
 	
 	do{
 		char* ptr_oauth_token_secret = 0;
@@ -344,7 +409,21 @@ int parse_rest_call_response(CurlBuffer* curl_buffer, OauthTokenPairs* tokens)
 			break;
 		}
 		
-		ptr_oauth_token_secret = strstr(curl_buffer->data, "oauth_token_secret");
+		if(!zero_oauth_token_pairs(tokens))
+		{
+			break;
+		}
+		
+		if(strstr(curl_buffer->data, "error"))
+		{
+			break;
+		}
+		
+		buffer = strdup(curl_buffer->data);
+		if(!buffer)
+			break;
+		
+		ptr_oauth_token_secret = strstr(buffer, "oauth_token_secret");
 		if(!ptr_oauth_token_secret)
 		{
 			was_successful = 0;
@@ -373,7 +452,7 @@ int parse_rest_call_response(CurlBuffer* curl_buffer, OauthTokenPairs* tokens)
 			tokens->token_secret[index] = *ptr_seeker;
 		}
 		
-		ptr_oauth_token = strstr(curl_buffer->data, "oauth_token");
+		ptr_oauth_token = strstr(buffer, "oauth_token");
 		if(!ptr_oauth_token)
 		{
 			was_successful = 0;
@@ -395,12 +474,17 @@ int parse_rest_call_response(CurlBuffer* curl_buffer, OauthTokenPairs* tokens)
 		{
 			tokens->token[index] = *ptr_seeker;
 		}
-		
+
 	}while(0);
 	
 	if(!was_successful)
 	{
 		
+	}
+	
+	if(buffer)
+	{
+		free(buffer);
 	}
 	
 	return was_successful;
