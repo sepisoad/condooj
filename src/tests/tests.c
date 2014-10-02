@@ -2,11 +2,11 @@
 #include <stdio.h>
 #include <string.h>
 #include "tests.h"
-#include "../utils.h"
+#include "../utils/utils.h"
 #include "../encryption/sha256.h"
 #include "../encryption/aes.h"
-#include "../protection.h"
-#include "../user.h"
+#include "../encryption/protection.h"
+#include "../user/user.h"
 
 int run_test (callback test)
 {

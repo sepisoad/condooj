@@ -14,29 +14,50 @@
       <File Name="src/dropbox/dropbox.h"/>
       <File Name="src/dropbox/dropbox.c"/>
     </VirtualDirectory>
-    <File Name="src/utils.h"/>
-    <File Name="src/utils.c"/>
     <VirtualDirectory Name="tests">
       <File Name="src/tests/tests.h"/>
       <File Name="src/tests/tests.c"/>
       <File Name="src/tests/test_runner.c"/>
     </VirtualDirectory>
-    <File Name="src/app.h"/>
-    <File Name="src/app.c"/>
-    <File Name="src/config.h"/>
-    <File Name="src/config.c"/>
-    <File Name="src/user.h"/>
-    <File Name="src/user.c"/>
     <VirtualDirectory Name="encryption">
       <File Name="src/encryption/sha256.h"/>
       <File Name="src/encryption/sha256.c"/>
-      <File Name="src/encryption/sha1.h"/>
-      <File Name="src/encryption/sha1.c"/>
       <File Name="src/encryption/aes.h"/>
       <File Name="src/encryption/aes.c"/>
+      <File Name="src/encryption/protection.h"/>
+      <File Name="src/encryption/protection.c"/>
     </VirtualDirectory>
-    <File Name="src/protection.h"/>
-    <File Name="src/protection.c"/>
+    <VirtualDirectory Name="gui">
+      <File Name="src/gui/gui_app.h"/>
+      <File Name="src/gui/gui_app.c"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="cli">
+      <File Name="src/cli/cli_app.h"/>
+      <File Name="src/cli/cli_app.c"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="app">
+      <File Name="src/app/app.h"/>
+      <File Name="src/app/app.c"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="config">
+      <File Name="src/config/config.h"/>
+      <File Name="src/config/config.c"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="user">
+      <File Name="src/user/user.h"/>
+      <File Name="src/user/user.c"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="utils">
+      <File Name="src/utils/utils.h"/>
+      <File Name="src/utils/utils.c"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="imgui">
+      <File Name="src/imgui/stb_textedit.h"/>
+      <File Name="src/imgui/stb_image.h"/>
+      <File Name="src/imgui/imgui.h"/>
+      <File Name="src/imgui/imgui.cpp"/>
+      <File Name="src/imgui/imconfig.h"/>
+    </VirtualDirectory>
   </VirtualDirectory>
   <Dependencies Name="Debug"/>
   <Dependencies Name="Release"/>
@@ -54,6 +75,7 @@
       <Compiler Options="-g;-O0;-Wall" C_Options="-g;-O0;-Wall" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
         <IncludePath Value="."/>
         <Preprocessor Value="DEBUG"/>
+        <Preprocessor Value="RUN_CLI_APP"/>
       </Compiler>
       <Linker Options="" Required="yes">
         <Library Value="oauth"/>

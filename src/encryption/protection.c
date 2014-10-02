@@ -2,9 +2,9 @@
 #include <stdio.h>
 #include <string.h>
 #include "protection.h"
-#include "utils.h"
-#include "encryption/sha256.h"
-#include "encryption/aes.h"
+#include "../utils/utils.h"
+#include "sha256.h"
+#include "aes.h"
 
 int create_passphrase_digest(const unsigned char* passphrase, unsigned char* digest)
 {

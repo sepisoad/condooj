@@ -2,11 +2,11 @@
 #include <stdio.h>
 #include <string.h>
 #include "user.h"
-#include "app.h"
-#include "utils.h"
-#include "json/cJSON.h"
-#include "protection.h"
-#include "dropbox/dropbox.h"
+#include "../app/app.h"
+#include "../utils/utils.h"
+#include "../json/cJSON.h"
+#include "../encryption/protection.h"
+#include "../dropbox/dropbox.h"
 
 char* get_user_data_file_path()
 {

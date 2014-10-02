@@ -18,6 +18,4 @@
 
 extern unsigned char passphrase_digest[32];
 
-int start_app();
 char* get_app_folder_path();
-int authorize_dropbox_user();

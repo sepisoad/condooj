@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include "app.h"
-#include "utils.h"
+#include "../app/app.h"
+#include "../utils/utils.h"
 #include "config.h"
 
 char* get_config_file_path()

@@ -28,7 +28,7 @@ LibraryPathSwitch      :=-L
 PreprocessorSwitch     :=-D
 SourceSwitch           :=-c 
 OutputFile             :=$(IntermediateDirectory)/$(ProjectName)
-Preprocessors          :=$(PreprocessorSwitch)DEBUG 
+Preprocessors          :=$(PreprocessorSwitch)DEBUG $(PreprocessorSwitch)RUN_CLI_APP 
 ObjectSwitch           :=-o 
 ArchiveOutputSwitch    := 
 PreprocessOnlySwitch   :=-E
@@ -60,8 +60,8 @@ AS       := /usr/bin/as
 ## User defined environment variables
 ##
 CodeLiteDir:=/usr/share/codelite
-Objects0=$(IntermediateDirectory)/src_main.c$(ObjectSuffix) $(IntermediateDirectory)/src_utils.c$(ObjectSuffix) $(IntermediateDirectory)/src_app.c$(ObjectSuffix) $(IntermediateDirectory)/src_config.c$(ObjectSuffix) $(IntermediateDirectory)/src_user.c$(ObjectSuffix) $(IntermediateDirectory)/src_protection.c$(ObjectSuffix) $(IntermediateDirectory)/json_cJSON.c$(ObjectSuffix) $(IntermediateDirectory)/dropbox_rest_utils.c$(ObjectSuffix) $(IntermediateDirectory)/dropbox_dropbox.c$(ObjectSuffix) $(IntermediateDirectory)/tests_tests.c$(ObjectSuffix) \
-	$(IntermediateDirectory)/tests_test_runner.c$(ObjectSuffix) $(IntermediateDirectory)/encryption_sha256.c$(ObjectSuffix) $(IntermediateDirectory)/encryption_sha1.c$(ObjectSuffix) $(IntermediateDirectory)/encryption_aes.c$(ObjectSuffix) 
+Objects0=$(IntermediateDirectory)/src_main.c$(ObjectSuffix) $(IntermediateDirectory)/json_cJSON.c$(ObjectSuffix) $(IntermediateDirectory)/dropbox_rest_utils.c$(ObjectSuffix) $(IntermediateDirectory)/dropbox_dropbox.c$(ObjectSuffix) $(IntermediateDirectory)/tests_tests.c$(ObjectSuffix) $(IntermediateDirectory)/tests_test_runner.c$(ObjectSuffix) $(IntermediateDirectory)/encryption_sha256.c$(ObjectSuffix) $(IntermediateDirectory)/encryption_aes.c$(ObjectSuffix) $(IntermediateDirectory)/encryption_protection.c$(ObjectSuffix) $(IntermediateDirectory)/gui_gui_app.c$(ObjectSuffix) \
+	$(IntermediateDirectory)/cli_cli_app.c$(ObjectSuffix) $(IntermediateDirectory)/app_app.c$(ObjectSuffix) $(IntermediateDirectory)/config_config.c$(ObjectSuffix) $(IntermediateDirectory)/user_user.c$(ObjectSuffix) $(IntermediateDirectory)/utils_utils.c$(ObjectSuffix) $(IntermediateDirectory)/imgui_imgui.cpp$(ObjectSuffix) 
 
 
 
@@ -95,46 +95,6 @@ $(IntermediateDirectory)/src_main.c$(DependSuffix): src/main.c
 
 $(IntermediateDirectory)/src_main.c$(PreprocessSuffix): src/main.c
 	@$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_main.c$(PreprocessSuffix) "src/main.c"
-
-$(IntermediateDirectory)/src_utils.c$(ObjectSuffix): src/utils.c $(IntermediateDirectory)/src_utils.c$(DependSuffix)
-	$(CC) $(SourceSwitch) "/home/sepisoad/Projects/github/condooj/src/utils.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_utils.c$(ObjectSuffix) $(IncludePath)
-$(IntermediateDirectory)/src_utils.c$(DependSuffix): src/utils.c
-	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_utils.c$(ObjectSuffix) -MF$(IntermediateDirectory)/src_utils.c$(DependSuffix) -MM "src/utils.c"
-
-$(IntermediateDirectory)/src_utils.c$(PreprocessSuffix): src/utils.c
-	@$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_utils.c$(PreprocessSuffix) "src/utils.c"
-
-$(IntermediateDirectory)/src_app.c$(ObjectSuffix): src/app.c $(IntermediateDirectory)/src_app.c$(DependSuffix)
-	$(CC) $(SourceSwitch) "/home/sepisoad/Projects/github/condooj/src/app.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_app.c$(ObjectSuffix) $(IncludePath)
-$(IntermediateDirectory)/src_app.c$(DependSuffix): src/app.c
-	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_app.c$(ObjectSuffix) -MF$(IntermediateDirectory)/src_app.c$(DependSuffix) -MM "src/app.c"
-
-$(IntermediateDirectory)/src_app.c$(PreprocessSuffix): src/app.c
-	@$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_app.c$(PreprocessSuffix) "src/app.c"
-
-$(IntermediateDirectory)/src_config.c$(ObjectSuffix): src/config.c $(IntermediateDirectory)/src_config.c$(DependSuffix)
-	$(CC) $(SourceSwitch) "/home/sepisoad/Projects/github/condooj/src/config.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_config.c$(ObjectSuffix) $(IncludePath)
-$(IntermediateDirectory)/src_config.c$(DependSuffix): src/config.c
-	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_config.c$(ObjectSuffix) -MF$(IntermediateDirectory)/src_config.c$(DependSuffix) -MM "src/config.c"
-
-$(IntermediateDirectory)/src_config.c$(PreprocessSuffix): src/config.c
-	@$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_config.c$(PreprocessSuffix) "src/config.c"
-
-$(IntermediateDirectory)/src_user.c$(ObjectSuffix): src/user.c $(IntermediateDirectory)/src_user.c$(DependSuffix)
-	$(CC) $(SourceSwitch) "/home/sepisoad/Projects/github/condooj/src/user.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_user.c$(ObjectSuffix) $(IncludePath)
-$(IntermediateDirectory)/src_user.c$(DependSuffix): src/user.c
-	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_user.c$(ObjectSuffix) -MF$(IntermediateDirectory)/src_user.c$(DependSuffix) -MM "src/user.c"
-
-$(IntermediateDirectory)/src_user.c$(PreprocessSuffix): src/user.c
-	@$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_user.c$(PreprocessSuffix) "src/user.c"
-
-$(IntermediateDirectory)/src_protection.c$(ObjectSuffix): src/protection.c $(IntermediateDirectory)/src_protection.c$(DependSuffix)
-	$(CC) $(SourceSwitch) "/home/sepisoad/Projects/github/condooj/src/protection.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_protection.c$(ObjectSuffix) $(IncludePath)
-$(IntermediateDirectory)/src_protection.c$(DependSuffix): src/protection.c
-	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_protection.c$(ObjectSuffix) -MF$(IntermediateDirectory)/src_protection.c$(DependSuffix) -MM "src/protection.c"
-
-$(IntermediateDirectory)/src_protection.c$(PreprocessSuffix): src/protection.c
-	@$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_protection.c$(PreprocessSuffix) "src/protection.c"
 
 $(IntermediateDirectory)/json_cJSON.c$(ObjectSuffix): src/json/cJSON.c $(IntermediateDirectory)/json_cJSON.c$(DependSuffix)
 	$(CC) $(SourceSwitch) "/home/sepisoad/Projects/github/condooj/src/json/cJSON.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/json_cJSON.c$(ObjectSuffix) $(IncludePath)
@@ -184,14 +144,6 @@ $(IntermediateDirectory)/encryption_sha256.c$(DependSuffix): src/encryption/sha2
 $(IntermediateDirectory)/encryption_sha256.c$(PreprocessSuffix): src/encryption/sha256.c
 	@$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/encryption_sha256.c$(PreprocessSuffix) "src/encryption/sha256.c"
 
-$(IntermediateDirectory)/encryption_sha1.c$(ObjectSuffix): src/encryption/sha1.c $(IntermediateDirectory)/encryption_sha1.c$(DependSuffix)
-	$(CC) $(SourceSwitch) "/home/sepisoad/Projects/github/condooj/src/encryption/sha1.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/encryption_sha1.c$(ObjectSuffix) $(IncludePath)
-$(IntermediateDirectory)/encryption_sha1.c$(DependSuffix): src/encryption/sha1.c
-	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/encryption_sha1.c$(ObjectSuffix) -MF$(IntermediateDirectory)/encryption_sha1.c$(DependSuffix) -MM "src/encryption/sha1.c"
-
-$(IntermediateDirectory)/encryption_sha1.c$(PreprocessSuffix): src/encryption/sha1.c
-	@$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/encryption_sha1.c$(PreprocessSuffix) "src/encryption/sha1.c"
-
 $(IntermediateDirectory)/encryption_aes.c$(ObjectSuffix): src/encryption/aes.c $(IntermediateDirectory)/encryption_aes.c$(DependSuffix)
 	$(CC) $(SourceSwitch) "/home/sepisoad/Projects/github/condooj/src/encryption/aes.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/encryption_aes.c$(ObjectSuffix) $(IncludePath)
 $(IntermediateDirectory)/encryption_aes.c$(DependSuffix): src/encryption/aes.c
@@ -199,6 +151,70 @@ $(IntermediateDirectory)/encryption_aes.c$(DependSuffix): src/encryption/aes.c
 
 $(IntermediateDirectory)/encryption_aes.c$(PreprocessSuffix): src/encryption/aes.c
 	@$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/encryption_aes.c$(PreprocessSuffix) "src/encryption/aes.c"
+
+$(IntermediateDirectory)/encryption_protection.c$(ObjectSuffix): src/encryption/protection.c $(IntermediateDirectory)/encryption_protection.c$(DependSuffix)
+	$(CC) $(SourceSwitch) "/home/sepisoad/Projects/github/condooj/src/encryption/protection.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/encryption_protection.c$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/encryption_protection.c$(DependSuffix): src/encryption/protection.c
+	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/encryption_protection.c$(ObjectSuffix) -MF$(IntermediateDirectory)/encryption_protection.c$(DependSuffix) -MM "src/encryption/protection.c"
+
+$(IntermediateDirectory)/encryption_protection.c$(PreprocessSuffix): src/encryption/protection.c
+	@$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/encryption_protection.c$(PreprocessSuffix) "src/encryption/protection.c"
+
+$(IntermediateDirectory)/gui_gui_app.c$(ObjectSuffix): src/gui/gui_app.c $(IntermediateDirectory)/gui_gui_app.c$(DependSuffix)
+	$(CC) $(SourceSwitch) "/home/sepisoad/Projects/github/condooj/src/gui/gui_app.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/gui_gui_app.c$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/gui_gui_app.c$(DependSuffix): src/gui/gui_app.c
+	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/gui_gui_app.c$(ObjectSuffix) -MF$(IntermediateDirectory)/gui_gui_app.c$(DependSuffix) -MM "src/gui/gui_app.c"
+
+$(IntermediateDirectory)/gui_gui_app.c$(PreprocessSuffix): src/gui/gui_app.c
+	@$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/gui_gui_app.c$(PreprocessSuffix) "src/gui/gui_app.c"
+
+$(IntermediateDirectory)/cli_cli_app.c$(ObjectSuffix): src/cli/cli_app.c $(IntermediateDirectory)/cli_cli_app.c$(DependSuffix)
+	$(CC) $(SourceSwitch) "/home/sepisoad/Projects/github/condooj/src/cli/cli_app.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/cli_cli_app.c$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/cli_cli_app.c$(DependSuffix): src/cli/cli_app.c
+	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/cli_cli_app.c$(ObjectSuffix) -MF$(IntermediateDirectory)/cli_cli_app.c$(DependSuffix) -MM "src/cli/cli_app.c"
+
+$(IntermediateDirectory)/cli_cli_app.c$(PreprocessSuffix): src/cli/cli_app.c
+	@$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/cli_cli_app.c$(PreprocessSuffix) "src/cli/cli_app.c"
+
+$(IntermediateDirectory)/app_app.c$(ObjectSuffix): src/app/app.c $(IntermediateDirectory)/app_app.c$(DependSuffix)
+	$(CC) $(SourceSwitch) "/home/sepisoad/Projects/github/condooj/src/app/app.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/app_app.c$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/app_app.c$(DependSuffix): src/app/app.c
+	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/app_app.c$(ObjectSuffix) -MF$(IntermediateDirectory)/app_app.c$(DependSuffix) -MM "src/app/app.c"
+
+$(IntermediateDirectory)/app_app.c$(PreprocessSuffix): src/app/app.c
+	@$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/app_app.c$(PreprocessSuffix) "src/app/app.c"
+
+$(IntermediateDirectory)/config_config.c$(ObjectSuffix): src/config/config.c $(IntermediateDirectory)/config_config.c$(DependSuffix)
+	$(CC) $(SourceSwitch) "/home/sepisoad/Projects/github/condooj/src/config/config.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/config_config.c$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/config_config.c$(DependSuffix): src/config/config.c
+	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/config_config.c$(ObjectSuffix) -MF$(IntermediateDirectory)/config_config.c$(DependSuffix) -MM "src/config/config.c"
+
+$(IntermediateDirectory)/config_config.c$(PreprocessSuffix): src/config/config.c
+	@$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/config_config.c$(PreprocessSuffix) "src/config/config.c"
+
+$(IntermediateDirectory)/user_user.c$(ObjectSuffix): src/user/user.c $(IntermediateDirectory)/user_user.c$(DependSuffix)
+	$(CC) $(SourceSwitch) "/home/sepisoad/Projects/github/condooj/src/user/user.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/user_user.c$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/user_user.c$(DependSuffix): src/user/user.c
+	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/user_user.c$(ObjectSuffix) -MF$(IntermediateDirectory)/user_user.c$(DependSuffix) -MM "src/user/user.c"
+
+$(IntermediateDirectory)/user_user.c$(PreprocessSuffix): src/user/user.c
+	@$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/user_user.c$(PreprocessSuffix) "src/user/user.c"
+
+$(IntermediateDirectory)/utils_utils.c$(ObjectSuffix): src/utils/utils.c $(IntermediateDirectory)/utils_utils.c$(DependSuffix)
+	$(CC) $(SourceSwitch) "/home/sepisoad/Projects/github/condooj/src/utils/utils.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/utils_utils.c$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/utils_utils.c$(DependSuffix): src/utils/utils.c
+	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/utils_utils.c$(ObjectSuffix) -MF$(IntermediateDirectory)/utils_utils.c$(DependSuffix) -MM "src/utils/utils.c"
+
+$(IntermediateDirectory)/utils_utils.c$(PreprocessSuffix): src/utils/utils.c
+	@$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/utils_utils.c$(PreprocessSuffix) "src/utils/utils.c"
+
+$(IntermediateDirectory)/imgui_imgui.cpp$(ObjectSuffix): src/imgui/imgui.cpp $(IntermediateDirectory)/imgui_imgui.cpp$(DependSuffix)
+	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/sepisoad/Projects/github/condooj/src/imgui/imgui.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/imgui_imgui.cpp$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/imgui_imgui.cpp$(DependSuffix): src/imgui/imgui.cpp
+	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/imgui_imgui.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/imgui_imgui.cpp$(DependSuffix) -MM "src/imgui/imgui.cpp"
+
+$(IntermediateDirectory)/imgui_imgui.cpp$(PreprocessSuffix): src/imgui/imgui.cpp
+	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/imgui_imgui.cpp$(PreprocessSuffix) "src/imgui/imgui.cpp"
 
 
 -include $(IntermediateDirectory)/*$(DependSuffix)
