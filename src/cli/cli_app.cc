@@ -1,12 +1,12 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include "../config/config.h"
-#include "../user/user.h"
-#include "../encryption/protection.h"
-#include "../dropbox/dropbox.h"
-#include "../app/app.h"
-#include "cli_app.h"
+#include "../config/config.hh"
+#include "../user/user.hh"
+#include "../encryption/protection.hh"
+#include "../dropbox/dropbox.hh"
+#include "../app/app.hh"
+#include "cli_app.hh"
 
 int start_cli_app()
 {
@@ -19,7 +19,8 @@ int start_cli_app()
 	}
 	
 	printf("please enter your passphrase here: ");
-	fgets((char*)passphrase, 513, stdin);
+	if(!fgets((char*)passphrase, 513, stdin))
+		return 0;
 	if(!create_passphrase_digest(passphrase, passphrase_digest))
 	{
 		return 0;
@@ -86,7 +87,11 @@ int authorize_dropbox_user()
 		printf("%s\n", signed_url);
 		printf("\ndid you authorized the app (y/n)? ");
 		fflush (stdout);
-		scanf("%c", &answer);
+		if(!scanf("%c", &answer))
+		{
+			break;
+		}
+		
 		if(answer == 'y')
 		{
 			dropbox_access_token(CONSUMER_KEY, CONSUMER_SECRET, &access_token, &access_token_secret);

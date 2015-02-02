@@ -1,10 +1,10 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include "protection.h"
-#include "../utils/utils.h"
-#include "sha256.h"
-#include "aes.h"
+#include "protection.hh"
+#include "../utils/utils.hh"
+#include "sha256.hh"
+#include "aes.hh"
 
 int create_passphrase_digest(const unsigned char* passphrase, unsigned char* digest)
 {

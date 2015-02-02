@@ -3,64 +3,61 @@
   <Description/>
   <Dependencies/>
   <VirtualDirectory Name="src">
-    <File Name="src/main.c"/>
     <VirtualDirectory Name="json">
-      <File Name="src/json/cJSON.h"/>
-      <File Name="src/json/cJSON.c"/>
+      <File Name="src/json/cJSON.hh"/>
+      <File Name="src/json/cJSON.cc"/>
     </VirtualDirectory>
     <VirtualDirectory Name="dropbox">
-      <File Name="src/dropbox/rest_utils.h"/>
-      <File Name="src/dropbox/rest_utils.c"/>
-      <File Name="src/dropbox/dropbox.h"/>
-      <File Name="src/dropbox/dropbox.c"/>
+      <File Name="src/dropbox/rest_utils.hh"/>
+      <File Name="src/dropbox/rest_utils.cc"/>
+      <File Name="src/dropbox/dropbox.hh"/>
+      <File Name="src/dropbox/dropbox.cc"/>
     </VirtualDirectory>
     <VirtualDirectory Name="tests">
-      <File Name="src/tests/tests.h"/>
-      <File Name="src/tests/tests.c"/>
-      <File Name="src/tests/test_runner.c"/>
+      <File Name="src/tests/tests.hh"/>
+      <File Name="src/tests/tests.cc"/>
+      <File Name="src/tests/test_runner.cc"/>
     </VirtualDirectory>
     <VirtualDirectory Name="encryption">
-      <File Name="src/encryption/sha256.h"/>
-      <File Name="src/encryption/sha256.c"/>
-      <File Name="src/encryption/aes.h"/>
-      <File Name="src/encryption/aes.c"/>
-      <File Name="src/encryption/protection.h"/>
-      <File Name="src/encryption/protection.c"/>
+      <File Name="src/encryption/sha256.hh"/>
+      <File Name="src/encryption/sha256.cc"/>
+      <File Name="src/encryption/protection.hh"/>
+      <File Name="src/encryption/protection.cc"/>
+      <File Name="src/encryption/aes.hh"/>
+      <File Name="src/encryption/aes.cc"/>
     </VirtualDirectory>
     <VirtualDirectory Name="gui">
-      <File Name="src/gui/gui_app.h"/>
-      <File Name="src/gui/gui_app.c"/>
+      <File Name="src/gui/gui_app.hh"/>
+      <File Name="src/gui/gui_app.cc"/>
     </VirtualDirectory>
     <VirtualDirectory Name="cli">
-      <File Name="src/cli/cli_app.h"/>
-      <File Name="src/cli/cli_app.c"/>
+      <File Name="src/cli/cli_app.hh"/>
+      <File Name="src/cli/cli_app.cc"/>
     </VirtualDirectory>
     <VirtualDirectory Name="app">
-      <File Name="src/app/app.h"/>
-      <File Name="src/app/app.c"/>
+      <File Name="src/app/app.hh"/>
+      <File Name="src/app/app.cc"/>
     </VirtualDirectory>
     <VirtualDirectory Name="config">
-      <File Name="src/config/config.h"/>
-      <File Name="src/config/config.c"/>
+      <File Name="src/config/config.hh"/>
+      <File Name="src/config/config.cc"/>
     </VirtualDirectory>
     <VirtualDirectory Name="user">
-      <File Name="src/user/user.h"/>
-      <File Name="src/user/user.c"/>
+      <File Name="src/user/user.hh"/>
+      <File Name="src/user/user.cc"/>
     </VirtualDirectory>
     <VirtualDirectory Name="utils">
-      <File Name="src/utils/utils.h"/>
-      <File Name="src/utils/utils.c"/>
+      <File Name="src/utils/utils.hh"/>
+      <File Name="src/utils/utils.cc"/>
     </VirtualDirectory>
     <VirtualDirectory Name="imgui">
-      <File Name="src/imgui/stb_textedit.h"/>
-      <File Name="src/imgui/stb_image.h"/>
-      <File Name="src/imgui/imgui.h"/>
-      <File Name="src/imgui/imgui.cpp"/>
-      <File Name="src/imgui/imconfig.h"/>
+      <File Name="src/imgui/stb_textedit.hh"/>
+      <File Name="src/imgui/imgui.hh"/>
+      <File Name="src/imgui/imgui.cc"/>
+      <File Name="src/imgui/imconfig.hh"/>
     </VirtualDirectory>
+    <File Name="src/main.cc"/>
   </VirtualDirectory>
-  <Dependencies Name="Debug"/>
-  <Dependencies Name="Release"/>
   <Settings Type="Executable">
     <GlobalSettings>
       <Compiler Options="" C_Options="" Assembler="">
@@ -71,15 +68,16 @@
       </Linker>
       <ResourceCompiler Options=""/>
     </GlobalSettings>
-    <Configuration Name="Debug" CompilerType="GCC" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
+    <Configuration Name="Debug" CompilerType="GCC" DebuggerType="LLDB Debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
       <Compiler Options="-g;-O0;-Wall" C_Options="-g;-O0;-Wall" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
         <IncludePath Value="."/>
         <Preprocessor Value="DEBUG"/>
-        <Preprocessor Value="RUN_CLI_APP"/>
+        <Preprocessor Value="RUN_GUI_APP"/>
       </Compiler>
       <Linker Options="" Required="yes">
         <Library Value="oauth"/>
         <Library Value="curl"/>
+        <Library Value="SDL2"/>
       </Linker>
       <ResourceCompiler Options="" Required="no"/>
       <General OutputFile="$(IntermediateDirectory)/$(ProjectName)" IntermediateDirectory="./Debug" Command="./$(ProjectName)" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(IntermediateDirectory)" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
@@ -118,8 +116,13 @@
       <Compiler Options="-O2;-Wall" C_Options="-O2;-Wall" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
         <IncludePath Value="."/>
         <Preprocessor Value="NDEBUG"/>
+        <Preprocessor Value="RUN_GUI_APP"/>
       </Compiler>
-      <Linker Options="" Required="yes"/>
+      <Linker Options="" Required="yes">
+        <Library Value="oauth"/>
+        <Library Value="curl"/>
+        <Library Value="SDL2"/>
+      </Linker>
       <ResourceCompiler Options="" Required="no"/>
       <General OutputFile="$(IntermediateDirectory)/$(ProjectName)" IntermediateDirectory="./Release" Command="./$(ProjectName)" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(IntermediateDirectory)" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
       <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
@@ -154,4 +157,6 @@
       </Completion>
     </Configuration>
   </Settings>
+  <Dependencies Name="Debug"/>
+  <Dependencies Name="Release"/>
 </CodeLite_Project>

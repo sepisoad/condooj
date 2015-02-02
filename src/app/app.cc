@@ -1,8 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include "app.h"
-#include "../utils/utils.h"
+#include "app.hh"
+#include "../utils/utils.hh"
 
 unsigned char passphrase_digest[32] = {0};
 

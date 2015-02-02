@@ -2,8 +2,8 @@
 #define REST_UTILS_HEADER
 
 #include <string.h>
-#include "../utils/utils.h"
-#include "../json/cJSON.h"
+#include "../utils/utils.hh"
+#include "../json/cJSON.hh"
 
 #define CURL_BUF_SIZE 2048
 

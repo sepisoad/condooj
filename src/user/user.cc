@@ -1,12 +1,12 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include "user.h"
-#include "../app/app.h"
-#include "../utils/utils.h"
-#include "../json/cJSON.h"
-#include "../encryption/protection.h"
-#include "../dropbox/dropbox.h"
+#include "user.hh"
+#include "../app/app.hh"
+#include "../utils/utils.hh"
+#include "../json/cJSON.hh"
+#include "../encryption/protection.hh"
+#include "../dropbox/dropbox.hh"
 
 char* get_user_data_file_path()
 {
@@ -81,7 +81,7 @@ int user_exist()
 	return was_successful;
 }
 
-int create_user()
+int create_user(const unsigned char* passphrase_digest)
 {
 	int was_successful = 0;
 	char* app_folder_path = 0;

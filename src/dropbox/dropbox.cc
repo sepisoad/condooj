@@ -1,9 +1,9 @@
 #include <stdlib.h>
 #include <curl/curl.h>
 #include <oauth.h>
-#include "dropbox.h"
-#include "rest_utils.h"
-#include "../json/cJSON.h"
+#include "dropbox.hh"
+#include "rest_utils.hh"
+#include "../json/cJSON.hh"
 
 #define DROPBOX_API_REQUEST_TOKEN "https://api.dropbox.com/1/oauth/request_token"
 #define DROPBOX_API_AUTHORIZE "https://www.dropbox.com/1/oauth/authorize"

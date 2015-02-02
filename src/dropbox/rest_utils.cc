@@ -3,7 +3,7 @@
 #include <string.h>
 #include <curl/curl.h>
 #include <oauth.h>
-#include "rest_utils.h"
+#include "rest_utils.hh"
 
 OauthTokenPairs* create_oauth_token_pairs(size_t token_size, size_t token_secret_size)
 {
@@ -116,7 +116,7 @@ int perform_token_http_request(	const char* URL,
 	char* oauth_post_args = 0;
 	char* oauth_result = 0;
 	CURL* curl_handler = 0;
-	CURLcode curl_result = 0;
+	CURLcode curl_result = CURLE_OK;
 	Buffer* curl_buffer = 0;
 	
 	do
@@ -281,7 +281,7 @@ Buffer* perform_http_request(	const char* URL,
 	char* oauth_post_args = 0;
 	char* oauth_result = 0;
 	CURL* curl_handler = 0;
-	CURLcode curl_result = 0;
+	CURLcode curl_result = CURLE_OK;
 	Buffer* buffer = 0;
 	
 	do
@@ -445,7 +445,7 @@ int parse_rest_call_response(const Buffer* curl_buffer, OauthTokenPairs* tokens)
 			*ptr_oauth_token_secret = '.';
 		}
 		
-		for(index = 0, ptr_seeker; 
+		for(index = 0; 
 			*ptr_seeker != '&' && *ptr_seeker != 0; 
 			index++, ptr_seeker++)
 		{
@@ -468,7 +468,7 @@ int parse_rest_call_response(const Buffer* curl_buffer, OauthTokenPairs* tokens)
 		}
 		ptr_seeker++;
 		
-		for(index = 0, ptr_seeker; 
+		for(index = 0; 
 			*ptr_seeker != '&' && *ptr_seeker != 0; 
 			index++, ptr_seeker++)
 		{

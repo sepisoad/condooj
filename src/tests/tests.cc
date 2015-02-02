@@ -1,12 +1,12 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include "tests.h"
-#include "../utils/utils.h"
-#include "../encryption/sha256.h"
-#include "../encryption/aes.h"
-#include "../encryption/protection.h"
-#include "../user/user.h"
+#include "tests.hh"
+#include "../utils/utils.hh"
+#include "../encryption/sha256.hh"
+#include "../encryption/aes.hh"
+#include "../encryption/protection.hh"
+#include "../user/user.hh"
 
 int run_test (callback test)
 {
@@ -51,7 +51,7 @@ int test_sha256()
 int test_aes()
 {
 	unsigned char text[] = "wow, hey mother fucker, what are you up to, fuck you bitch, what the fuck are you doing, suck my cock";
-	unsigned char key[32] = {"abcdefghijklmnopqrstuvwxyz123456"};
+	unsigned char key[32] = {"abcdefghijklmnopqrstuvwxyz12345"};
 	unsigned int key_schedule[60] = {0};
 	size_t len = strlen((char*)text);
 	int index = 0;

@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <sys/stat.h>
-#include "utils.h"
+#include "utils.hh"
 
 int dir_exist(const char* path)
 {
@@ -115,7 +115,7 @@ char* load_file_to_mem(const char* path)
 {
 	int was_successful = 0;
 	char* buffer = 0;
-	int buffer_len = 0;
+	size_t buffer_len = 0;
 	FILE* file = 0;
 		
 	do{

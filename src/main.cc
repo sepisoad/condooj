@@ -1,9 +1,6 @@
-#include "cli/cli_app.h"
-#include "gui/gui_app.h"
-#include "tests/tests.h"
-
-//#undef 	RUN_GUI_APP
-//#define 	RUN_CLI_APP
+#include "cli/cli_app.hh"
+#include "gui/gui_app.hh"
+#include "tests/tests.hh"
 
 int main(int argc, char **argv)
 {

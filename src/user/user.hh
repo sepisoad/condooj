@@ -3,7 +3,7 @@
 
 char* get_user_data_file_path();
 int user_exist();
-int create_user();
+int create_user(const unsigned char* passphrase_digest);
 int remove_user(); //FIXME
 int update_user(const char* access_token, 
 				const char* access_token_secret);

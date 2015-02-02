@@ -1,4 +1,4 @@
-#include "tests.h"
+#include "tests.hh"
 
 int run_all_tests()
 {
