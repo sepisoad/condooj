@@ -6,31 +6,31 @@ outputLevel = PRINT_ALL
 colorOutput = true
 
 suite "Testing src.app module":
-  test "Testing createAppFolder proc":
+  test "createAppFolder":
     if false:
       require(true == createAppFolder())
     else:
       discard createAppFolder()
 
-  test "Testing existsAppFolder proc":
+  test "existsAppFolder":
     if false:
       require(true == existsAppFolder())
     else:
       discard existsAppFolder()
 
-  test "Testing createConfigFile proc":
+  test "createConfigFile":
     if false:
       require(true == createConfigFile())
     else:
       discard createConfigFile()
 
-  test "Testing existsConfigFile proc":
+  test "existsConfigFile":
     if true:
       require(true == existsConfigFile())
     else:
       discard existsConfigFile()
 
-  test "Testing parseConfigFile proc":
+  test "parseConfigFile":
     require(not(nil == parseConfigFile()))
 
 discard """ 

@@ -4,6 +4,7 @@ import streams
 import json
 
 type TConfig* = object
+  useDropBoxBackup*: bool
   autoUpdate*: bool
   updateInterval*: int64
 
@@ -61,14 +62,11 @@ proc existsConfigFile*(): bool =
 
   return true
 
-## create default config file
-proc createConfigFile*(): bool =
+## writes config object values to config file
+## TODO: test
+proc writeConfigObjToFile(configObj: ref TConfig): bool =
   if false == existsAppFolder():
     stderr.writeln("Error: the path \"" & appFolderPath & "\" does not exist")
-    return false
-
-  if true == existsConfigFile():
-    stderr.writeln("Error: the file \"" & configFilePath & "\" already exists")
     return false
 
   var configFileStream = streams.newFileStream(configFilePath, system.fmWrite)
@@ -79,11 +77,41 @@ proc createConfigFile*(): bool =
     return false
 
   streams.writeln(configFileStream, "{")
-  streams.writeln(configFileStream, "\t\"auto_update\": false,")
-  streams.writeln(configFileStream, "\t\"update_interval\": 30")
+
+  if true == configObj.useDropBoxBackup:
+    streams.writeln(configFileStream, "\t\"use_dropbox_backup\": true,")
+  else:
+    streams.writeln(configFileStream, "\t\"use_dropbox_backup\": false,")
+
+  if true == configObj.autoUpdate:
+    streams.writeln(configFileStream, "\t\"auto_update\": true,")
+  else:
+    streams.writeln(configFileStream, "\t\"auto_update\": false,")
+
+  streams.writeln(configFileStream, "\t\"update_interval\": " & $(configObj.updateInterval))
   streams.writeln(configFileStream, "}")
 
   streams.close(configFileStream)
+
+## create default config file
+proc createConfigFile*(): bool =
+  var configObj: ref TConfig
+  new(configObj)
+
+  if false == existsAppFolder():
+    stderr.writeln("Error: the path \"" & appFolderPath & "\" does not exist")
+    return false
+
+  if true == existsConfigFile():
+    stderr.writeln("Error: the file \"" & configFilePath & "\" already exists")
+    return false
+
+  configObj.useDropBoxBackup = false
+  configObj.autoUpdate = false
+  configObj.updateInterval = 0
+
+  if false == writeConfigObjToFile(configObj):
+    return false
 
   return true;
 
@@ -115,6 +143,8 @@ proc parseConfigFile*(): ref TConfig =
     stderr.writeln("Error: failed to parse \"" & configFilePath & "\" file.")
     stderr.writeln(osErrorMsg(errCode))
     return nil
+  finally:
+    configFileStream.close()
   
   var parsedConfigFile: JsonNode
   try:
@@ -134,15 +164,82 @@ proc parseConfigFile*(): ref TConfig =
     stderr.writeln("Error: failed to parse \"" & configFilePath & "\" file.")
     stderr.writeln("config file contains error")
     return nil
+  finally:
+    configFileStream.close()
 
-  configObj.autoUpdate = parsedConfigFile["auto_update"].bval
-  configObj.updateInterval = parsedConfigFile["update_interval"].num
+  var isKeyMissing = false
+  if true == hasKey(parsedConfigFile, "use_dropbox_backup"):
+    configObj.useDropBoxBackup = parsedConfigFile["use_dropbox_backup"].bval  
+  else:
+    stderr.writeln("Error: failed to parse \"" & configFilePath & "\" file.")
+    stderr.writeln("the config file is broken")
+    stderr.writeln("'use_dropbox_backup' field is missing")
+    isKeyMissing = true
+  
+  if true == hasKey(parsedConfigFile, "auto_update"):
+    configObj.autoUpdate = parsedConfigFile["auto_update"].bval
+  else:
+    stderr.writeln("Error: failed to parse \"" & configFilePath & "\" file.")
+    stderr.writeln("the config file is broken")
+    stderr.writeln("'auto_update' field is missing")
+    isKeyMissing = true
+
+  if true == hasKey(parsedConfigFile, "update_interval"):
+    configObj.updateInterval = parsedConfigFile["update_interval"].num 
+  else:
+    stderr.writeln("Error: failed to parse \"" & configFilePath & "\" file.")
+    stderr.writeln("the config file is broken")
+    stderr.writeln("'update_interval' field is missing")
+    isKeyMissing = true
+
+  configFileStream.close()
+
+  if true == isKeyMissing:
+    return nil
 
   return configObj
 
-##
-##
+## set config file use_dropbox_backup field
+## TODO: test
+proc setConfigUseDropBox*(can: bool): bool = 
+  var configObj = app.parseConfigFile()
+  if nil == configObj:
+    return false
+
+  configObj.useDropBoxBackup = can
+  if false == writeConfigObjToFile(configObj):
+    return false
+
+  return true
+
+## set config file auto_update field
+## TODO: test
+proc setConfigAutoUpdate*(can: bool): bool = 
+  var configObj = app.parseConfigFile()
+  if nil == configObj:
+    return false
+
+  configObj.autoUpdate = can
+  if false == writeConfigObjToFile(configObj):
+    return false
+
+  return true
+
+## set config file update_interval field
+## TODO: test
+proc setConfigUpdateInterval*(interval: int64): bool = 
+  var configObj = app.parseConfigFile()
+  if nil == configObj:
+    return false
+
+  configObj.updateInterval = interval
+  if false == writeConfigObjToFile(configObj):
+    return false
+
+  return true
+
 ## get passphrase from user 
+## TODO: test
 proc getPassPhrase*() =
   stdout.write("please enter your passphrase <less than 512 characters>: ")
   
