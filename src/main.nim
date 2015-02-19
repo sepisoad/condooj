@@ -70,6 +70,10 @@ proc performAddPassRecord(): bool =
   if false == app.addPassRecord(title, username, password, email, description, date):
     return false
 
+## list all pass records
+proc performListPassRecords(): bool = 
+  for item in app.listPassRecords():
+    echo(item)
 ## parse the command-line argument
 proc parseAppCmdLineArgs(): bool =
   for kind, key, value in getopt():
@@ -89,6 +93,10 @@ proc parseAppCmdLineArgs(): bool =
 
           of "add":
             if false == performAddPassRecord():
+              return false
+
+          of "list":
+            if false == performListPassRecords():
               return false
           
           of "usedropbox":

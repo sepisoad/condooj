@@ -327,9 +327,12 @@ proc createDropboxUserProfile*(user: ref TDropboxUserInfo; canOverwrite: bool): 
     return false
 
   streams.writeln(userFileStream, "{")
-  streams.writeln(userFileStream, "\t\"dropbox_user_name\": " & user.userName & ",")
-  streams.writeln(userFileStream, "\t\"dropbox_user_id\": " & user.userID & ",")
-  streams.writeln(userFileStream, "\t\"dropbox_user_display_name\": " & user.userDisplayName & ",")
+  streams.writeln(userFileStream, 
+                  "\t\"dropbox_user_name\": " & json.escapeJson(user.userName) & ",")
+  streams.writeln(userFileStream, 
+                  "\t\"dropbox_user_id\": " & json.escapeJson(user.userID) & ",")
+  streams.writeln(userFileStream, 
+                  "\t\"dropbox_user_display_name\": " & json.escapeJson(user.userDisplayName))
   streams.writeln(userFileStream, "}")
 
   streams.close(userFileStream)
@@ -337,21 +340,13 @@ proc createDropboxUserProfile*(user: ref TDropboxUserInfo; canOverwrite: bool): 
   return true
 
 ## create and add a new pass record
-## TODO: test, implement
-proc addPassRecord*( title: string;
+## TODO: test, improve
+proc addPassRecord*(title: string;
                     username: string;
                     password: string;
                     email: string;
                     description: string;
                     date: string ): bool =
-  # var passRecord: new(TPassRecord)
-  # passRecord.title = title
-  # passRecord.username = username
-  # passRecord.password = password
-  # passRecord.email = email
-  # passRecord.description = description
-  # passRecord.date = date
-
   var recordFileName = os.joinPath(passdbFolderPath, $genOid()) 
 
   var recordFileStream = streams.newFileStream(recordFileName, system.fmWrite)
@@ -362,14 +357,52 @@ proc addPassRecord*( title: string;
     return false
 
   streams.writeln(recordFileStream, "{")
-  streams.writeln(recordFileStream, "\t\"title\": \"" & title & "\",")
-  streams.writeln(recordFileStream, "\t\"username\": \"" & username & "\",")
-  streams.writeln(recordFileStream, "\t\"password\": \"" & password & "\",")
-  streams.writeln(recordFileStream, "\t\"email\": \"" & email & "\",")
-  streams.writeln(recordFileStream, "\t\"description\": \"" & description & "\",")
-  streams.writeln(recordFileStream, "\t\"date\": \"" & date & "\",")
+  streams.writeln(recordFileStream, "\t\"title\": " & json.escapeJson(title) & ",")
+  streams.writeln(recordFileStream, "\t\"username\": " & json.escapeJson(username) & ",")
+  streams.writeln(recordFileStream, "\t\"password\": " & json.escapeJson(password) & ",")
+  streams.writeln(recordFileStream, "\t\"email\": " & json.escapeJson(email) & ",")
+  streams.writeln(recordFileStream, "\t\"description\": " & json.escapeJson(description) & ",")
+  streams.writeln(recordFileStream, "\t\"date\": " & json.escapeJson(date))
   streams.writeln(recordFileStream, "}")
 
   streams.close(recordFileStream)
 
   return true
+
+## parse pass record file
+## TODO: test, improve 
+proc parsePassRecordFile*(path: string): ref TPassRecord =
+  new(result)
+
+  # TODO: add a nice error msg
+  if false == os.existsFile(path):
+    return nil
+
+  # TODO: handle exception more carefully
+  var jsonObj: JsonNode
+  try:
+    jsonObj = json.parseFile(path)
+  except Exception, IOError, ValueError, JsonParsingError:
+    stderr.writeln("Error: failed to read \"" & path & "\" file.")
+    return nil
+
+  result.title = jsonObj["title"].str
+  result.username = jsonObj["username"].str
+  result.password = jsonObj["password"].str
+  result.email = jsonObj["email"].str
+  result.description = jsonObj["description"].str
+  result.date = jsonObj["date"].str
+
+## get a list of all pass records
+## TODO: test, improve
+proc listPassRecords*(): seq[string] = 
+  result = @[]
+  
+  for kind, path in walkDir(getPassdbFolderPath()):
+    case kind 
+      of pcFile: 
+        var record = parsePassRecordFile(path)
+        if nil == record:
+          return nil
+        result.add(record.title)
+      else: discard
