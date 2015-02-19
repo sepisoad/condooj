@@ -1,0 +1,833 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"T",
+				"TUserProfile"
+			],
+			[
+				"exi",
+				"existsFile"
+			],
+			[
+				"parse",
+				"parseConfigFile"
+			],
+			[
+				"upd",
+				"updateInterval"
+			],
+			[
+				"write",
+				"writeConfigObjToFile"
+			],
+			[
+				"ap",
+				"appCmdLineOpt"
+			],
+			[
+				"use",
+				"use_dropbox_backup"
+			],
+			[
+				"up",
+				"updateInterval"
+			],
+			[
+				"au",
+				"autoUpdate"
+			],
+			[
+				"config",
+				"configObj"
+			],
+			[
+				"conf",
+				"configFilePath"
+			],
+			[
+				"ex",
+				"except"
+			],
+			[
+				"con",
+				"configFileData"
+			],
+			[
+				"exis",
+				"existsConfigFile"
+			],
+			[
+				"app",
+				"appFolderPath"
+			],
+			[
+				"test",
+				"testCalc"
+			],
+			[
+				"fun",
+				"func1"
+			],
+			[
+				"wri",
+				"writeln"
+			],
+			[
+				"pass",
+				"passPhraseDigest"
+			],
+			[
+				"user",
+				"userFilePath"
+			],
+			[
+				"Pas",
+				"TPassPhraseArray"
+			],
+			[
+				"pro",
+				"procedure"
+			],
+			[
+				"re",
+				"result"
+			],
+			[
+				"buil",
+				"build_result"
+			],
+			[
+				"EX",
+				"EXECUTE_GUI"
+			],
+			[
+				"Run",
+				"RunCLIApp"
+			],
+			[
+				"ob",
+				"refObj"
+			],
+			[
+				"mod",
+				"modifyTTypeRef"
+			],
+			[
+				"ref",
+				"refObj"
+			],
+			[
+				"print",
+				"printfSongInfo"
+			],
+			[
+				"son",
+				"song1"
+			],
+			[
+				"stu",
+				"student1"
+			],
+			[
+				"stude",
+				"student4"
+			],
+			[
+				"s",
+				"student2"
+			],
+			[
+				"stud",
+				"student1"
+			],
+			[
+				"st",
+				"student3"
+			],
+			[
+				"myn",
+				"myName2"
+			],
+			[
+				"Na",
+				"myName1"
+			],
+			[
+				"myNa",
+				"myName2"
+			],
+			[
+				"my",
+				"myName1"
+			],
+			[
+				"val",
+				"value"
+			],
+			[
+				"Mood",
+				"MoodArray"
+			],
+			[
+				"pt",
+				"printX"
+			],
+			[
+				"name",
+				"name_buf"
+			],
+			[
+				"Im",
+				"ImVec2"
+			],
+			[
+				"out",
+				"out_color"
+			],
+			[
+				"h",
+				"height"
+			],
+			[
+				"shad",
+				"shader"
+			],
+			[
+				"shade",
+				"shader"
+			],
+			[
+				"shader",
+				"shader_program"
+			],
+			[
+				"sha",
+				"shader_program"
+			],
+			[
+				"ve",
+				"vertex_shader"
+			],
+			[
+				"vs",
+				"vs_buf"
+			],
+			[
+				"vs_",
+				"vs_src"
+			],
+			[
+				"wind",
+				"window"
+			],
+			[
+				"win",
+				"window"
+			],
+			[
+				"wi",
+				"width"
+			],
+			[
+				"size",
+				"size_t"
+			],
+			[
+				"in",
+				"index"
+			],
+			[
+				"byt",
+				"byte1"
+			],
+			[
+				"ch",
+				"char1"
+			],
+			[
+				"char",
+				"char_a"
+			],
+			[
+				"loc",
+				"locale_res_str"
+			],
+			[
+				"lo",
+				"locale_res_str"
+			],
+			[
+				"d",
+				"draw_vertex"
+			],
+			[
+				"uni",
+				"uni_color"
+			],
+			[
+				"inc",
+				"include"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "/home/sepisoad/Projects/git/nanomsg/src/utils/clock.h",
+			"settings":
+			{
+				"buffer_size": 1793,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 159.0,
+		"selected_items":
+		[
+			[
+				"lua",
+				"Set Syntax: Lua"
+			],
+			[
+				"ins",
+				"Package Control: Install Package"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"nim",
+				"Nimrod: Check Current File"
+			],
+			[
+				"c",
+				"Set Syntax: C"
+			],
+			[
+				"c++",
+				"Set Syntax: C++"
+			],
+			[
+				"instal",
+				"Package Control: Install Package"
+			],
+			[
+				"go",
+				"Set Syntax: Go"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"cpp",
+				"Package Control: Upgrade Package"
+			],
+			[
+				"bookm",
+				"Bookmarks: Toggle"
+			],
+			[
+				"bookma",
+				"Bookmarks: Toggle"
+			],
+			[
+				"cmake",
+				"Set Syntax: CMake"
+			],
+			[
+				"bash",
+				"Set Syntax: Shell Script (Bash)"
+			],
+			[
+				"upda",
+				"Package Control: Upgrade Package"
+			],
+			[
+				"jso",
+				"Set Syntax: JSON"
+			],
+			[
+				"js",
+				"Set Syntax: JSON"
+			],
+			[
+				"json",
+				"Set Syntax: JSON"
+			],
+			[
+				"book",
+				"Bookmarks: Clear All"
+			],
+			[
+				"ja",
+				"Set Syntax: JavaScript"
+			],
+			[
+				"git",
+				"Package Control: Add Repository"
+			],
+			[
+				"scheme",
+				"Set Syntax: Scheme"
+			],
+			[
+				"schem",
+				"Set Syntax: Scheme"
+			],
+			[
+				"packa",
+				"Preferences: Browse Packages"
+			],
+			[
+				"packag",
+				"Preferences: Browse Packages"
+			]
+		],
+		"width": 449.0
+	},
+	"console":
+	{
+		"height": 139.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = '7183a2d3e96f11eeadd761d777e62404' + 'e330c659d4bb41d3bdf022e94cab3cd0'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://sublime.wbond.net/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by) "
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/home/sepisoad/Projects/git/condooj/condooj-nimlang",
+		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src",
+		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/test"
+	],
+	"file_history":
+	[
+		"/home/sepisoad/Projects/git/nanomsg/src/utils/msg.h",
+		"/home/sepisoad/Projects/git/nanomsg/src/utils/chunkref.h",
+		"/home/sepisoad/Projects/git/nanomsg/src/bus.h",
+		"/home/sepisoad/Projects/git/nim/examples/cross_calculator/ios/src/main.m",
+		"/home/sepisoad/Projects/git/nim/examples/cross_calculator/ios/src/AppDelegate.m",
+		"/home/sepisoad/Projects/git/nim/examples/cross_calculator/android/src/com/github/nimrod/crosscalculator/CrossCalculator.java",
+		"/home/sepisoad/Projects/git/nim/examples/cross_calculator/android/jni/backend-jni.c",
+		"/home/sepisoad/Projects/git/nim/examples/cross_calculator/nimrod_backend/backend.nim",
+		"/home/sepisoad/Projects/git/nim/examples/cross_calculator/ios/src/AppDelegate.h",
+		"/home/sepisoad/Projects/git/nim/examples/cross_calculator/ios/src/NRViewController.m",
+		"/home/sepisoad/Projects/git/nim/examples/cross_calculator/ios/src/NRViewController.h",
+		"/home/sepisoad/Projects/git/nim/examples/c++iface/irrlichtex.nim",
+		"/home/sepisoad/Projects/git/nim/tests/static/tstaticparammacro.nim",
+		"/home/sepisoad/Projects/git/nim/tests/objects/tobject3.nim",
+		"/home/sepisoad/Projects/git/nim/tests/objects/toop.nim",
+		"/home/sepisoad/Projects/git/nim/tests/objects/toop1.nim",
+		"/home/sepisoad/Projects/git/nim/tests/objects/tofopr.nim",
+		"/home/sepisoad/Projects/git/nim/tests/objects/tobjects.nim",
+		"/home/sepisoad/Projects/git/nim/tests/objects/tobject.nim",
+		"/home/sepisoad/Projects/git/nim/tests/objects/tobject2.nim",
+		"/home/sepisoad/Projects/git/nim/tests/objects/tobjcov.nim",
+		"/home/sepisoad/Projects/git/nim/tests/objects/tobjconstr.nim",
+		"/home/sepisoad/Projects/git/nim/tests/dll/server.nim",
+		"/home/sepisoad/Projects/git/nim/tests/dll/client.nim",
+		"/home/sepisoad/Projects/git/nim/tests/closure/tclosure.nim",
+		"/home/sepisoad/Downloads/code/testlib/testlib.nim.cfg",
+		"/home/sepisoad/Downloads/code/testlib/testlib.nim",
+		"/home/sepisoad/Downloads/code/testlib/Nim-Tests.st",
+		"/home/sepisoad/Projects/git/nim/tools/cmerge.nim",
+		"/home/sepisoad/Projects/git/nim/tools/nimrepl.nim",
+		"/home/sepisoad/Projects/git/nim/tools/nimweb.nim",
+		"/home/sepisoad/Projects/git/my.tests/nim/http_client/httpclient/app.nim",
+		"/home/sepisoad/Projects/git/Aporia/aporia.nimrod.cfg",
+		"/home/sepisoad/Projects/git/Aporia/aporia.ini",
+		"/home/sepisoad/Projects/git/my.tests/nim/http_client/httpclient/sepi",
+		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src/oauth1.nim",
+		"/home/sepisoad/.condooj/config.json",
+		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/build.sh",
+		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/test/checkcoverage.nim",
+		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/test/checkcoverage",
+		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/test/testApp.nim",
+		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src/config.nim",
+		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src/globals.nim",
+		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/tests.sh",
+		"/home/sepisoad/Projects/git/my.tests/nim/testing/app3_UnitTest/runtests.sh",
+		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/run.sh",
+		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/test/tests.nim",
+		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src/app.nim",
+		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src/cli.nim",
+		"/home/sepisoad/Projects/git/my.tests/nim/testing/app3_UnitTest/test/testCalc.nim",
+		"/home/sepisoad/Projects/git/my.tests/nim/testing/app3_UnitTest/test/tests.nim",
+		"/home/sepisoad/Projects/git/my.tests/nim/ref_ptr_val/app.nim",
+		"/home/sepisoad/Projects/git/my.tests/nim/test8_stdin_int/app.nim",
+		"/home/sepisoad/Projects/git/my.tests/nim/object/app.nim",
+		"/home/sepisoad/Projects/git/my.tests/nim/test3_simple/app.nim",
+		"/home/sepisoad/Projects/git/my.tests/nim/test4_good/app.nim",
+		"/home/sepisoad/Projects/git/my.tests/.gitignore_global",
+		"/home/sepisoad/Projects/git/my.tests/nim/test12_unit_test/app3/app/calc.nim",
+		"/home/sepisoad/Projects/git/my.tests/nim/test12_unit_test/app3/runtests.sh",
+		"/home/sepisoad/Projects/git/my.tests/nim/test12_unit_test/app3/app/app.nim",
+		"/home/sepisoad/Projects/git/my.tests/nim/test12_unit_test/app3/test/tests.nim",
+		"/home/sepisoad/Projects/git/my.tests/nim/test12_unit_test/app3/test/testCalc.nim",
+		"/home/sepisoad/Projects/git/my.tests/nim/test12_unit_test/app2/test/testCalc.nim",
+		"/home/sepisoad/Projects/git/my.tests/nim/test12_unit_test/app2/test/tests.nim",
+		"/home/sepisoad/Projects/git/my.tests/nim/test12_unit_test/app2/test/tests",
+		"/home/sepisoad/Projects/git/my.tests/nim/test12_unit_test/app2/test/nimcache/system.c",
+		"/home/sepisoad/Projects/git/my.tests/nim/test12_unit_test/app2/test/nimcache/testCalc.c",
+		"/home/sepisoad/Projects/git/nim/lib/pure/unittest.nim",
+		"/home/sepisoad/Projects/git/my.tests/nim/test12_unit_test/runtests.sh",
+		"/home/sepisoad/Projects/git/my.tests/nim/test12_unit_test/test/testCalc.nim",
+		"/home/sepisoad/Projects/git/my.tests/nim/test12_unit_test/test/tests.nim",
+		"/home/sepisoad/Projects/git/my.tests/nim/test12_unit_test/src/calc.nim",
+		"/home/sepisoad/Projects/git/my.tests/nim/test12_unit_test/src/app.nim",
+		"/home/sepisoad/Projects/git/my.tests/nim/test12_unit_test/build.sh",
+		"/home/sepisoad/Projects/git/my.tests/nim/test12_unit_test/test/calc.nim",
+		"/home/sepisoad/Projects/git/my.tests/nim/test12_unit_test",
+		"/home/sepisoad/Projects/git/nim/tests/collections/tsets.nim",
+		"/home/sepisoad/Projects/git/nim/tests/parser/toprprec.nim",
+		"/home/sepisoad/Projects/git/nim/tests/seq/tseq2.nim",
+		"/home/sepisoad/Projects/git/my.tests/nim/test11_nimble/myapp.nim",
+		"/home/sepisoad/Projects/local/java/app_22_11_93_a/src/Application.java",
+		"/home/sepisoad/Projects/git/my.tests/nim/test12_script/app.nim",
+		"/home/sepisoad/Projects/git/my.tests/nim/test11_nimble/sepi",
+		"/home/sepisoad/Projects/git/my.tests/nim/test11_nimble/myapp.nimble",
+		"/home/sepisoad/Projects/git/my.tests/nim/test12_script/nimscript",
+		"/home/sepisoad/Projects/git/my.tests/nim/test12_script/sepi",
+		"/home/sepisoad/Dropbox/Temp/how to root z1 compact.txt",
+		"/home/sepisoad/Projects/git/my.tests/nim/test10_lib/nimcache/helper.c",
+		"/home/sepisoad/Projects/git/nim/csources/c_code/nimbase.h",
+		"/home/sepisoad/Projects/git/my.tests/nim/test10_lib/app1.nim",
+		"/home/sepisoad/Projects/git/my.tests/nim/test10_lib/helper.nim",
+		"/home/sepisoad/Projects/git/my.tests/nim/test10_lib/nimcache/helper.h",
+		"/home/sepisoad/Projects/git/my.tests/nim/test10_lib/sepi",
+		"/home/sepisoad/Projects/git/my.tests/nim/test10_lib/nimcache/helper.cpp",
+		"/home/sepisoad/Projects/git/my.tests/nim/test10_lib/nimcache/system.c",
+		"/home/sepisoad/Projects/git/my.tests/nim/test10_lib/libsepi.nim",
+		"/home/sepisoad/Dropbox/Audios/nice songs name",
+		"/home/sepisoad/Projects/git/condooj/master/src/app/app.cc",
+		"/home/sepisoad/Projects/git/condooj/master/src/app/app.hh",
+		"/home/sepisoad/Projects/git/condooj/master/src/encryption/protection.hh",
+		"/home/sepisoad/Projects/git/condooj/master/src/utils/utils.hh",
+		"/home/sepisoad/Projects/git/condooj/master/src/main.cc",
+		"/home/sepisoad/Projects/git/condooj/master/src/config/config.hh",
+		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src/tst_main.nim",
+		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src/gui_main.nim",
+		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src/main.nim",
+		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src/app/cli/cli_main.nim",
+		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src/app/tst/tst_main.nim",
+		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src/utils/util.nim",
+		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src/build.sh",
+		"/home/sepisoad/Projects/git/nim/lib/pure/redis.nim",
+		"/home/sepisoad/Projects/git/nim/lib/pure/os.nim",
+		"/home/sepisoad/Projects/git/nim/lib/pure/strutils.nim",
+		"/home/sepisoad/Projects/git/nim/lib/pure/base64.nim",
+		"/home/sepisoad/Projects/git/nim/compiler/crc.nim",
+		"/home/sepisoad/Projects/git/condooj/master/src/cli/cli_app.cc",
+		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src/user/config.nim",
+		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src/utils/io.nim",
+		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src/run.sh",
+		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src/app/tst/main.nim",
+		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src/app/cli/main.nim",
+		"/home/sepisoad/Projects/git/my.tests/nim/test6_module/app.nim",
+		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src/app/cli.nim",
+		"/home/sepisoad/Projects/gl findings by sepi",
+		"/home/sepisoad/Projects/git/my.tests/nim/test6_module/helper.nim",
+		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src/compile.sh",
+		"/home/sepisoad/Projects/git/my.tests/nim/test9_enum/app.nim",
+		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/.gitignore"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 93.0,
+		"where_history":
+		[
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"main",
+			"parseCmdLine",
+			"static",
+			"ref",
+			"options",
+			"createDropboxUserProfile",
+			"errCode",
+			"drop_",
+			"newFileStream",
+			"existsFile",
+			"joinPath",
+			"setConfigAutoUpdate",
+			"writeConfigObjToFile",
+			"parseConfigFile",
+			"writeConfigObjToFile",
+			"use_dropbox_backup",
+			"writeConfigObjToFile",
+			"streams",
+			"alread",
+			"assert",
+			"N_CDECL",
+			"N_LIB_IMPORT",
+			"sepi",
+			"sepi_helper",
+			"let",
+			"const",
+			"Run",
+			"TMP133",
+			"ttype88004",
+			"modifyTType",
+			"obj_88056",
+			"TType",
+			"sepi",
+			"TSepi",
+			"method",
+			"discard",
+			"object",
+			"TRecSeq",
+			"method",
+			"2",
+			"glBufferData(",
+			"glBindBuffer(GL_ARRAY_BUFFER, vbo_handle);",
+			"if (neededBufferSize > vbo_max_size)",
+			"glBufferData",
+			"GL_ARRAY_BUFFER, GL_WRITE_ONLY",
+			"vbo_max_size",
+			"glBufferData",
+			"vbo_handle",
+			"io.DeltaTime ",
+			"ImGuiIO& io",
+			"main(",
+			"main",
+			"N_INLINE",
+			"get_memo_conf_path",
+			"get_memo_file_path()",
+			"NimMain",
+			"main",
+			"examp",
+			"glActiveTexture(GL_TEXTURE0);",
+			"texture_location",
+			"glUniform1i",
+			"ImGuiState",
+			"ImGui::Render()",
+			"ImDrawList",
+			"ImImpl_RenderDrawLists",
+			"RenderDrawListsFn",
+			"ImDrawVert",
+			"ImDrawCmd",
+			"ImDrawList",
+			"RenderDrawLists",
+			"RenderDrawListsFn",
+			"IO::RenderDrawListsFn",
+			"::Render()",
+			"render()",
+			"render",
+			"ImTextCharFromUtf8",
+			"RenderText",
+			"out_vertices",
+			"IndexLookup",
+			"FindGlyph",
+			"struct FntGlyph",
+			"::RenderText",
+			"RenderText(",
+			"RenderText",
+			"TextUnformatted",
+			"TextV",
+			"ImGui::Text",
+			"ImGui::GetIO",
+			"vbo_handle",
+			"gl_context",
+			"ArrayObj",
+			"SDL_GL_CONTEXT_PROFILE_ES",
+			"EGLContext",
+			"SDL_EGL_CreateContext",
+			"MIR_GL_CreateContext",
+			"SDL_GLContext",
+			"} SDL_GLContext",
+			"}SDL_GLContext",
+			"SDL_GLContext;",
+			"}SDL_GLContext;",
+			"SDL_GLContext",
+			"X11_GL",
+			"SDL_GLContext",
+			"typedef struct SDL_GLContext",
+			"SDL_GL_CreateContext",
+			"SDL_GL_CreateContext_REAL",
+			"SDL_GL_CreateContext",
+			"glUnmapBuffer",
+			"vbo_max_size",
+			"index",
+			"drawSphere",
+			"char",
+			"debug",
+			"-g",
+			"glDraw",
+			"render",
+			"vao_handle",
+			"vbo_handle",
+			"glBindTexture",
+			"UpdateImGui",
+			"glDrawElements",
+			"glTexImage2D",
+			"glDeleteBuffers",
+			"vbo_max_size",
+			"vbo_handle",
+			"texture_location",
+			"vbo_handle",
+			"InitGL"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"doAssert",
+			"obj",
+			"TType"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "/home/sepisoad/Projects/git/nanomsg/src/utils/clock.h",
+					"semi_transient": true,
+					"settings":
+					{
+						"buffer_size": 1793,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 25.0
+	},
+	"input":
+	{
+		"height": 33.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 112.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"project": "condooj.sublime-project",
+	"replace":
+	{
+		"height": 46.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"selected_items":
+		[
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": false,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 173.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

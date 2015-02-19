@@ -1,20 +1,52 @@
-import globals
 import os
 import streams
 import json
+import oids
+import globals
+import dropbox
 
 type TConfig* = object
   useDropBoxBackup*: bool
   autoUpdate*: bool
   updateInterval*: int64
 
+type TPassRecord* = object
+  title*: string
+  username*: string
+  password*: string
+  email*: string
+  date*: string
+  description*: string
+
+var isInitDone = false
 var appFolderPath = ""
+var passdbFolderPath = ""
 var configFilePath = ""
 var userFilePath = ""
+
+## some initializations
+proc init*(): bool =
+  var homeFolder = os.getHomeDir()
+
+  appFolderPath = os.joinPath(homeFolder, globals.APP_FOLDER_NAME) 
+  passdbFolderPath = os.joinPath(appFolderPath, globals.PASS_DB_FOLDER_NAME)
+  configFilePath = os.joinPath(appFolderPath, globals.CONFIG_FILE_NAME)
+  userFilePath = os.joinPath(appFolderPath, globals.USER_FILE_NAME)
+  
+  isInitDone = true
+
+  return true
+
+## check to see if init proc is called
+proc isInitialized(): bool = isInitDone
 
 ## get appFolderPath value
 proc getAppFolderPath*(): string = 
   return appFolderPath
+
+## get passdbFolderPath value
+proc getPassdbFolderPath*(): string = 
+  return passdbFolderPath
 
 ## get configFilePath value
 proc getConfigFilePath*(): string = 
@@ -26,8 +58,8 @@ proc getUserFilePath*(): string =
 
 ## check to see if the app folder exists
 proc existsAppFolder*(): bool = 
-  var homeFolder = os.getHomeDir()
-  appFolderPath = os.joinPath(homeFolder, globals.APP_FOLDER_NAME) 
+  if false == isInitialized():
+    return false
     
   if false == existsDir(appFolderPath):
     return false
@@ -50,14 +82,40 @@ proc createAppFolder*(): bool =
   
   return true
 
+## check to see if the passdb folder exists
+## TODO: test
+proc existsPassdbFolder*(): bool = 
+  if false == existsAppFolder():
+    return false
+
+  if false == existsFile(passdbFolderPath):
+    return false
+
+  return true
+
+## check to see if the passdb folder exists
+## TODO: test
+proc createPassdbFolder*(): bool = 
+  if true == existsPassdbFolder():
+    stderr.writeln("Error: the path \"" & passdbFolderPath & "\" already exists")
+    return false
+  
+  try:
+    os.createDir(passdbFolderPath)
+  except OSError:
+    var errCode = os.osLastError()
+    stderr.writeln("Error: failed to create \"" & passdbFolderPath & "\" dir.")
+    stderr.writeln(osErrorMsg(errCode))
+    return false
+  
+  return true
+
 ## check to see if the config file exists
 proc existsConfigFile*(): bool =     
   if false == existsAppFolder():
     return false
 
-  configFilePath = os.joinPath(appFolderPath, globals.CONFIG_FILE_NAME)
-
-  if(false == existsFile(configFilePath)):
+  if false == existsFile(configFilePath):
     return false
 
   return true
@@ -70,7 +128,7 @@ proc writeConfigObjToFile(configObj: ref TConfig): bool =
     return false
 
   var configFileStream = streams.newFileStream(configFilePath, system.fmWrite)
-  if(nil == configFileStream):
+  if nil == configFileStream:
     var errCode = os.osLastError()
     stderr.writeln("Error: failed to create \"" & configFilePath & "\" file.")
     stderr.writeln(osErrorMsg(errCode))
@@ -95,9 +153,6 @@ proc writeConfigObjToFile(configObj: ref TConfig): bool =
 
 ## create default config file
 proc createConfigFile*(): bool =
-  var configObj: ref TConfig
-  new(configObj)
-
   if false == existsAppFolder():
     stderr.writeln("Error: the path \"" & appFolderPath & "\" does not exist")
     return false
@@ -105,6 +160,9 @@ proc createConfigFile*(): bool =
   if true == existsConfigFile():
     stderr.writeln("Error: the file \"" & configFilePath & "\" already exists")
     return false
+
+  var configObj: ref TConfig
+  new(configObj)
 
   configObj.useDropBoxBackup = false
   configObj.autoUpdate = false
@@ -117,12 +175,12 @@ proc createConfigFile*(): bool =
 
 ## parse config file
 proc parseConfigFile*(): ref TConfig =
+  if(false == existsConfigFile()):
+    return nil
+
   var errCode: OSErrorCode
   var configObj: ref TConfig # var configObj = new(TConfig)
   new(configObj)
-  
-  if(false == existsConfigFile()):
-    return nil
 
   var configFileStream = streams.newFileStream(configFilePath, system.fmRead)
   if(nil == configFileStream):
@@ -238,18 +296,80 @@ proc setConfigUpdateInterval*(interval: int64): bool =
 
   return true
 
-## get passphrase from user 
+## create default dropbox user profile
 ## TODO: test
-proc getPassPhrase*() =
-  stdout.write("please enter your passphrase <less than 512 characters>: ")
-  
-  try:
-    var passPhraseString = stdin.readline()
-    while passPhraseString.len() > 512:
-      stdout.writeln("Invalid input: the length of passphrase you entered is bigger than 512")
-      stdout.write("please enter your passphrase again: ")
-      passPhraseString = stdin.readline()
-  except:
+proc createDropboxUserProfile*(user: ref TDropboxUserInfo; canOverwrite: bool): bool =
+  if false == existsAppFolder():
+    stderr.writeln("Error: the path \"" & appFolderPath & "\" already exists")
+    return false
+
+  if true == existsFile(userFilePath):
+    if false == canOverwrite:
+      stderr.writeln("Error: a user profile already exists")
+      return false
+
+  if "" == dropbox.authenticateUser():
+    ##TODO: complete this operation
+    stderr.writeln("Error: failed to authenticate dropbox user")
+    return false
+
+  var user = dropbox.getUserInfo()
+  if nil == user:
+    ##TODO: complete this operation
+    stderr.writeln("Error: failed to retreive dropbox user info")
+    return false
+
+  var userFileStream = streams.newFileStream(userFilePath, system.fmWrite)
+  if(nil == userFileStream):
     var errCode = os.osLastError()
-    stderr.writeln("Error: failed to read passcode.")
+    stderr.writeln("Error: failed to create \"" & userFilePath & "\" file.")
     stderr.writeln(osErrorMsg(errCode))
+    return false
+
+  streams.writeln(userFileStream, "{")
+  streams.writeln(userFileStream, "\t\"dropbox_user_name\": " & user.userName & ",")
+  streams.writeln(userFileStream, "\t\"dropbox_user_id\": " & user.userID & ",")
+  streams.writeln(userFileStream, "\t\"dropbox_user_display_name\": " & user.userDisplayName & ",")
+  streams.writeln(userFileStream, "}")
+
+  streams.close(userFileStream)
+
+  return true
+
+## create and add a new pass record
+## TODO: test, implement
+proc addPassRecord*( title: string;
+                    username: string;
+                    password: string;
+                    email: string;
+                    description: string;
+                    date: string ): bool =
+  # var passRecord: new(TPassRecord)
+  # passRecord.title = title
+  # passRecord.username = username
+  # passRecord.password = password
+  # passRecord.email = email
+  # passRecord.description = description
+  # passRecord.date = date
+
+  var recordFileName = os.joinPath(passdbFolderPath, $genOid()) 
+
+  var recordFileStream = streams.newFileStream(recordFileName, system.fmWrite)
+  if(nil == recordFileStream):
+    var errCode = os.osLastError()
+    stderr.writeln("Error: failed to create \"" & recordFileName & "\" file.")
+    stderr.writeln(osErrorMsg(errCode))
+    return false
+
+  streams.writeln(recordFileStream, "{")
+  streams.writeln(recordFileStream, "\t\"title\": \"" & title & "\",")
+  streams.writeln(recordFileStream, "\t\"username\": \"" & username & "\",")
+  streams.writeln(recordFileStream, "\t\"password\": \"" & password & "\",")
+  streams.writeln(recordFileStream, "\t\"email\": \"" & email & "\",")
+  streams.writeln(recordFileStream, "\t\"description\": \"" & description & "\",")
+  streams.writeln(recordFileStream, "\t\"date\": \"" & date & "\",")
+  streams.writeln(recordFileStream, "}")
+
+  streams.close(recordFileStream)
+
+  return true
