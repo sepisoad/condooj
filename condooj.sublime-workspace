@@ -4,6 +4,26 @@
 		"selected_items":
 		[
 			[
+				"get",
+				"getPassdbFolderPath"
+			],
+			[
+				"list",
+				"listOfFiles"
+			],
+			[
+				"pass",
+				"passdbFolderPath"
+			],
+			[
+				"user",
+				"username"
+			],
+			[
+				"is",
+				"isInitialized"
+			],
+			[
 				"T",
 				"TUserProfile"
 			],
@@ -74,14 +94,6 @@
 			[
 				"wri",
 				"writeln"
-			],
-			[
-				"pass",
-				"passPhraseDigest"
-			],
-			[
-				"user",
-				"userFilePath"
 			],
 			[
 				"Pas",
@@ -276,10 +288,26 @@
 	"buffers":
 	[
 		{
-			"file": "/home/sepisoad/Projects/git/nanomsg/src/utils/clock.h",
+			"file": "src/app.nim",
 			"settings":
 			{
-				"buffer_size": 1793,
+				"buffer_size": 4663,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/sepisoad/Projects/git/condooj/master/src/cli/cli_app.cc",
+			"settings":
+			{
+				"buffer_size": 2293,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/condooj.nim",
+			"settings":
+			{
+				"buffer_size": 12028,
 				"line_ending": "Unix"
 			}
 		}
@@ -287,9 +315,13 @@
 	"build_system": "",
 	"command_palette":
 	{
-		"height": 159.0,
+		"height": 117.0,
 		"selected_items":
 		[
+			[
+				"jso",
+				"Set Syntax: JSON"
+			],
 			[
 				"lua",
 				"Set Syntax: Lua"
@@ -351,10 +383,6 @@
 				"Package Control: Upgrade Package"
 			],
 			[
-				"jso",
-				"Set Syntax: JSON"
-			],
-			[
 				"js",
 				"Set Syntax: JSON"
 			],
@@ -413,11 +441,29 @@
 	"expanded_folders":
 	[
 		"/home/sepisoad/Projects/git/condooj/condooj-nimlang",
-		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src",
-		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/test"
+		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src"
 	],
 	"file_history":
 	[
+		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src/globals.nim",
+		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src/main.nim",
+		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/build.sh",
+		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src/service.nim",
+		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src/app.nim",
+		"/home/sepisoad/.condooj/config.json",
+		"/home/sepisoad/.condooj/passdb/54e64ad524b4e17e00000000",
+		"/home/sepisoad/Projects/git/my.tests/git_lessons.md",
+		"/home/sepisoad/Projects/git/my.tests/.gitignore_global",
+		"/home/sepisoad/.condooj/passdb/54e64b2b144e382800000000",
+		"/home/sepisoad/.condooj/passdb/54e6495a7de28f5500000000",
+		"/home/sepisoad/.condooj/passdb/54e64a678496c00800000000",
+		"/home/sepisoad/.condooj/passdb/54e6172aba21431a00000000",
+		"/home/sepisoad/.condooj/passdb/54e616fbb54ef32d00000000",
+		"/home/sepisoad/.condooj/passdb/54e616950cec6a2700000000",
+		"/home/sepisoad/Projects/git/my.tests/nim/unique_id/oid/app.nim",
+		"/home/sepisoad/Projects/git/my.tests/nim/stdin/app.nim",
+		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src/cli.nim",
+		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/condooj.sublime-project",
 		"/home/sepisoad/Projects/git/nanomsg/src/utils/msg.h",
 		"/home/sepisoad/Projects/git/nanomsg/src/utils/chunkref.h",
 		"/home/sepisoad/Projects/git/nanomsg/src/bus.h",
@@ -454,19 +500,14 @@
 		"/home/sepisoad/Projects/git/Aporia/aporia.ini",
 		"/home/sepisoad/Projects/git/my.tests/nim/http_client/httpclient/sepi",
 		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src/oauth1.nim",
-		"/home/sepisoad/.condooj/config.json",
-		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/build.sh",
 		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/test/checkcoverage.nim",
 		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/test/checkcoverage",
 		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/test/testApp.nim",
 		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src/config.nim",
-		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src/globals.nim",
 		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/tests.sh",
 		"/home/sepisoad/Projects/git/my.tests/nim/testing/app3_UnitTest/runtests.sh",
 		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/run.sh",
 		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/test/tests.nim",
-		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src/app.nim",
-		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src/cli.nim",
 		"/home/sepisoad/Projects/git/my.tests/nim/testing/app3_UnitTest/test/testCalc.nim",
 		"/home/sepisoad/Projects/git/my.tests/nim/testing/app3_UnitTest/test/tests.nim",
 		"/home/sepisoad/Projects/git/my.tests/nim/ref_ptr_val/app.nim",
@@ -474,7 +515,6 @@
 		"/home/sepisoad/Projects/git/my.tests/nim/object/app.nim",
 		"/home/sepisoad/Projects/git/my.tests/nim/test3_simple/app.nim",
 		"/home/sepisoad/Projects/git/my.tests/nim/test4_good/app.nim",
-		"/home/sepisoad/Projects/git/my.tests/.gitignore_global",
 		"/home/sepisoad/Projects/git/my.tests/nim/test12_unit_test/app3/app/calc.nim",
 		"/home/sepisoad/Projects/git/my.tests/nim/test12_unit_test/app3/runtests.sh",
 		"/home/sepisoad/Projects/git/my.tests/nim/test12_unit_test/app3/app/app.nim",
@@ -523,7 +563,6 @@
 		"/home/sepisoad/Projects/git/condooj/master/src/config/config.hh",
 		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src/tst_main.nim",
 		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src/gui_main.nim",
-		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src/main.nim",
 		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src/app/cli/cli_main.nim",
 		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src/app/tst/tst_main.nim",
 		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src/utils/util.nim",
@@ -533,19 +572,7 @@
 		"/home/sepisoad/Projects/git/nim/lib/pure/strutils.nim",
 		"/home/sepisoad/Projects/git/nim/lib/pure/base64.nim",
 		"/home/sepisoad/Projects/git/nim/compiler/crc.nim",
-		"/home/sepisoad/Projects/git/condooj/master/src/cli/cli_app.cc",
-		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src/user/config.nim",
-		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src/utils/io.nim",
-		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src/run.sh",
-		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src/app/tst/main.nim",
-		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src/app/cli/main.nim",
-		"/home/sepisoad/Projects/git/my.tests/nim/test6_module/app.nim",
-		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src/app/cli.nim",
-		"/home/sepisoad/Projects/gl findings by sepi",
-		"/home/sepisoad/Projects/git/my.tests/nim/test6_module/helper.nim",
-		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src/compile.sh",
-		"/home/sepisoad/Projects/git/my.tests/nim/test9_enum/app.nim",
-		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/.gitignore"
+		"/home/sepisoad/Projects/git/condooj/master/src/cli/cli_app.cc"
 	],
 	"find":
 	{
@@ -556,6 +583,7 @@
 		"height": 93.0,
 		"where_history":
 		[
+			"<open files>",
 			""
 		]
 	},
@@ -564,6 +592,11 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"app",
+			"getPassdbFolderPath",
+			"passdbFolderPath",
+			"os.joinPath",
+			"join",
 			"main",
 			"parseCmdLine",
 			"static",
@@ -686,12 +719,7 @@
 			"UpdateImGui",
 			"glDrawElements",
 			"glTexImage2D",
-			"glDeleteBuffers",
-			"vbo_max_size",
-			"vbo_handle",
-			"texture_location",
-			"vbo_handle",
-			"InitGL"
+			"glDeleteBuffers"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -712,37 +740,96 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 1,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "/home/sepisoad/Projects/git/nanomsg/src/utils/clock.h",
-					"semi_transient": true,
+					"file": "src/app.nim",
+					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1793,
+						"buffer_size": 4663,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								103,
+								103
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/NimLime/nimrod.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": -0.0,
+						"translation.y": 204.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "/home/sepisoad/Projects/git/condooj/master/src/cli/cli_app.cc",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2293,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								506,
+								506
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/C++/C++.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
+							"translate_tabs_to_spaces": false
 						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.x": -0.0,
+						"translation.y": 204.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "src/condooj.nim",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 12028,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								7988,
+								7988
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/NimLime/nimrod.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 4716.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
 					"type": "text"
 				}
 			]
