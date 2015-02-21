@@ -1,5 +1,5 @@
-#ifndef PROTECTION_HEADER
-#define PROTECTION_HEADER
+#ifndef ENC_UTILS_HEADER
+#define ENC_UTILS_HEADER
 
 int say_hi(const char* str);
 void repeat_char(char c, int n);
@@ -21,10 +21,4 @@ int decrypt_memory(const unsigned char* buffer,
 
 int free_allocated_mem(unsigned char* buffer);
 
-// int encrypt_file(const char* file,
-// 				 unsigned const char* key); 
-					
-// int decrypt_file(const char* file,
-// 				 unsigned const char* key); 
-
-#endif //PROTECTION_HEADER
+#endif //ENC_UTILS_HEADER

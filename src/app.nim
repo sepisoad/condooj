@@ -1,164 +1,128 @@
 import os
-import strutils
-import parseopt2
-import times
 import globals
-import condooj
+import config
+import dropbox
 
-## show command line usage
-proc cmdLineUsage():void =
-  echo("usage: condooj [--option:][value]")
-  echo("example:")
-  echo("  condooj --version")
-  echo("  condooj --autoupdate:true")
+var isInitDone = false
+var appFolderPath = ""
+var passdbFolderPath = ""
+var configFilePath = ""
+var userFilePath = ""
 
-## show command line option, help
-## TODO: improve
-proc printHelp():void =
-  echo("Condooj version : 0.0.1")
-  echo("Copyright: Sepehr Aryani © 2015")
-  echo("Github: https://github.com/sepisoad/condooj")
-  echo("Twitter: @sepisoad")
-  echo("====================")
-  echo("here is the list of available options:")
+## some initializations
+proc init*(): bool =
+  var homeFolder = os.getHomeDir()
+
+  appFolderPath = os.joinPath(homeFolder, globals.APP_FOLDER_NAME) 
+  passdbFolderPath = os.joinPath(appFolderPath, globals.PASS_DB_FOLDER_NAME)
+  configFilePath = os.joinPath(appFolderPath, globals.CONFIG_FILE_NAME)
+  userFilePath = os.joinPath(appFolderPath, globals.USER_FILE_NAME)
   
-  echo(" --version")
-  echo("    shows version number")
+  isInitDone = true
 
-  echo(" --help")
-  echo("    shows help")
+  return true
 
-  echo(" --add")
-  echo("    creates a new password record")
+## check to see if init proc is called
+proc isInitialized(): bool = isInitDone
 
-  echo(" --usedropbox:[true/false]")
-  echo("    sets dropbox backup flag")
+## get appFolderPath value
+proc getAppFolderPath*(): string = 
+  return appFolderPath
 
-  echo(" --autoupdate:[true/false]")
-  echo("    sets the auto update flag")
+## get passdbFolderPath value
+proc getPassdbFolderPath*(): string = 
+  return passdbFolderPath
 
-  echo(" --updateinterval:[0..1000]")
-  echo("    sets the update interval value")
+## get configFilePath value
+proc getConfigFilePath*(): string = 
+  return configFilePath
 
-  echo("  --createdropboxuser")
-  echo("    authenticates user on dropbox and creates a user profile locally")
+## get userFilePath value
+proc getUserFilePath*(): string = 
+  return userFilePath
 
-## print applicatin version and other related information
-proc printVersion():void =
-  echo("Condooj version : ", globals.APP_VERSION)
+## check to see if the app folder exists
+proc existsAppFolder*(): bool = 
+  if false == isInitialized():
+    return false
+    
+  if false == existsDir(appFolderPath):
+    return false
 
-## handle creating a new pass record
-proc performAddPassRecord(): bool =
-  echo("here we create a new password record, please follow...")
+  return true
+
+## create app folder
+proc createAppFolder*(): bool = 
+  if true == existsAppFolder():
+    stderr.writeln("Error: the path \"" & appFolderPath & "\" already exists")
+    return false
   
-  stdout.write("enter a title for your password record: ")
-  var title = stdin.readline()
+  try:
+    os.createDir(appFolderPath)
+  except OSError:
+    var errCode = os.osLastError()
+    stderr.writeln("Error: failed to create \"" & appFolderPath & "\" dir.")
+    stderr.writeln(osErrorMsg(errCode))
+    return false
+  
+  return true
 
-  stdout.write("enter the username: ")
-  var username = stdin.readline()
-
-  stdout.write("enter the password: ")
-  var password = stdin.readline()
-
-  stdout.write("enter the email you used: ")
-  var email = stdin.readline()  
-
-  stdout.write("add some descriptions: ")
-  var description = stdin.readline()  
-          
-  var date = times.getDateStr()
-
-  if false == condooj.addPassRecord(title, username, password, email, description, date):
+## check to see if the passdb folder exists
+## TODO: test
+proc existsPassdbFolder*(): bool = 
+  if false == existsAppFolder():
     return false
 
-## list all pass records
-proc performListPassRecords(): bool = 
-  for item in condooj.listPassRecords():
-    echo(item)
-
-## parse the command-line argument
-## TODO: test, improve
-proc parseAppCmdLineArgs(): bool =
-  for kind, key, value in getopt():
-    case kind:
-      of cmdArgument, cmdEnd, cmdShortOption:
-        stderr.writeln("Error: unrecognized option '" & key &"'") 
-        cmdLineUsage()
-        return false
-
-      of cmdLongOption:
-        case key:
-          of "version":
-            printVersion()
-
-          of "help":
-            printHelp()
-
-          of "add":
-            if false == performAddPassRecord():
-              return false
-
-          of "list":
-            if false == performListPassRecords():
-              return false
-          
-          of "usedropbox":
-            let tvalue = toUpper(value)
-            if "TRUE" == tvalue:
-              if false == condooj.setConfigUseDropBox(true):
-                return false
-            elif "FALSE" == tvalue:
-              if false == condooj.setConfigUseDropBox(false):
-                return false
-            else:
-              stderr.writeln("Error: the option '" & key & "' only accept false or true") 
-
-          of "createdropboxuser":
-            #TODO: change the function and complete it
-            if false == condooj.createDropboxUserProfile(nil, true):
-              return false
-
-          of "autoupdate":
-            let tvalue = toUpper(value)
-            if "TRUE" == tvalue:
-              if false == condooj.setConfigAutoUpdate(true):
-                return false
-            elif "FALSE" == tvalue:
-              if false == condooj.setConfigAutoUpdate(false):
-                return false
-            else:
-              stderr.writeln("Error: the option '" & key & "' only accept false or true") 
-
-          of "updateinterval":
-            try:
-              let tvalue = parseBiggestInt(value)
-              if false == condooj.setConfigUpdateInterval(tvalue):
-                return false
-            except ValueError:
-              stderr.writeln("Error: the option '" & key & "' only accept numbers")               
-              return false
-            
-          else: discard # default case behaviour
-        return true
-
-## this is where our cli app starts
-proc run*(): bool =
-  if false == condooj.init():
+  if false == existsFile(passdbFolderPath):
     return false
 
-  if false == condooj.existsAppFolder():
-    if false == condooj.createAppFolder():
-      return false
-    if false == condooj.createPassdbFolder():
-      return false
-    if false == condooj.createConfigFile():
-      return false
+  return true
 
-  var configObj = condooj.parseConfigFile()
-  if nil == configObj:
+## check to see if the passdb folder exists
+## TODO: test
+proc createPassdbFolder*(): bool = 
+  if true == existsPassdbFolder():
+    stderr.writeln("Error: the path \"" & passdbFolderPath & "\" already exists")
+    return false
+  
+  try:
+    os.createDir(passdbFolderPath)
+  except OSError:
+    var errCode = os.osLastError()
+    stderr.writeln("Error: failed to create \"" & passdbFolderPath & "\" dir.")
+    stderr.writeln(osErrorMsg(errCode))
+    return false
+  
+  return true
+
+## check to see if the config file exists
+proc existsConfigFile*(): bool =     
+  if false == existsAppFolder():
     return false
 
-  if false == parseAppCmdLineArgs():
+  if false == existsFile(configFilePath):
+    return false
+
+  return true
+
+## create default config file
+proc createConfigFile*(): bool =
+  if false == existsAppFolder():
+    stderr.writeln("Error: the path \"" & appFolderPath & "\" does not exist")
+    return false
+
+  if true == existsConfigFile():
+    stderr.writeln("Error: the file \"" & configFilePath & "\" already exists")
+    return false
+
+  var configObj: ref TConfig
+  new(configObj)
+
+  configObj.useDropBoxBackup = false
+  configObj.autoUpdate = false
+  configObj.updateInterval = 0
+
+  if false == config.writeToFile(configObj, configFilePath):
     return false
 
   return true

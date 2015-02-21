@@ -3,7 +3,7 @@
 #include <string.h>
 #include "sha256.h"
 #include "aes.h"
-#include "protection.h"
+#include "utils.h"
 
 int create_passphrase_digest(const unsigned char* passphrase, unsigned char* digest)
 {
