@@ -4,6 +4,26 @@
 		"selected_items":
 		[
 			[
+				"json",
+				"jsonNode"
+			],
+			[
+				"js",
+				"jsonObj"
+			],
+			[
+				"entr",
+				"entryTitle"
+			],
+			[
+				"entry",
+				"entryFileName"
+			],
+			[
+				"records",
+				"recordsListFilePath"
+			],
+			[
 				"passr",
 				"passrecord"
 			],
@@ -340,29 +360,18 @@
 	"buffers":
 	[
 		{
-			"contents": "# -d:RUN_AS_APP\n# -d:RUN_AS_SERVICE\n\npwd\ncd src/\nnim c --debuginfo --lineDir:on --nimcache:/tmp/condooj/src -d:RUN_AS_APP -d:useSysAssert -d:useGcAssert condooj.nim\n#nim c --debuginfo --lineDir:on --nimcache:/tmp/condooj/src -d:RUN_AS_APP -d:useSysAssert -d:useGcAssert condooj.nim\npwd",
-			"file": "build.sh",
-			"file_size": 168,
-			"file_write_time": 130690156801339507,
-			"settings":
-			{
-				"buffer_size": 285,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "src/condooj.nim",
-			"settings":
-			{
-				"buffer_size": 222,
-				"line_ending": "Unix"
-			}
-		},
-		{
 			"file": "src/cli.nim",
 			"settings":
 			{
-				"buffer_size": 5017,
+				"buffer_size": 5050,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/protection.nim",
+			"settings":
+			{
+				"buffer_size": 1976,
 				"line_ending": "Unix"
 			}
 		},
@@ -370,7 +379,7 @@
 			"file": "src/app.nim",
 			"settings":
 			{
-				"buffer_size": 3117,
+				"buffer_size": 4244,
 				"line_ending": "Unix"
 			}
 		},
@@ -378,7 +387,7 @@
 			"file": "src/config.nim",
 			"settings":
 			{
-				"buffer_size": 4878,
+				"buffer_size": 5217,
 				"line_ending": "Unix"
 			}
 		},
@@ -386,23 +395,18 @@
 			"file": "src/passrecord.nim",
 			"settings":
 			{
-				"buffer_size": 2505,
+				"buffer_size": 4374,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "src/profile.nim",
+			"contents": "{\n    \"a\": \"54ea08ddb987d12100000000\",\n    \"\": \"54ea08e26704de0700000000\",\n    \"c\": \"54ea08e779a93c6d00000000\"\n}",
+			"file": "/home/sepisoad/.condooj/passdb/list",
+			"file_size": 101,
+			"file_write_time": 130690974475678726,
 			"settings":
 			{
-				"buffer_size": 1460,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "src/dropbox.nim",
-			"settings":
-			{
-				"buffer_size": 365,
+				"buffer_size": 112,
 				"line_ending": "Unix"
 			}
 		}
@@ -410,9 +414,29 @@
 	"build_system": "",
 	"command_palette":
 	{
-		"height": 117.0,
+		"height": 75.0,
 		"selected_items":
 		[
+			[
+				"json",
+				"JSON Reindent: reindent file or selection"
+			],
+			[
+				"ins",
+				"Package Control: Install Package"
+			],
+			[
+				"isn",
+				"Nimrod: Install Babel Package"
+			],
+			[
+				"instal",
+				"Package Control: Install Package"
+			],
+			[
+				"js",
+				"Set Syntax: JSON"
+			],
 			[
 				"jso",
 				"Set Syntax: JSON"
@@ -420,10 +444,6 @@
 			[
 				"lua",
 				"Set Syntax: Lua"
-			],
-			[
-				"ins",
-				"Package Control: Install Package"
 			],
 			[
 				"insta",
@@ -440,10 +460,6 @@
 			[
 				"c++",
 				"Set Syntax: C++"
-			],
-			[
-				"instal",
-				"Package Control: Install Package"
 			],
 			[
 				"go",
@@ -476,14 +492,6 @@
 			[
 				"upda",
 				"Package Control: Upgrade Package"
-			],
-			[
-				"js",
-				"Set Syntax: JSON"
-			],
-			[
-				"json",
-				"Set Syntax: JSON"
 			],
 			[
 				"book",
@@ -540,20 +548,30 @@
 	],
 	"file_history":
 	[
+		"/home/sepisoad/.condooj/passdb/list",
+		"/home/sepisoad/.condooj/passdb/54e9fb9e9c84524000000000",
+		"/home/sepisoad/.condooj/passdb/54e9fc2e9f64a14d00000000",
+		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/build.sh",
+		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src/condooj.nim",
 		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src/globals.nim",
+		"/home/sepisoad/.condooj/passdb/54e9d94ce80d832300000000",
+		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src/passrecord.nim",
+		"/home/sepisoad/.condooj/passdb/54e9d87ac3e2dc0100000000",
+		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src/dropbox.nim",
+		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src/profile.nim",
+		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src/config.nim",
+		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src/cli.nim",
 		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src/protection.nim",
 		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src/c/utils.h",
 		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src/c/utils.c",
 		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src/app.nim",
 		"/home/sepisoad/Projects/git/condooj/master/src/cli/cli_app.cc",
-		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src/condooj.nim",
 		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src/c/test.c",
 		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src/protect.nim",
 		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src/c/protection.c",
 		"/home/sepisoad/Projects/git/my.tests/nim/c_nim/advanced/app.nim",
 		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src/c.nim",
 		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src/main.nim",
-		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/build.sh",
 		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src/service.nim",
 		"/home/sepisoad/.condooj/config.json",
 		"/home/sepisoad/.condooj/passdb/54e64ad524b4e17e00000000",
@@ -567,7 +585,6 @@
 		"/home/sepisoad/.condooj/passdb/54e616950cec6a2700000000",
 		"/home/sepisoad/Projects/git/my.tests/nim/unique_id/oid/app.nim",
 		"/home/sepisoad/Projects/git/my.tests/nim/stdin/app.nim",
-		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src/cli.nim",
 		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/condooj.sublime-project",
 		"/home/sepisoad/Projects/git/nanomsg/src/utils/msg.h",
 		"/home/sepisoad/Projects/git/nanomsg/src/utils/chunkref.h",
@@ -608,7 +625,6 @@
 		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/test/checkcoverage.nim",
 		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/test/checkcoverage",
 		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/test/testApp.nim",
-		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src/config.nim",
 		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/tests.sh",
 		"/home/sepisoad/Projects/git/my.tests/nim/testing/app3_UnitTest/runtests.sh",
 		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/run.sh",
@@ -659,15 +675,7 @@
 		"/home/sepisoad/Projects/git/my.tests/nim/test10_lib/nimcache/helper.cpp",
 		"/home/sepisoad/Projects/git/my.tests/nim/test10_lib/nimcache/system.c",
 		"/home/sepisoad/Projects/git/my.tests/nim/test10_lib/libsepi.nim",
-		"/home/sepisoad/Dropbox/Audios/nice songs name",
-		"/home/sepisoad/Projects/git/condooj/master/src/app/app.cc",
-		"/home/sepisoad/Projects/git/condooj/master/src/app/app.hh",
-		"/home/sepisoad/Projects/git/condooj/master/src/encryption/protection.hh",
-		"/home/sepisoad/Projects/git/condooj/master/src/utils/utils.hh",
-		"/home/sepisoad/Projects/git/condooj/master/src/main.cc",
-		"/home/sepisoad/Projects/git/condooj/master/src/config/config.hh",
-		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src/tst_main.nim",
-		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src/gui_main.nim"
+		"/home/sepisoad/Dropbox/Audios/nice songs name"
 	],
 	"find":
 	{
@@ -678,6 +686,7 @@
 		"height": 93.0,
 		"where_history":
 		[
+			"",
 			"<open files>",
 			""
 		]
@@ -687,6 +696,18 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"failed to read",
+			"passrecordadd(",
+			"Error: failed to read",
+			"json",
+			"writeToFile",
+			"parseAppCmdLineArgs",
+			"createRecordListFile",
+			"rawJsonData",
+			"Error: failed to start app",
+			"jsonData",
+			"userFilePath",
+			"userFile",
 			"condooj",
 			"passdbFolderPath",
 			"addPassRecord",
@@ -802,19 +823,7 @@
 			"SDL_GLContext",
 			"typedef struct SDL_GLContext",
 			"SDL_GL_CreateContext",
-			"SDL_GL_CreateContext_REAL",
-			"SDL_GL_CreateContext",
-			"glUnmapBuffer",
-			"vbo_max_size",
-			"index",
-			"drawSphere",
-			"char",
-			"debug",
-			"-g",
-			"glDraw",
-			"render",
-			"vao_handle",
-			"vbo_handle"
+			"SDL_GL_CreateContext_REAL"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -822,6 +831,9 @@
 		"regex": false,
 		"replace_history":
 		[
+			"jsonData",
+			"rawJsonData",
+			"userProfilePath",
 			"app",
 			"doAssert",
 			"obj",
@@ -841,75 +853,19 @@
 			[
 				{
 					"buffer": 0,
-					"file": "build.sh",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 285,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								111,
-								121
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/ShellScript/Shell-Unix-Generic.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "src/condooj.nim",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 222,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								56,
-								56
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/NimLime/nimrod.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
 					"file": "src/cli.nim",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 5017,
+						"buffer_size": 5050,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								206,
-								206
+								1981,
+								1981
 							]
 						],
 						"settings":
@@ -919,7 +875,73 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 551.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "src/protection.nim",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1976,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								889,
+								889
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/NimLime/nimrod.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 204.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 3,
+			"sheets":
+			[
+				{
+					"buffer": 2,
+					"file": "src/app.nim",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4244,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1271,
+								1271
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/NimLime/nimrod.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 663.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 2,
@@ -927,108 +949,19 @@
 				},
 				{
 					"buffer": 3,
-					"file": "src/app.nim",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 3117,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								3117,
-								3117
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/NimLime/nimrod.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
 					"file": "src/config.nim",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4878,
+						"buffer_size": 5217,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								10,
-								10
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/NimLime/nimrod.tmLanguage",
-							"tab_size": 2
-						},
-						"translation.x": 0.0,
-						"translation.y": 1122.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 6,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "src/passrecord.nim",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2505,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								34,
-								34
-							]
-						],
-						"settings":
-						{
-							"auto_name": "",
-							"syntax": "Packages/NimLime/nimrod.tmLanguage",
-							"tab_size": 2
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 5,
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "src/profile.nim",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1460,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								36,
-								36
+								2846,
+								2846
 							]
 						],
 						"settings":
@@ -1038,38 +971,68 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 1044.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 4,
 					"type": "text"
 				},
 				{
-					"buffer": 7,
-					"file": "src/dropbox.nim",
+					"buffer": 4,
+					"file": "src/passrecord.nim",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 365,
+						"buffer_size": 4374,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								1436,
+								1436
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/NimLime/nimrod.tmLanguage"
+							"syntax": "Packages/NimLime/nimrod.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 449.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "/home/sepisoad/.condooj/passdb/list",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 112,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								112,
+								112
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JSON.tmLanguage"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 7,
+					"stack_index": 0,
 					"type": "text"
 				}
 			]
@@ -1092,11 +1055,18 @@
 				0,
 				1,
 				1
+			],
+			[
+				1,
+				0,
+				2,
+				1
 			]
 		],
 		"cols":
 		[
 			0.0,
+			0.5,
 			1.0
 		],
 		"rows":
@@ -1144,14 +1114,14 @@
 		],
 		"width": 392.0
 	},
-	"selected_group": 0,
+	"selected_group": 1,
 	"settings":
 	{
 	},
 	"show_minimap": false,
 	"show_open_files": true,
 	"show_tabs": true,
-	"side_bar_visible": true,
+	"side_bar_visible": false,
 	"side_bar_width": 173.0,
 	"status_bar_visible": true,
 	"template_settings":

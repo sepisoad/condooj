@@ -83,6 +83,7 @@ proc parse*(configFilePath: string): ref TConfig =
     isKeyMissing = true
 
   configFileStream.close()
+  #parsedConfigFile.close()
 
   if true == isKeyMissing:
     return nil
@@ -115,6 +116,21 @@ proc writeToFile*(configObj: ref TConfig, configFilePath: string): bool =
   streams.writeln(configFileStream, "}")
 
   streams.close(configFileStream)
+
+  return true
+
+proc createDefaultConfigFile*(configFilePath: string): bool =
+  var configObj: ref TConfig
+  new(configObj)
+
+  configObj.useDropBoxBackup = false
+  configObj.autoUpdate = false
+  configObj.updateInterval = 0
+
+  if false == writeToFile(configObj, configFilePath):
+    return false
+
+  return true
 
 ## set config file use_dropbox_backup field
 ## TODO: test

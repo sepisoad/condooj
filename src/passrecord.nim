@@ -3,6 +3,7 @@ import json
 import oids
 import streams
 import globals
+import protection
 
 type TPassRecord* = object
   title*: string
@@ -11,6 +12,58 @@ type TPassRecord* = object
   email*: string
   date*: string
   description*: string
+
+## create pass record list file
+## TODO: test, improve 
+proc createRecordList*(recordsListFilePath: string): bool =
+  var jsonData: string = ""
+  jsonData &= "{\n"
+  jsonData &= "}"
+
+  var recordListFileStream = streams.newFileStream(recordsListFilePath, system.fmWrite)
+  if(nil == recordListFileStream):
+    var errCode = os.osLastError()
+    stderr.writeln("Error: failed to create \"" & recordsListFilePath & "\" file.")
+    stderr.writeln(osErrorMsg(errCode))
+    return false
+
+  streams.writeln(recordListFileStream, jsonData)
+  streams.close(recordListFileStream)
+
+  return true
+
+## add a new entry to record list file
+## TODO: test, improve 
+proc addEntryToRecordList(listFilePath: string, entryFileName: string, entryTitle: string): bool =
+  var jsonData: string = ""
+  var jsonParser: JsonParser
+  var jsonNode: JsonNode = nil
+
+  try:
+    jsonNode = parseFile(listFilePath)
+  except Exception:
+    stderr.writeln("Error: failed to read \"" & listFilePath & "\" file.")
+    stderr.writeln("Error: Exception.")
+    return false
+  
+
+  if true == jsonNode.hasKey(json.escapeJson(entryTitle)):
+    stderr.writeln("Error: the entry '" & entryTitle & "' already exists.")
+    return false    
+
+  jsonNode.add(entryTitle, newJString(entryFileName))
+
+  var recordListFileStream = streams.newFileStream(listFilePath, system.fmWrite)
+  if(nil == recordListFileStream):
+    var errCode = os.osLastError()
+    stderr.writeln("Error: failed to create \"" & listFilePath & "\" file.")
+    stderr.writeln(osErrorMsg(errCode))
+    return false
+  
+  recordListFileStream.write($jsonNode)
+  recordListFileStream.close()
+
+  return true
 
 ## parse pass record file
 ## TODO: test, improve 
@@ -36,33 +89,44 @@ proc parse*(path: string): ref TPassRecord =
   result.description = jsonObj["description"].str
   result.date = jsonObj["date"].str
 
+  #jsonObj.close()
+
 ## create and add a new pass record
 ## TODO: test, improve
 proc add*(passdbFolderPath: string,
+          recordsListFilePath: string,
           title: string;
           username: string;
           password: string;
           email: string;
           description: string;
           date: string ): bool =
-  var recordFileName = os.joinPath(passdbFolderPath, $genOid()) 
+  var recordFileName = $genOid() 
+  var fullRecordFileName = os.joinPath(passdbFolderPath, recordFileName) 
 
-  var recordFileStream = streams.newFileStream(recordFileName, system.fmWrite)
+  if false == addEntryToRecordList(recordsListFilePath, recordFileName, title):
+    return false
+
+  var recordFileStream = streams.newFileStream(fullRecordFileName, system.fmWrite)
   if(nil == recordFileStream):
     var errCode = os.osLastError()
-    stderr.writeln("Error: failed to create \"" & recordFileName & "\" file.")
+    stderr.writeln("Error: failed to create \"" & fullRecordFileName & "\" file.")
     stderr.writeln(osErrorMsg(errCode))
     return false
 
-  streams.writeln(recordFileStream, "{")
-  streams.writeln(recordFileStream, "\t\"title\": " & json.escapeJson(title) & ",")
-  streams.writeln(recordFileStream, "\t\"username\": " & json.escapeJson(username) & ",")
-  streams.writeln(recordFileStream, "\t\"password\": " & json.escapeJson(password) & ",")
-  streams.writeln(recordFileStream, "\t\"email\": " & json.escapeJson(email) & ",")
-  streams.writeln(recordFileStream, "\t\"description\": " & json.escapeJson(description) & ",")
-  streams.writeln(recordFileStream, "\t\"date\": " & json.escapeJson(date))
-  streams.writeln(recordFileStream, "}")
+  var rawJsonData: string = ""
+  rawJsonData &= "{\n"
+  rawJsonData &= "\t\"title\": " & json.escapeJson(title) & ",\n"
+  rawJsonData &= "\t\"username\": " & json.escapeJson(username) & ",\n"
+  rawJsonData &= "\t\"password\": " & json.escapeJson(password) & ",\n"
+  rawJsonData &= "\t\"email\": " & json.escapeJson(email) & ",\n"
+  rawJsonData &= "\t\"description\": " & json.escapeJson(description) & ",\n"
+  rawJsonData &= "\t\"date\": " & json.escapeJson(date) & ",\n"
+  rawJsonData &= "}"
 
+  #TODO: to the encryption here before saving the raw jason data into file
+
+  streams.writeln(recordFileStream, rawJsonData)
   streams.close(recordFileStream)
 
   return true

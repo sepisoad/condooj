@@ -1,22 +1,25 @@
 import os
 import globals
 import config
+import passrecord
 import dropbox
 
 var isInitDone = false
 var appFolderPath = ""
 var passdbFolderPath = ""
 var configFilePath = ""
-var userFilePath = ""
+var userProfilePath = ""
+var recordsListFilePath = ""
 
 ## some initializations
 proc init*(): bool =
   var homeFolder = os.getHomeDir()
 
   appFolderPath = os.joinPath(homeFolder, globals.APP_FOLDER_NAME) 
-  passdbFolderPath = os.joinPath(appFolderPath, globals.PASS_DB_FOLDER_NAME)
   configFilePath = os.joinPath(appFolderPath, globals.CONFIG_FILE_NAME)
-  userFilePath = os.joinPath(appFolderPath, globals.USER_FILE_NAME)
+  passdbFolderPath = os.joinPath(appFolderPath, globals.PASS_DB_FOLDER_NAME)
+  recordsListFilePath = os.joinPath(passdbFolderPath, globals.RECORDS_LIST_FILE_NAME)
+  userProfilePath = os.joinPath(appFolderPath, globals.USER_FILE_NAME)
   
   isInitDone = true
 
@@ -37,9 +40,13 @@ proc getPassdbFolderPath*(): string =
 proc getConfigFilePath*(): string = 
   return configFilePath
 
-## get userFilePath value
-proc getUserFilePath*(): string = 
-  return userFilePath
+## get userProfilePathPath value
+proc getUserProfilePath*(): string = 
+  return userProfilePath
+
+## get recordsListFilePath value
+proc getRecordsListFilePath*(): string = 
+  return recordsListFilePath
 
 ## check to see if the app folder exists
 proc existsAppFolder*(): bool = 
@@ -71,6 +78,7 @@ proc createAppFolder*(): bool =
 ## TODO: test
 proc existsPassdbFolder*(): bool = 
   if false == existsAppFolder():
+    stderr.writeln("Error: the path \"" & appFolderPath & "\" does not exist")
     return false
 
   if false == existsFile(passdbFolderPath):
@@ -98,6 +106,7 @@ proc createPassdbFolder*(): bool =
 ## check to see if the config file exists
 proc existsConfigFile*(): bool =     
   if false == existsAppFolder():
+    stderr.writeln("Error: the path \"" & appFolderPath & "\" does not exist")
     return false
 
   if false == existsFile(configFilePath):
@@ -105,7 +114,7 @@ proc existsConfigFile*(): bool =
 
   return true
 
-## create default config file
+## create config file
 proc createConfigFile*(): bool =
   if false == existsAppFolder():
     stderr.writeln("Error: the path \"" & appFolderPath & "\" does not exist")
@@ -115,14 +124,39 @@ proc createConfigFile*(): bool =
     stderr.writeln("Error: the file \"" & configFilePath & "\" already exists")
     return false
 
-  var configObj: ref TConfig
-  new(configObj)
-
-  configObj.useDropBoxBackup = false
-  configObj.autoUpdate = false
-  configObj.updateInterval = 0
-
-  if false == config.writeToFile(configObj, configFilePath):
+  if false == config.createDefaultConfigFile(configFilePath):
     return false
 
   return true
+
+## check to see if records list file exists
+## TODO: test, implement
+proc existsRecordsListFile*(): bool = 
+  if false == existsAppFolder():
+    stderr.writeln("Error: the path \"" & appFolderPath & "\" does not exist")
+    return false
+
+  if false == existsFile(recordsListFilePath):
+    return false
+
+  return true
+
+## create records list file user profile
+## TODO: test, implement
+proc createRecordsListFile*(): bool =
+  if true == existsRecordsListFile():
+    stderr.writeln("Error: the file \"" & recordsListFilePath & "\" already exists")
+    return false
+
+  if false == passrecord.createRecordList(recordsListFilePath):
+    return false
+
+  return true
+
+## check to see if user profile exist
+## TODO: test, implement
+proc existsUserProfile*(): bool = true
+
+## create default user profile
+## TODO: test, implement
+proc createDefaultUserProfile*(): bool = true

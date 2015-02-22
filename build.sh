@@ -4,4 +4,5 @@
 pwd
 cd src/
 nim c --debuginfo --lineDir:on --nimcache:/tmp/condooj/src -d:RUN_AS_APP -d:useSysAssert -d:useGcAssert condooj.nim
+#nim c --debuginfo --lineDir:on --nimcache:/tmp/condooj/src -d:RUN_AS_APP -d:useSysAssert -d:useGcAssert -f condooj.nim
 pwd

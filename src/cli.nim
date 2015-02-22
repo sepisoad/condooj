@@ -72,6 +72,7 @@ proc performAddPassRecord(): bool =
   var date = times.getDateStr()
 
   if false == passrecord.add( app.getPassdbFolderPath(), 
+                              app.getRecordsListFilePath(), 
                               title, 
                               username, 
                               password, 
@@ -79,6 +80,7 @@ proc performAddPassRecord(): bool =
                               description, 
                               date):
     return false
+  return true
 
 ## list all pass records
 proc performListPassRecords(): bool = 
@@ -88,67 +90,76 @@ proc performListPassRecords(): bool =
 ## parse the command-line argument
 ## TODO: test, improve
 proc parseAppCmdLineArgs(): bool =
+  if 0 == os.commandLineParams().len:
+    cmdLineUsage()
+    return true
+
   for kind, key, value in getopt():
     case kind:
-      of cmdArgument, cmdEnd, cmdShortOption:
-        stderr.writeln("Error: unrecognized option '" & key &"'") 
-        cmdLineUsage()
+    of cmdArgument, cmdEnd, cmdShortOption:
+      stderr.writeln("Error: unrecognized option '" & key &"'") 
+      cmdLineUsage()
+      return false
+
+    of cmdLongOption:
+      case key:
+      of "version":
+        printVersion()
+
+      of "help":
+        printHelp()
+
+      of "add":
+        if false == performAddPassRecord():
+          return false
+
+      of "list":
+        if false == performListPassRecords():
+          return false
+      
+      of "usedropbox":
+        let tvalue = toUpper(value)
+        if "TRUE" == tvalue:
+          if false == config.setUseDropBox(app.getConfigFilePath(), true):
+            return false
+        elif "FALSE" == tvalue:
+          if false == config.setUseDropBox(app.getConfigFilePath(), false):
+            return false
+        else:
+          stderr.writeln("Error: the option '" & key & "' only accept false or true") 
+
+      of "createdropboxuser":
+        #TODO: change the function and complete it
+        if false == profile.create(app.getUserProfilePath(), nil, true):
+          return false
+
+      of "autoupdate":
+        let tvalue = toUpper(value)
+        if "TRUE" == tvalue:
+          if false == config.setAutoUpdate(app.getConfigFilePath(), true):
+            return false
+        elif "FALSE" == tvalue:
+          if false == config.setAutoUpdate(app.getConfigFilePath(), false):
+            return false
+        else:
+          stderr.writeln("Error: the option '" & key & "' only accept 'true' or 'false'") 
+
+      of "updateinterval":
+        try:
+          let tvalue = parseBiggestInt(value)
+          if false == config.setUpdateInterval(app.getConfigFilePath(), tvalue):
+            return false
+        except ValueError:
+          stderr.writeln("Error: the option '" & key & "' only accept numbers")               
+          return false
+
+      else: 
+        stderr.writeln("Error: the option '" & key & "' is not valid")               
         return false
 
-      of cmdLongOption:
-        case key:
-          of "version":
-            printVersion()
+    else: echo("fuck") #TODO: fix this
 
-          of "help":
-            printHelp()
-
-          of "add":
-            if false == performAddPassRecord():
-              return false
-
-          of "list":
-            if false == performListPassRecords():
-              return false
-          
-          of "usedropbox":
-            let tvalue = toUpper(value)
-            if "TRUE" == tvalue:
-              if false == config.setUseDropBox(app.getConfigFilePath(), true):
-                return false
-            elif "FALSE" == tvalue:
-              if false == config.setUseDropBox(app.getConfigFilePath(), false):
-                return false
-            else:
-              stderr.writeln("Error: the option '" & key & "' only accept false or true") 
-
-          of "createdropboxuser":
-            #TODO: change the function and complete it
-            if false == profile.create(app.getUserFilePath(), nil, true):
-              return false
-
-          of "autoupdate":
-            let tvalue = toUpper(value)
-            if "TRUE" == tvalue:
-              if false == config.setAutoUpdate(app.getConfigFilePath(), true):
-                return false
-            elif "FALSE" == tvalue:
-              if false == config.setAutoUpdate(app.getConfigFilePath(), false):
-                return false
-            else:
-              stderr.writeln("Error: the option '" & key & "' only accept false or true") 
-
-          of "updateinterval":
-            try:
-              let tvalue = parseBiggestInt(value)
-              if false == config.setUpdateInterval(app.getConfigFilePath(), tvalue):
-                return false
-            except ValueError:
-              stderr.writeln("Error: the option '" & key & "' only accept numbers")               
-              return false
-            
-          else: discard # default case behaviour
-        return true
+  return true
 
 ## this is where our cli app starts
 proc run*(): bool =
@@ -160,12 +171,10 @@ proc run*(): bool =
       return false
     if false == app.createPassdbFolder():
       return false
+    if false == app.createRecordsListFile():
+      return false
     if false == app.createConfigFile():
       return false
-
-  var configObj = config.parse(app.getConfigFilePath())
-  if nil == configObj:
-    return false
 
   if false == parseAppCmdLineArgs():
     return false
