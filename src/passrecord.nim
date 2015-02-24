@@ -43,7 +43,7 @@ proc addEntryToRecordList(listFilePath: string, entryFileName: string, entryTitl
     jsonNode = parseFile(listFilePath)
   except Exception:
     stderr.writeln("Error: failed to read \"" & listFilePath & "\" file.")
-    stderr.writeln("Error: Exception.")
+    stderr.writeln(getCurrentExceptionMsg())
     return false
   
 
@@ -65,6 +65,79 @@ proc addEntryToRecordList(listFilePath: string, entryFileName: string, entryTitl
 
   return true
 
+## delete entry from list file
+## TODO: test, improve 
+proc deleteEntryFromRecordList(listFilePath: string, entryTitle: string): bool =
+  var jsonData: string = ""
+  var jsonParser: JsonParser
+  var jsonNode: JsonNode = nil
+
+  try:
+    jsonNode = parseFile(listFilePath)
+  except Exception:
+    stderr.writeln("Error: failed to read \"" & listFilePath & "\" file.")
+    stderr.writeln(getCurrentExceptionMsg())
+    return false
+  
+
+  if true == jsonNode.hasKey(json.escapeJson(entryTitle)):
+    stderr.writeln("Error: the entry '" & entryTitle & "' already exists.")
+    return false    
+
+  jsonNode.delete(entryTitle)
+
+  var recordListFileStream = streams.newFileStream(listFilePath, system.fmWrite)
+  if(nil == recordListFileStream):
+    var errCode = os.osLastError()
+    stderr.writeln("Error: failed to create \"" & listFilePath & "\" file.")
+    stderr.writeln(osErrorMsg(errCode))
+    return false
+  
+  recordListFileStream.write($jsonNode)
+  recordListFileStream.close()
+
+  return true
+
+## get list of entries from list file
+## TODO: test, improve 
+proc getEntryFilesList(listFilePath: string): seq[string] =
+  var jsonData: string = ""
+  var jsonParser: JsonParser
+  var jsonNode: JsonNode = nil
+
+  try:
+    jsonNode = parseFile(listFilePath)
+  except Exception:
+    stderr.writeln("Error: failed to read \"" & listFilePath & "\" file.")
+    stderr.writeln(getCurrentExceptionMsg())
+    return nil
+  
+  result = @[]
+  for key, value in pairs(jsonNode):
+    result.add(key)
+  
+
+## finds the corresponding file name of a title
+## TODO: test, improve
+proc convertTitleToFile(listFilePath: string, title: string): string =
+  var jsonData: string = ""
+  var jsonParser: JsonParser
+  var jsonNode: JsonNode = nil
+
+  try:
+    jsonNode = parseFile(listFilePath)
+  except Exception:
+    stderr.writeln("Error: failed to read \"" & listFilePath & "\" file.")
+    stderr.writeln(getCurrentExceptionMsg())
+    return nil
+
+  for key, value in pairs(jsonNode):
+    if title == key:
+      return value.str
+
+  return nil
+
+
 ## parse pass record file
 ## TODO: test, improve 
 proc parse*(path: string): ref TPassRecord =
@@ -80,6 +153,7 @@ proc parse*(path: string): ref TPassRecord =
     jsonObj = json.parseFile(path)
   except Exception, IOError, ValueError, JsonParsingError:
     stderr.writeln("Error: failed to read \"" & path & "\" file.")
+    stderr.writeln(getCurrentExceptionMsg())
     return nil
 
   result.title = jsonObj["title"].str
@@ -89,17 +163,15 @@ proc parse*(path: string): ref TPassRecord =
   result.description = jsonObj["description"].str
   result.date = jsonObj["date"].str
 
-  #jsonObj.close()
-
 ## create and add a new pass record
 ## TODO: test, improve
 proc add*(passdbFolderPath: string,
           recordsListFilePath: string,
-          title: string;
-          username: string;
-          password: string;
-          email: string;
-          description: string;
+          title: string,
+          username: string,
+          password: string,
+          email: string,
+          description: string,
           date: string ): bool =
   var recordFileName = $genOid() 
   var fullRecordFileName = os.joinPath(passdbFolderPath, recordFileName) 
@@ -125,22 +197,37 @@ proc add*(passdbFolderPath: string,
   rawJsonData &= "}"
 
   #TODO: to the encryption here before saving the raw jason data into file
+  # var encryptedJsonFile = protection.encryptBuffer(rawJsonData, digest)
 
   streams.writeln(recordFileStream, rawJsonData)
   streams.close(recordFileStream)
 
   return true
 
+##
+##
+proc delete*( passdbFolderPath: string,
+              recordsListFilePath: string,
+              title: string,): bool =
+  var passRecordFileName = convertTitleToFile(recordsListFilePath, title)
+  if nil == passRecordFileName:
+    stderr.writeln("Error: failed to delete \"" & title & "\" item.")
+    return false
+
+  if false == deleteEntryFromRecordList(recordsListFilePath, title):
+    return false
+
+  var passRecordFilePath = os.joinPath(passdbFolderPath, passRecordFileName)
+  try:
+    os.removeFile(passRecordFilePath)
+  except OSError:
+    stderr.writeln("Error: failed to delete \"" & passRecordFilePath & "\" file.")
+    stderr.writeln(getCurrentExceptionMsg())
+    return false
+
+  return true
+
 ## get a list of all pass records
 ## TODO: test, improve
-proc list*(passdbFolderPath: string): seq[string] = 
-  result = @[]
-  
-  for kind, path in walkDir(passdbFolderPath):
-    case kind 
-      of pcFile: 
-        var record = parse(path)
-        if nil == record:
-          return nil
-        result.add(record.title)
-      else: discard
+proc list*(recordsListFilePath: string): seq[string] = 
+  getEntryFilesList(recordsListFilePath)

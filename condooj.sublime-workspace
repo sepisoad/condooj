@@ -363,7 +363,7 @@
 			"file": "src/cli.nim",
 			"settings":
 			{
-				"buffer_size": 5050,
+				"buffer_size": 5076,
 				"line_ending": "Unix"
 			}
 		},
@@ -396,17 +396,6 @@
 			"settings":
 			{
 				"buffer_size": 4374,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"contents": "{\n    \"a\": \"54ea08ddb987d12100000000\",\n    \"\": \"54ea08e26704de0700000000\",\n    \"c\": \"54ea08e779a93c6d00000000\"\n}",
-			"file": "/home/sepisoad/.condooj/passdb/list",
-			"file_size": 101,
-			"file_write_time": 130690974475678726,
-			"settings":
-			{
-				"buffer_size": 112,
 				"line_ending": "Unix"
 			}
 		}
@@ -857,15 +846,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 5050,
+						"buffer_size": 5076,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1981,
-								1981
+								897,
+								897
 							]
 						],
 						"settings":
@@ -875,10 +864,10 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 551.0,
+						"translation.y": 602.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
@@ -908,13 +897,13 @@
 						"translation.y": 204.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 4,
 					"type": "text"
 				}
 			]
 		},
 		{
-			"selected": 3,
+			"selected": 1,
 			"sheets":
 			[
 				{
@@ -944,7 +933,7 @@
 						"translation.y": 663.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 3,
 					"type": "text"
 				},
 				{
@@ -971,10 +960,10 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1044.0,
+						"translation.y": 2268.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
@@ -990,8 +979,8 @@
 						"selection":
 						[
 							[
-								1436,
-								1436
+								1991,
+								1991
 							]
 						],
 						"settings":
@@ -1001,38 +990,10 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 449.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "/home/sepisoad/.condooj/passdb/list",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 112,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								112,
-								112
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JSON.tmLanguage"
-						},
-						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 1,
 					"type": "text"
 				}
 			]

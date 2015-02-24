@@ -8,6 +8,8 @@ import config
 import profile
 import passrecord
 
+var passPhrase: TDigest
+
 ## show command line usage
 proc cmdLineUsage():void =
   echo("usage: condooj [--option:][value]")
@@ -20,6 +22,7 @@ proc cmdLineUsage():void =
 proc printHelp():void =
   echo("Condooj version : 0.0.1")
   echo("Copyright: Sepehr Aryani © 2015")
+  echo("License: GPLv3")
   echo("Github: https://github.com/sepisoad/condooj")
   echo("Twitter: @sepisoad")
   echo("====================")
@@ -33,6 +36,9 @@ proc printHelp():void =
 
   echo(" --add")
   echo("    creates a new password record")
+
+  echo(" --del")
+  echo("    delete an existing password record")
 
   echo(" --usedropbox:[true/false]")
   echo("    sets dropbox backup flag")
@@ -82,10 +88,25 @@ proc performAddPassRecord(): bool =
     return false
   return true
 
+## delete an axisting pass record
+## TODO: test, improve
+proc performDeletePassRecord(title: string): bool = 
+  if false == passrecord.delete(app.getPassdbFolderPath(), 
+                                app.getRecordsListFilePath(), 
+                                title):
+    return false
+  return true
+
 ## list all pass records
 proc performListPassRecords(): bool = 
-  for item in passrecord.list(app.getPassdbFolderPath()):
+  var passRecordsList = passrecord.list(app.getRecordsListFilePath())
+  if nil == passRecordsList:
+    return false
+
+  for item in passrecord.list(app.getRecordsListFilePath()):
     echo(item)
+
+  return true
 
 ## parse the command-line argument
 ## TODO: test, improve
@@ -111,6 +132,10 @@ proc parseAppCmdLineArgs(): bool =
 
       of "add":
         if false == performAddPassRecord():
+          return false
+
+      of "del":
+        if false == performDeletePassRecord(value):
           return false
 
       of "list":
