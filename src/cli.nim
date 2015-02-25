@@ -7,11 +7,13 @@ import app
 import config
 import profile
 import passrecord
+import protection
 
 var passPhrase: TDigest
+var optParser: OptParser
 
 ## show command line usage
-proc cmdLineUsage():void =
+proc printCmdLineUsage() =
   echo("usage: condooj [--option:][value]")
   echo("example:")
   echo("  condooj --version")
@@ -19,7 +21,7 @@ proc cmdLineUsage():void =
 
 ## show command line option, help
 ## TODO: improve
-proc printHelp():void =
+proc performOptionHelp() =
   echo("Condooj version : 0.0.1")
   echo("Copyright: Sepehr Aryani © 2015")
   echo("License: GPLv3")
@@ -40,42 +42,86 @@ proc printHelp():void =
   echo(" --del")
   echo("    delete an existing password record")
 
-  echo(" --usedropbox:[true/false]")
-  echo("    sets dropbox backup flag")
+  echo(" --update")
+  echo("    update an existing password record")
 
-  echo(" --autoupdate:[true/false]")
-  echo("    sets the auto update flag")
+  echo(" --list")
+  echo("    lists all existing password record")
 
-  echo(" --updateinterval:[0..1000]")
-  echo("    sets the update interval value")
 
-  echo("  --createdropboxuser")
-  echo("    authenticates user on dropbox and creates a user profile locally")
 
 ## print applicatin version and other related information
-proc printVersion():void =
+proc performOptionVersion() =
   echo("Condooj version : ", globals.APP_VERSION)
 
-## handle creating a new pass record
-proc performAddPassRecord(): bool =
-  echo("here we create a new password record, please follow...")
-  
-  stdout.write("enter a title for your password record: ")
-  var title = stdin.readline()
+## delete an axisting pass record
+## TODO: test, improve
+proc performOptionDel(title: string) = 
+  if false == passrecord.delete(app.getPassdbFolderPath(), 
+                                app.getRecordsListFilePath(), 
+                                title):
+    stderr.writeln("Error: failed to delete item '" & title & "'")
 
-  stdout.write("enter the username: ")
-  var username = stdin.readline()
+## list all pass records
+## TODO: test, improve
+proc performOptionList() = 
+  var passRecordsList = passrecord.list(app.getRecordsListFilePath())
+  if nil == passRecordsList:
+    stderr.writeln("Error: failed to list items")
 
-  stdout.write("enter the password: ")
-  var password = stdin.readline()
+  for item in passrecord.list(app.getRecordsListFilePath()):
+    echo(item)
 
-  stdout.write("enter the email you used: ")
-  var email = stdin.readline()  
-
-  stdout.write("add some descriptions: ")
-  var description = stdin.readline()  
-          
+## add a new passrecord
+## TODO: test, improve
+proc performOptionAdd() = 
+  var title: string = nil
+  var username: string = nil
+  var password: string = nil
+  var email: string = "UNDEFINED"
+  var description: string = "UNDEFINED"
   var date = times.getDateStr()
+
+  while true:
+    optParser.next()
+
+    if cmdLongOption != optParser.kind:
+      # echo(repr(optParser))
+      # echo(repr(optParser.kind))
+      # echo("DEBUG: Yo")
+      break
+
+    case optParser.key:
+      of "title":
+        title = optParser.val
+
+      of "username":
+        username = optParser.val
+
+      of "password":
+        password = optParser.val
+
+      of "email":
+        email = optParser.val
+
+      of "description":
+        description = optParser.val
+
+      else: 
+        stderr.writeln("Error: '" & optParser.key & "' is not a valid option")
+        return
+  
+  if nil == title:
+    stderr.writeln("Error: you have to add a title for your password record using '--title'") 
+    return
+
+  if nil == username:
+    stderr.writeln("Error: you have to add a username for your password record using '--username'") 
+    return
+
+  if nil == password:
+    stderr.writeln("Error: you have to add a password for your password record using '--password'") 
+    return
 
   if false == passrecord.add( app.getPassdbFolderPath(), 
                               app.getRecordsListFilePath(), 
@@ -85,106 +131,50 @@ proc performAddPassRecord(): bool =
                               email, 
                               description, 
                               date):
-    return false
-  return true
+    stderr.writeln("Error: failed to add item '" & title & "'")
 
-## delete an axisting pass record
-## TODO: test, improve
-proc performDeletePassRecord(title: string): bool = 
-  if false == passrecord.delete(app.getPassdbFolderPath(), 
-                                app.getRecordsListFilePath(), 
-                                title):
-    return false
-  return true
-
-## list all pass records
-proc performListPassRecords(): bool = 
-  var passRecordsList = passrecord.list(app.getRecordsListFilePath())
-  if nil == passRecordsList:
-    return false
-
-  for item in passrecord.list(app.getRecordsListFilePath()):
-    echo(item)
-
-  return true
+## update an existing passrecord
+## TODO: test, implement
+proc performOptionUpdate() = 
+  echo("NOT IMPLEMENTED")
 
 ## parse the command-line argument
 ## TODO: test, improve
-proc parseAppCmdLineArgs(): bool =
+proc parseAppCmdLineArgs() =
   if 0 == os.commandLineParams().len:
-    cmdLineUsage()
-    return true
+    printCmdLineUsage()
+    return
 
-  for kind, key, value in getopt():
-    case kind:
-    of cmdArgument, cmdEnd, cmdShortOption:
-      stderr.writeln("Error: unrecognized option '" & key &"'") 
-      cmdLineUsage()
-      return false
+  optParser = initOptParser()
+  optParser.next()
+    
+  if cmdLongOption != optParser.kind:
+    return
+  
+  case optParser.key:
+    of "version":
+      performOptionVersion()
 
-    of cmdLongOption:
-      case key:
-      of "version":
-        printVersion()
+    of "help":
+      performOptionHelp()
 
-      of "help":
-        printHelp()
+    of "list":
+      performOptionList()
 
-      of "add":
-        if false == performAddPassRecord():
-          return false
+    of "del":
+      performOptionDel(optParser.val)
 
-      of "del":
-        if false == performDeletePassRecord(value):
-          return false
+    of "add":
+      # echo(repr(optParser))
+      # optParser.next()
+      # echo(repr(optParser))
+      performOptionAdd()
 
-      of "list":
-        if false == performListPassRecords():
-          return false
-      
-      of "usedropbox":
-        let tvalue = toUpper(value)
-        if "TRUE" == tvalue:
-          if false == config.setUseDropBox(app.getConfigFilePath(), true):
-            return false
-        elif "FALSE" == tvalue:
-          if false == config.setUseDropBox(app.getConfigFilePath(), false):
-            return false
-        else:
-          stderr.writeln("Error: the option '" & key & "' only accept false or true") 
+    of "update":
+      performOptionUpdate()
 
-      of "createdropboxuser":
-        #TODO: change the function and complete it
-        if false == profile.create(app.getUserProfilePath(), nil, true):
-          return false
-
-      of "autoupdate":
-        let tvalue = toUpper(value)
-        if "TRUE" == tvalue:
-          if false == config.setAutoUpdate(app.getConfigFilePath(), true):
-            return false
-        elif "FALSE" == tvalue:
-          if false == config.setAutoUpdate(app.getConfigFilePath(), false):
-            return false
-        else:
-          stderr.writeln("Error: the option '" & key & "' only accept 'true' or 'false'") 
-
-      of "updateinterval":
-        try:
-          let tvalue = parseBiggestInt(value)
-          if false == config.setUpdateInterval(app.getConfigFilePath(), tvalue):
-            return false
-        except ValueError:
-          stderr.writeln("Error: the option '" & key & "' only accept numbers")               
-          return false
-
-      else: 
-        stderr.writeln("Error: the option '" & key & "' is not valid")               
-        return false
-
-    else: echo("fuck") #TODO: fix this
-
-  return true
+    else: 
+      stderr.writeln("Error: '" & optParser.key & "' is not a valid option")
 
 ## this is where our cli app starts
 proc run*(): bool =
@@ -201,7 +191,5 @@ proc run*(): bool =
     if false == app.createConfigFile():
       return false
 
-  if false == parseAppCmdLineArgs():
-    return false
-
+  parseAppCmdLineArgs()
   return true

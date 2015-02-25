@@ -363,7 +363,7 @@
 			"file": "src/cli.nim",
 			"settings":
 			{
-				"buffer_size": 5076,
+				"buffer_size": 5700,
 				"line_ending": "Unix"
 			}
 		},
@@ -395,7 +395,15 @@
 			"file": "src/passrecord.nim",
 			"settings":
 			{
-				"buffer_size": 4374,
+				"buffer_size": 7016,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "build.sh",
+			"settings":
+			{
+				"buffer_size": 288,
 				"line_ending": "Unix"
 			}
 		}
@@ -537,10 +545,18 @@
 	],
 	"file_history":
 	[
+		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src/protection.nim",
+		"/home/sepisoad/.condooj/passdb/54eccb588cfd937b00000000",
+		"/home/sepisoad/.condooj/passdb/54eccb1fb109c74400000000",
+		"/home/sepisoad/.condooj/passdb/54eccb3862c7927f00000000",
 		"/home/sepisoad/.condooj/passdb/list",
+		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/build.sh",
+		"/home/sepisoad/.condooj/passdb/54ecbced705c201700000000",
+		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src/cli.nim",
+		"/home/sepisoad/Projects/git/Nim/tests/alias/talias.nim",
+		"/home/sepisoad/Projects/git/Nim/tests/manyloc/nake/nakefile.nim",
 		"/home/sepisoad/.condooj/passdb/54e9fb9e9c84524000000000",
 		"/home/sepisoad/.condooj/passdb/54e9fc2e9f64a14d00000000",
-		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/build.sh",
 		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src/condooj.nim",
 		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src/globals.nim",
 		"/home/sepisoad/.condooj/passdb/54e9d94ce80d832300000000",
@@ -549,8 +565,6 @@
 		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src/dropbox.nim",
 		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src/profile.nim",
 		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src/config.nim",
-		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src/cli.nim",
-		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src/protection.nim",
 		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src/c/utils.h",
 		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src/c/utils.c",
 		"/home/sepisoad/Projects/git/condooj/condooj-nimlang/src/app.nim",
@@ -658,13 +672,7 @@
 		"/home/sepisoad/Projects/git/my.tests/nim/test10_lib/nimcache/helper.c",
 		"/home/sepisoad/Projects/git/nim/csources/c_code/nimbase.h",
 		"/home/sepisoad/Projects/git/my.tests/nim/test10_lib/app1.nim",
-		"/home/sepisoad/Projects/git/my.tests/nim/test10_lib/helper.nim",
-		"/home/sepisoad/Projects/git/my.tests/nim/test10_lib/nimcache/helper.h",
-		"/home/sepisoad/Projects/git/my.tests/nim/test10_lib/sepi",
-		"/home/sepisoad/Projects/git/my.tests/nim/test10_lib/nimcache/helper.cpp",
-		"/home/sepisoad/Projects/git/my.tests/nim/test10_lib/nimcache/system.c",
-		"/home/sepisoad/Projects/git/my.tests/nim/test10_lib/libsepi.nim",
-		"/home/sepisoad/Dropbox/Audios/nice songs name"
+		"/home/sepisoad/Projects/git/my.tests/nim/test10_lib/helper.nim"
 	],
 	"find":
 	{
@@ -685,6 +693,15 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"54eccb588cfd937b00000000",
+			"convertTitleToFile",
+			"delete",
+			"getEntryFilesList",
+			"performListPassRecords",
+			"getEntryFilesList",
+			"performListPassRecords",
+			"passRecordFilePath",
+			"convertTitleToFile",
 			"failed to read",
 			"passrecordadd(",
 			"Error: failed to read",
@@ -803,16 +820,7 @@
 			"SDL_EGL_CreateContext",
 			"MIR_GL_CreateContext",
 			"SDL_GLContext",
-			"} SDL_GLContext",
-			"}SDL_GLContext",
-			"SDL_GLContext;",
-			"}SDL_GLContext;",
-			"SDL_GLContext",
-			"X11_GL",
-			"SDL_GLContext",
-			"typedef struct SDL_GLContext",
-			"SDL_GL_CreateContext",
-			"SDL_GL_CreateContext_REAL"
+			"} SDL_GLContext"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -846,15 +854,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 5076,
+						"buffer_size": 5700,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								897,
-								897
+								144,
+								144
 							]
 						],
 						"settings":
@@ -864,7 +872,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 602.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 2,
@@ -883,8 +891,8 @@
 						"selection":
 						[
 							[
-								889,
-								889
+								87,
+								87
 							]
 						],
 						"settings":
@@ -894,16 +902,16 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 204.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 3,
 					"type": "text"
 				}
 			]
 		},
 		{
-			"selected": 1,
+			"selected": 3,
 			"sheets":
 			[
 				{
@@ -933,7 +941,7 @@
 						"translation.y": 663.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 5,
 					"type": "text"
 				},
 				{
@@ -960,10 +968,10 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 2268.0,
+						"translation.y": 459.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 4,
 					"type": "text"
 				},
 				{
@@ -972,15 +980,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4374,
+						"buffer_size": 7016,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1991,
-								1991
+								5984,
+								5984
 							]
 						],
 						"settings":
@@ -990,10 +998,38 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 2735.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "build.sh",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 288,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								166,
+								166
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/ShellScript/Shell-Unix-Generic.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
 					"type": "text"
 				}
 			]
@@ -1082,7 +1118,7 @@
 	"show_minimap": false,
 	"show_open_files": true,
 	"show_tabs": true,
-	"side_bar_visible": false,
+	"side_bar_visible": true,
 	"side_bar_width": 173.0,
 	"status_bar_visible": true,
 	"template_settings":
