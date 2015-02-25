@@ -32,6 +32,30 @@ proc createRecordList*(recordsListFilePath: string): bool =
 
   return true
 
+## read passrecord file data into a TPassRecord structure
+## TODO: test, improve 
+proc getPassRecordFromFile(passRecordFileNamePath: string): ref TPassRecord =
+  var jsonNode: JsonNode = nil
+
+  try:
+    jsonNode = parseFile(passRecordFileNamePath)
+  except Exception:
+    stderr.writeln("Error: failed to load \"" & passRecordFileNamePath & "\" file.")
+    stderr.writeln(getCurrentExceptionMsg())
+    return nil
+
+  new(result)
+  try:
+    result.title = jsonNode["title"].str
+    result.username = jsonNode["username"].str
+    result.password = jsonNode["password"].str
+    result.email = jsonNode["email"].str
+    result.description = jsonNode["description"].str
+    result.date = jsonNode["date"].str
+  except Exception:
+    stderr.writeln("Error: the file \"" & passRecordFileNamePath & "\" is broken.")
+    return nil
+
 ## add a new entry to record list file
 ## TODO: test, improve 
 proc addEntryToRecordList(listFilePath: string, entryFileName: string, entryTitle: string): bool =
@@ -204,11 +228,11 @@ proc add*(passdbFolderPath: string,
 
   return true
 
-##
-##
+## delete an existing pass record
+## TODO: test, improve
 proc delete*( passdbFolderPath: string,
               recordsListFilePath: string,
-              title: string,): bool =
+              title: string): bool =
   var passRecordFileName = convertTitleToFile(recordsListFilePath, title)
   if nil == passRecordFileName:
     stderr.writeln("Error: failed to delete \"" & title & "\" item.")
@@ -223,6 +247,58 @@ proc delete*( passdbFolderPath: string,
   except OSError:
     stderr.writeln("Error: failed to delete \"" & passRecordFilePath & "\" file.")
     stderr.writeln(getCurrentExceptionMsg())
+    return false
+
+  return true
+
+proc update*( passdbFolderPath: string,
+              recordsListFilePath: string,
+              title: string,
+              newtitle: string,
+              username: string,
+              password: string,
+              email: string,
+              description: string,
+              date: string): bool =
+  var passRecordFileName = convertTitleToFile(recordsListFilePath, title)
+  if nil == passRecordFileName:
+    stderr.writeln("Error: failed to update \"" & title & "\" item.")
+    return false
+
+  var passRecordFileNamePath = os.joinPath(passdbFolderPath, passRecordFileName)
+
+  var passRecord = getPassRecordFromFile(passRecordFileNamePath)
+  if nil == passRecord:
+    return false
+
+  if false == delete( passdbFolderPath,
+                      recordsListFilePath, 
+                      title):
+    return false
+
+  if nil != newtitle:
+    passRecord.title = newtitle
+
+  if nil != username:
+    passRecord.username = username
+
+  if nil != passRecord:
+    passRecord.password = password
+
+  if nil != email:
+    passRecord.email = email
+
+  if nil != description:
+    passRecord.description = description
+
+  if false == add(passdbFolderPath,
+                  recordsListFilePath,
+                  passRecord.title,
+                  passRecord.username,
+                  passRecord.password,
+                  passRecord.email,
+                  passRecord.description,
+                  date):
     return false
 
   return true

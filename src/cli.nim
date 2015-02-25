@@ -86,9 +86,6 @@ proc performOptionAdd() =
     optParser.next()
 
     if cmdLongOption != optParser.kind:
-      # echo(repr(optParser))
-      # echo(repr(optParser.kind))
-      # echo("DEBUG: Yo")
       break
 
     case optParser.key:
@@ -136,7 +133,57 @@ proc performOptionAdd() =
 ## update an existing passrecord
 ## TODO: test, implement
 proc performOptionUpdate() = 
-  echo("NOT IMPLEMENTED")
+  var title: string = nil
+  var newtitle: string = nil
+  var username: string = nil
+  var password: string = nil
+  var email: string = nil
+  var description: string = nil
+  var date = times.getDateStr()
+
+  while true:
+    optParser.next()
+
+    if cmdLongOption != optParser.kind:
+      break
+
+    case optParser.key:
+      of "title":
+        title = optParser.val
+
+      of "newtitle":
+        newtitle = optParser.val
+
+      of "username":
+        username = optParser.val
+
+      of "password":
+        password = optParser.val
+
+      of "email":
+        email = optParser.val
+
+      of "description":
+        description = optParser.val
+
+      else: 
+        stderr.writeln("Error: '" & optParser.key & "' is not a valid option")
+        return
+  
+  if nil == title:
+    stderr.writeln("Error: you have to add a title for your password record using '--title'") 
+    return
+
+  if false == passrecord.update(app.getPassdbFolderPath(), 
+                                app.getRecordsListFilePath(), 
+                                title, 
+                                newtitle,
+                                username, 
+                                password, 
+                                email, 
+                                description, 
+                                date):
+    stderr.writeln("Error: failed to update item '" & title & "'")
 
 ## parse the command-line argument
 ## TODO: test, improve
@@ -165,9 +212,6 @@ proc parseAppCmdLineArgs() =
       performOptionDel(optParser.val)
 
     of "add":
-      # echo(repr(optParser))
-      # optParser.next()
-      # echo(repr(optParser))
       performOptionAdd()
 
     of "update":
