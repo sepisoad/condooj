@@ -1,5 +1,4 @@
 # Condooj
----
 
 Condooj is a lightweight and small command line based password manager. It is supposed to be portable, eventually the code will be compiled on all major OSes. since it is written in nim language it isn't a hard thing to acheive. Currently Ubuntu linux is the only tested OS since I'm developing this application under Ubuntu.
 
@@ -29,5 +28,5 @@ which you can run it from everywhere.
 ##Contact me
 sepehr.aryani@gmail.com 
 
-i'm also on twitter @sepisoad, i check my twitter frequently and will reply quickly
+i'm also on twitter [@sepisoad](https://twitter.com/sepisoad), i check my twitter frequently and will reply quickly
 cheers ;)
