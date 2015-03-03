@@ -1,7 +1,5 @@
-Debug/
-Release/
-src/nimcache/
-src/condooj
-.codelite/
-.clang
+nimcache/
+BUILD/
+.condooj
+.nakefile
 

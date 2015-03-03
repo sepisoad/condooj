@@ -19,6 +19,15 @@ int decrypt_memory(const unsigned char* buffer,
 				   unsigned char** decrypted_buffer,
 				   size_t* decrypted_buffer_len);
 
+int save_encrypted_memory(	const char* path,
+							const unsigned char* buffer,
+	   						size_t buffer_len);
+
+int load_encrypted_file(const char* path,
+				   		const unsigned char* key,
+				   		unsigned char** decrypted_buffer,
+				   		size_t* decrypted_buffer_len);
+
 int free_allocated_mem(unsigned char* buffer);
 
 #endif //ENC_UTILS_HEADER

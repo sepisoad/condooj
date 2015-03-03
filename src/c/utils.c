@@ -171,6 +171,72 @@ int decrypt_memory(const unsigned char* buffer,
 	return was_successful;
 }
 
+int save_encrypted_memory(	const char* path,
+							const unsigned char* buffer,
+	   						size_t buffer_len)
+{
+	int was_successful = 0;
+	FILE* file = 0;
+
+	do{
+		file = fopen(path, "w");
+		if(0 == file)
+			break;
+		
+		size_t fsize = fwrite(buffer, sizeof(char), buffer_len, file);
+		fclose(file);
+
+		was_successful = 1;
+	}while(0);
+
+	if(!was_successful)
+	{
+	}
+
+	return was_successful;	
+}
+
+int load_encrypted_file(const char* path,
+				   		const unsigned char* key,
+				   		unsigned char** decrypted_buffer,
+				   		size_t* decrypted_buffer_len)
+{
+	int was_successful = 0;
+	FILE* file = 0;
+	size_t file_len = 0;
+	unsigned char* file_data = 0;
+
+	do{
+		file = fopen(path, "r");
+		if(0 == file)
+			break;
+
+		fseek(file, 0, SEEK_END);
+		file_len = ftell(file);
+		rewind(file);
+		
+		file_data = (unsigned char*) malloc (file_len * sizeof(char));
+		memset(file_data, 0, file_len);
+
+		fread(file_data, sizeof(char), file_len, file);
+		fclose(file);
+
+		if(!decrypt_memory(file_data, file_len, key, decrypted_buffer, decrypted_buffer_len))
+			break;
+
+		was_successful = 1;
+	}while(0);
+
+	if(!was_successful)
+	{
+		if(file){
+			fclose(file);
+		}
+	}
+
+	return was_successful;	
+}
+
 int free_allocated_mem(unsigned char* buffer)
 {
 	if(!buffer){

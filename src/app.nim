@@ -1,7 +1,7 @@
 import os
 import globals
 import config
-import passrecord
+import logininfo
 import dropbox
 
 var isInitDone = false
@@ -148,7 +148,7 @@ proc createRecordsListFile*(): bool =
     stderr.writeln("Error: the file \"" & recordsListFilePath & "\" already exists")
     return false
 
-  if false == passrecord.createRecordList(recordsListFilePath):
+  if false == logininfo.createRecordList(recordsListFilePath):
     return false
 
   return true

@@ -6,10 +6,10 @@ import globals
 import app
 import config
 import profile
-import passrecord
+import logininfo
 import protection
 
-var passPhrase: TDigest
+# var passPhrase: TDigest
 var optParser: OptParser
 
 ## show command line usage
@@ -36,17 +36,20 @@ proc performOptionHelp() =
   echo(" --help")
   echo("    shows help")
 
+  echo(" --show")
+  echo("    shows the specified login information")
+
   echo(" --add")
-  echo("    creates a new password record")
+  echo("    creates a new login record")
 
   echo(" --del")
-  echo("    delete an existing password record")
+  echo("    delete an existing login record")
 
   echo(" --update")
-  echo("    update an existing password record")
+  echo("    update an existing login record")
 
   echo(" --list")
-  echo("    lists all existing password record")
+  echo("    lists all existing login record")
 
 
 
@@ -54,27 +57,28 @@ proc performOptionHelp() =
 proc performOptionVersion() =
   echo("Condooj version : ", globals.APP_VERSION)
 
-## delete an axisting pass record
+## delete an axisting login record
 ## TODO: test, improve
 proc performOptionDel(title: string) = 
-  if false == passrecord.delete(app.getPassdbFolderPath(), 
+  if false == logininfo.delete(app.getPassdbFolderPath(), 
                                 app.getRecordsListFilePath(), 
                                 title):
     stderr.writeln("Error: failed to delete item '" & title & "'")
 
-## list all pass records
+## list all record records
 ## TODO: test, improve
 proc performOptionList() = 
-  var passRecordsList = passrecord.list(app.getRecordsListFilePath())
-  if nil == passRecordsList:
+  var logininfosList = logininfo.list(app.getRecordsListFilePath())
+  if nil == logininfosList:
     stderr.writeln("Error: failed to list items")
 
-  for item in passrecord.list(app.getRecordsListFilePath()):
+  for item in logininfo.list(app.getRecordsListFilePath()):
     echo(item)
 
-## add a new passrecord
+## add a new login record
 ## TODO: test, improve
 proc performOptionAdd() = 
+  var passphrase: string = nil
   var title: string = nil
   var username: string = nil
   var password: string = nil
@@ -89,6 +93,9 @@ proc performOptionAdd() =
       break
 
     case optParser.key:
+      of "passphrase":
+        passphrase = optParser.val
+
       of "title":
         title = optParser.val
 
@@ -107,7 +114,10 @@ proc performOptionAdd() =
       else: 
         stderr.writeln("Error: '" & optParser.key & "' is not a valid option")
         return
-  
+  if nil == passphrase:
+    stderr.writeln("Error: a passphrase is needed in roder to get access to login records database") 
+    return
+
   if nil == title:
     stderr.writeln("Error: you have to add a title for your password record using '--title'") 
     return
@@ -120,8 +130,12 @@ proc performOptionAdd() =
     stderr.writeln("Error: you have to add a password for your password record using '--password'") 
     return
 
-  if false == passrecord.add( app.getPassdbFolderPath(), 
+  var passphraseDigest = protection.createPassphraseDigest(passphrase)
+  #echo($passphraseDigest)
+
+  if false == logininfo.add(  app.getPassdbFolderPath(), 
                               app.getRecordsListFilePath(), 
+                              passphraseDigest,
                               title, 
                               username, 
                               password, 
@@ -130,9 +144,10 @@ proc performOptionAdd() =
                               date):
     stderr.writeln("Error: failed to add item '" & title & "'")
 
-## update an existing passrecord
+## update an existing login record
 ## TODO: test, implement
 proc performOptionUpdate() = 
+  var passphrase: string = nil
   var title: string = nil
   var newtitle: string = nil
   var username: string = nil
@@ -148,6 +163,9 @@ proc performOptionUpdate() =
       break
 
     case optParser.key:
+      of "passphrase":
+        passphrase = optParser.val
+
       of "title":
         title = optParser.val
 
@@ -170,12 +188,19 @@ proc performOptionUpdate() =
         stderr.writeln("Error: '" & optParser.key & "' is not a valid option")
         return
   
+  if nil == passphrase:
+    stderr.writeln("Error: a passphrase is needed in roder to get access to login records database") 
+    return
+  
   if nil == title:
     stderr.writeln("Error: you have to add a title for your password record using '--title'") 
     return
 
-  if false == passrecord.update(app.getPassdbFolderPath(), 
+  var passphraseDigest = protection.createPassphraseDigest(passphrase)
+
+  if false == logininfo.update( app.getPassdbFolderPath(), 
                                 app.getRecordsListFilePath(), 
+                                passphraseDigest,
                                 title, 
                                 newtitle,
                                 username, 
@@ -184,6 +209,54 @@ proc performOptionUpdate() =
                                 description, 
                                 date):
     stderr.writeln("Error: failed to update item '" & title & "'")
+
+## shows the login info asked by user
+## TODO: test
+proc performOptionShow() = 
+  var passphrase: string = nil
+  var title: string = nil
+
+  while true:
+    optParser.next()
+
+    if cmdLongOption != optParser.kind:
+      break
+
+    case optParser.key:
+      of "passphrase":
+        passphrase = optParser.val
+
+      of "title":
+        title = optParser.val
+
+      else: 
+        stderr.writeln("Error: '" & optParser.key & "' is not a valid option")
+        return
+  
+  if nil == passphrase:
+    stderr.writeln("Error: a passphrase is needed in roder to get access to login records database") 
+    return
+  
+  if nil == title:
+    stderr.writeln("Error: you have define what loging you want to be shown using '--title' option") 
+    return
+
+  var passphraseDigest = protection.createPassphraseDigest(passphrase)
+
+  var loginInfo = logininfo.show( app.getPassdbFolderPath(), 
+                                  app.getRecordsListFilePath(), 
+                                  passphraseDigest,
+                                  title)
+  if nil == loginInfo:
+    stderr.writeln("Error: failed to show login information for '" & title & "'")
+    return
+
+  echo("=======" & loginInfo.title & "=======")
+  echo("username: " & loginInfo.username)
+  echo("password: " & loginInfo.password)
+  echo("email: " & loginInfo.email)
+  echo("date: " & loginInfo.date)
+  echo("description: " & loginInfo.description)
 
 ## parse the command-line argument
 ## TODO: test, improve
@@ -204,6 +277,9 @@ proc parseAppCmdLineArgs() =
 
     of "help":
       performOptionHelp()
+
+    of "show":
+      performOptionShow()
 
     of "list":
       performOptionList()

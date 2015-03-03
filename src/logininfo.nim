@@ -5,7 +5,7 @@ import streams
 import globals
 import protection
 
-type TPassRecord* = object
+type Tlogininfo* = object
   title*: string
   username*: string
   password*: string
@@ -32,15 +32,43 @@ proc createRecordList*(recordsListFilePath: string): bool =
 
   return true
 
-## read passrecord file data into a TPassRecord structure
+## read logininfo file data into a Tlogininfo structure
 ## TODO: test, improve 
-proc getPassRecordFromFile(passRecordFileNamePath: string): ref TPassRecord =
-  var jsonNode: JsonNode = nil
+proc getlogininfoFromFile(logininfoFileNamePath: string, key: TDigest): ref Tlogininfo =
+  var loginFile: File
+  if false == system.open(loginFile, logininfoFileNamePath, fmRead):
+    var errCode = os.osLastError()
+    stderr.writeln("Error: failed to open \"" & logininfoFileNamePath & "\" file.")
+    stderr.writeln(osErrorMsg(errCode))
+    return nil
 
+  var fileInfo: FileInfo
   try:
-    jsonNode = parseFile(passRecordFileNamePath)
+    fileInfo = os.getFileInfo(loginFile)
+  except OSError:
+    stderr.writeln(getCurrentExceptionMsg())
+    system.close(loginFile)
+    return nil
+
+  var recordListFileStream = streams.newFileStream(loginFile)
+  if(nil == recordListFileStream):
+    var errCode = os.osLastError()
+    stderr.writeln("Error: failed to read \"" & logininfoFileNamePath & "\" file.")
+    stderr.writeln(osErrorMsg(errCode))
+    return nil
+
+  var decryptedBuffer = protection.decryptFile(logininfoFileNamePath, key)
+  if nil == decryptedBuffer:
+    var errCode = os.osLastError()
+    stderr.writeln("Error: failed to decrypt information stored in \"" & logininfoFileNamePath & "\" file.")
+    stderr.writeln(osErrorMsg(errCode))
+    return nil
+
+  var jsonNode: JsonNode = nil
+  try:
+    jsonNode = parseJson(decryptedBuffer)
   except Exception:
-    stderr.writeln("Error: failed to load \"" & passRecordFileNamePath & "\" file.")
+    stderr.writeln("Error: the login file is broken.")
     stderr.writeln(getCurrentExceptionMsg())
     return nil
 
@@ -53,7 +81,7 @@ proc getPassRecordFromFile(passRecordFileNamePath: string): ref TPassRecord =
     result.description = jsonNode["description"].str
     result.date = jsonNode["date"].str
   except Exception:
-    stderr.writeln("Error: the file \"" & passRecordFileNamePath & "\" is broken.")
+    stderr.writeln("Error: the file \"" & logininfoFileNamePath & "\" is broken.")
     return nil
 
 ## add a new entry to record list file
@@ -164,7 +192,7 @@ proc convertTitleToFile(listFilePath: string, title: string): string =
 
 ## parse pass record file
 ## TODO: test, improve 
-proc parse*(path: string): ref TPassRecord =
+proc parse*(path: string): ref Tlogininfo =
   new(result)
 
   # TODO: add a nice error msg
@@ -191,6 +219,7 @@ proc parse*(path: string): ref TPassRecord =
 ## TODO: test, improve
 proc add*(passdbFolderPath: string,
           recordsListFilePath: string,
+          digest: TDigest,
           title: string,
           username: string,
           password: string,
@@ -203,12 +232,12 @@ proc add*(passdbFolderPath: string,
   if false == addEntryToRecordList(recordsListFilePath, recordFileName, title):
     return false
 
-  var recordFileStream = streams.newFileStream(fullRecordFileName, system.fmWrite)
-  if(nil == recordFileStream):
-    var errCode = os.osLastError()
-    stderr.writeln("Error: failed to create \"" & fullRecordFileName & "\" file.")
-    stderr.writeln(osErrorMsg(errCode))
-    return false
+  # var recordFileStream = streams.newFileStream(fullRecordFileName, system.fmWrite)
+  # if(nil == recordFileStream):
+  #   var errCode = os.osLastError()
+  #   stderr.writeln("Error: failed to create \"" & fullRecordFileName & "\" file.")
+  #   stderr.writeln(osErrorMsg(errCode))
+  #   return false
 
   var rawJsonData: string = ""
   rawJsonData &= "{\n"
@@ -217,14 +246,19 @@ proc add*(passdbFolderPath: string,
   rawJsonData &= "\t\"password\": " & json.escapeJson(password) & ",\n"
   rawJsonData &= "\t\"email\": " & json.escapeJson(email) & ",\n"
   rawJsonData &= "\t\"description\": " & json.escapeJson(description) & ",\n"
-  rawJsonData &= "\t\"date\": " & json.escapeJson(date) & ",\n"
+  rawJsonData &= "\t\"date\": " & json.escapeJson(date) & "\n"
   rawJsonData &= "}"
 
-  #TODO: to the encryption here before saving the raw jason data into file
-  # var encryptedJsonFile = protection.encryptBuffer(rawJsonData, digest)
+  var encryptedJasonBuffer = protection.encryptBuffer(rawJsonData, digest)
+  if false == protection.saveEncryptedBuffer( fullRecordFileName, 
+                                              encryptedJasonBuffer):
+    var errCode = os.osLastError()
+    stderr.writeln("Error: failed to save data into \"" & fullRecordFileName & "\" file.")
+    stderr.writeln(osErrorMsg(errCode))
+    return false
 
-  streams.writeln(recordFileStream, rawJsonData)
-  streams.close(recordFileStream)
+  # streams.writeln(recordFileStream, encryptedJasonBuffer.buffer)
+  # streams.close(recordFileStream)
 
   return true
 
@@ -233,26 +267,29 @@ proc add*(passdbFolderPath: string,
 proc delete*( passdbFolderPath: string,
               recordsListFilePath: string,
               title: string): bool =
-  var passRecordFileName = convertTitleToFile(recordsListFilePath, title)
-  if nil == passRecordFileName:
+  var logininfoFileName = convertTitleToFile(recordsListFilePath, title)
+  if nil == logininfoFileName:
     stderr.writeln("Error: failed to delete \"" & title & "\" item.")
     return false
 
   if false == deleteEntryFromRecordList(recordsListFilePath, title):
     return false
 
-  var passRecordFilePath = os.joinPath(passdbFolderPath, passRecordFileName)
+  var logininfoFilePath = os.joinPath(passdbFolderPath, logininfoFileName)
   try:
-    os.removeFile(passRecordFilePath)
+    os.removeFile(logininfoFilePath)
   except OSError:
-    stderr.writeln("Error: failed to delete \"" & passRecordFilePath & "\" file.")
+    stderr.writeln("Error: failed to delete \"" & logininfoFilePath & "\" file.")
     stderr.writeln(getCurrentExceptionMsg())
     return false
 
   return true
 
+## update an existing pass record
+## TODO: test, improve
 proc update*( passdbFolderPath: string,
               recordsListFilePath: string,
+              digest: TDigest,
               title: string,
               newtitle: string,
               username: string,
@@ -260,15 +297,14 @@ proc update*( passdbFolderPath: string,
               email: string,
               description: string,
               date: string): bool =
-  var passRecordFileName = convertTitleToFile(recordsListFilePath, title)
-  if nil == passRecordFileName:
-    stderr.writeln("Error: failed to update \"" & title & "\" item.")
+  var logininfoFileName = convertTitleToFile(recordsListFilePath, title)
+  if nil == logininfoFileName:
     return false
 
-  var passRecordFileNamePath = os.joinPath(passdbFolderPath, passRecordFileName)
+  var logininfoFileNamePath = os.joinPath(passdbFolderPath, logininfoFileName)
 
-  var passRecord = getPassRecordFromFile(passRecordFileNamePath)
-  if nil == passRecord:
+  var logininfo = getlogininfoFromFile(logininfoFileNamePath, digest)
+  if nil == logininfo:
     return false
 
   if false == delete( passdbFolderPath,
@@ -277,31 +313,49 @@ proc update*( passdbFolderPath: string,
     return false
 
   if nil != newtitle:
-    passRecord.title = newtitle
+    logininfo.title = newtitle
 
   if nil != username:
-    passRecord.username = username
+    logininfo.username = username
 
-  if nil != passRecord:
-    passRecord.password = password
+  if nil != logininfo:
+    logininfo.password = password
 
   if nil != email:
-    passRecord.email = email
+    logininfo.email = email
 
   if nil != description:
-    passRecord.description = description
+    logininfo.description = description
 
   if false == add(passdbFolderPath,
                   recordsListFilePath,
-                  passRecord.title,
-                  passRecord.username,
-                  passRecord.password,
-                  passRecord.email,
-                  passRecord.description,
+                  digest,
+                  logininfo.title,
+                  logininfo.username,
+                  logininfo.password,
+                  logininfo.email,
+                  logininfo.description,
                   date):
     return false
 
   return true
+
+## show the login information
+## TODO: test, improve
+proc show*( passdbFolderPath: string,
+            recordsListFilePath: string,
+            digest: TDigest,
+            title: string): ref Tlogininfo =
+  result = nil
+  var logininfoFileName = convertTitleToFile(recordsListFilePath, title)
+  if nil == logininfoFileName:
+    return nil
+
+  var logininfoFileNamePath = os.joinPath(passdbFolderPath, logininfoFileName)
+
+  result = getlogininfoFromFile(logininfoFileNamePath, digest)
+  if nil == result:
+    return nil
 
 ## get a list of all pass records
 ## TODO: test, improve
