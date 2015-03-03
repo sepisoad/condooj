@@ -10,10 +10,11 @@ You need to know that the application is a work in progress and there is a big l
   - update an existing login record
   - delete an existing login record
   - list all existing login records
+  - user can see an specific login record
+  - login records are encrypted using a passphrase as a key before saving into disk 
  
 ##bellow is the list of missing features:
   - random password generator
-  - login records encryption and decryption when saving and loading from disk 
   - put login records on dropbox for syncing and backup purpose
 
 ##Version
@@ -22,8 +23,7 @@ You need to know that the application is a work in progress and there is a big l
 ##How to compile
 the application is almost entirely written in [nim](http://nim-lang.org/) language
 under ubuntu all you need to do is to get the latest nim lang and compile it
-and then run 'build.sh' file it will then generate and file named condooj under src folder 
-which you can run it from everywhere.
+and. then use 'nakefile' with 'debug' or 'release' option to build the source code.
 
 ##Contact me
 sepehr.aryani@gmail.com 

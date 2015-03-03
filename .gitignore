@@ -1,5 +1,5 @@
 nimcache/
 BUILD/
-.condooj
-.nakefile
+./condooj
+./nakefile
 
