@@ -1,5 +1,7 @@
 nimcache/
 BUILD/
-./condooj
-./nakefile
+condooj
+nakefile
+condooj.sublime-project
+condooj.sublime-workspace
 
