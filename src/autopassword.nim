@@ -45,7 +45,7 @@ proc generate*( passwordLen: int,
                 allowNumbers: bool): string =
   if passwordLen > MAX_PASSWORD_LEN:
     stderr.writeln("Error: the password length should be less than " & $MAX_PASSWORD_LEN & ".")
-    return ""
+    return nil
 
   var entry: seq[TPassEntry] = @[]
 
@@ -64,11 +64,25 @@ proc generate*( passwordLen: int,
     entry.add(NUMBERS)
 
   var entryLen = entry.len
+  if 0 == entryLen:
+    return nil
 
-  for index in countup(0, passwordLen-1):
-    for choise in countup(0, entryLen-1):  
+  if 1 == entryLen:
+    for index in countup(0, passwordLen-1):
+      case entry[0]:
+      of UPPERCASE:
+        result &= $(generateUppercase())
+      of LOWERCASE:
+        result &= $(generateLowercase())
+      of SYMBOLS: 
+        result &= $(generateSymbol())
+      of NUMBERS:
+        result &= $(generateNumber())
+      else: discard
+  else:
+    for index in countup(0, passwordLen-1):
       randomize()
-      var randomChoice = random(entryLen-1)
+      var randomChoice = random(entryLen)
       case entry[randomChoice]:
         of UPPERCASE:
           result &= $(generateUppercase())
@@ -78,7 +92,8 @@ proc generate*( passwordLen: int,
           result &= $(generateSymbol())
         of NUMBERS:
           result &= $(generateNumber())
-        else: echo("MOTHER FUCKER")
+        else: discard
+      
 
 when isMainModule:
   var res = generate(10, true, true, true, true)

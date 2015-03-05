@@ -8,8 +8,8 @@ import config
 import profile
 import logininfo
 import protection
+import autopassword
 
-# var passPhrase: TDigest
 var optParser: OptParser
 
 ## show command line usage
@@ -85,6 +85,12 @@ proc performOptionAdd() =
   var email: string = "UNDEFINED"
   var description: string = "UNDEFINED"
   var date = times.getDateStr()
+  var canUseAutoPassword: bool = false
+  var passwordLen: int = 0
+  var canUseUpperCase: bool = false
+  var canUseLowerCase: bool = false
+  var canUseSymbol: bool = false
+  var canUseNumber: bool = false
 
   while true:
     optParser.next()
@@ -111,27 +117,78 @@ proc performOptionAdd() =
       of "description":
         description = optParser.val
 
+      of "autopassword":
+        canUseAutoPassword = true          
+        try:
+          passwordLen = strutils.parseInt(optParser.val)
+        except ValueError:
+          stderr.writeln("Error: autopassword lenght value is invalid") 
+          return
+        except OverflowError:
+          stderr.writeln("Error: autopassword lenght is too big") 
+          return
+
+      of "useuppercase":
+        canUseUpperCase = true
+
+      of "uselowercase":
+        canUseLowerCase = true
+
+      of "usesymbol":
+        canUseSymbol = true
+
+      of "usenumber":
+        canUseNumber = true
+
       else: 
         stderr.writeln("Error: '" & optParser.key & "' is not a valid option")
         return
+
   if nil == passphrase:
     stderr.writeln("Error: a passphrase is needed in roder to get access to login records database") 
     return
 
   if nil == title:
-    stderr.writeln("Error: you have to add a title for your password record using '--title'") 
+    stderr.writeln("Error: you have to add a title for your password record using 'title'") 
     return
 
   if nil == username:
-    stderr.writeln("Error: you have to add a username for your password record using '--username'") 
+    stderr.writeln("Error: you have to add a username for your password record using 'username'") 
     return
 
-  if nil == password:
-    stderr.writeln("Error: you have to add a password for your password record using '--password'") 
-    return
+  if false == canUseAutoPassword:
+    if nil == password:
+      stderr.write("Error: you have to add a password for your password record using 'password'") 
+      stderr.writeln(" or use 'autopassword' to let the app generate a random password for you") 
+      return
+    if true == canUseUpperCase:
+      stderr.writeln("Error: 'useuppercase' option can only be used if 'autopassword' is defined") 
+      return
+    if true == canUseLowerCase:
+      stderr.writeln("Error: 'uselowercase' option can only be used if 'autopassword' is defined") 
+      return
+    if true == canUseSymbol:
+      stderr.writeln("Error: 'usesymbol' option can only be used if 'autopassword' is defined") 
+      return
+    if true == canUseNumber:
+      stderr.writeln("Error: 'usenumber' option can only be used if 'autopassword' is defined") 
+      return
 
+  if true == canUseAutoPassword:
+    if nil != password:
+      stderr.writeln("Error: you cannot use 'password' and 'autopassword' at the same time") 
+      return
+    password = autopassword.generate( passwordLen, 
+                                      canUseUpperCase,
+                                      canUseLowerCase,
+                                      canUseSymbol,
+                                      canUseNumber)
+    if nil == password:
+       stderr.writeln("Error: failed to generate a random password") 
+       return
+
+  
   var passphraseDigest = protection.createPassphraseDigest(passphrase)
-  #echo($passphraseDigest)
 
   if false == logininfo.add(  app.getPassdbFolderPath(), 
                               app.getRecordsListFilePath(), 
@@ -152,9 +209,15 @@ proc performOptionUpdate() =
   var newtitle: string = nil
   var username: string = nil
   var password: string = nil
-  var email: string = nil
-  var description: string = nil
+  var email: string = "UNDEFINED"
+  var description: string = "UNDEFINED"
   var date = times.getDateStr()
+  var canUseAutoPassword: bool = false
+  var passwordLen: int = 0
+  var canUseUpperCase: bool = false
+  var canUseLowerCase: bool = false
+  var canUseSymbol: bool = false
+  var canUseNumber: bool = false
 
   while true:
     optParser.next()
@@ -184,6 +247,29 @@ proc performOptionUpdate() =
       of "description":
         description = optParser.val
 
+      of "autopassword":
+        canUseAutoPassword = true          
+        try:
+          passwordLen = strutils.parseInt(optParser.val)
+        except ValueError:
+          stderr.writeln("Error: autopassword lenght value is invalid") 
+          return
+        except OverflowError:
+          stderr.writeln("Error: autopassword lenght is too big") 
+          return
+
+      of "useuppercase":
+        canUseUpperCase = true
+
+      of "uselowercase":
+        canUseLowerCase = true
+
+      of "usesymbol":
+        canUseSymbol = true
+
+      of "usenumber":
+        canUseNumber = true
+
       else: 
         stderr.writeln("Error: '" & optParser.key & "' is not a valid option")
         return
@@ -195,6 +281,37 @@ proc performOptionUpdate() =
   if nil == title:
     stderr.writeln("Error: you have to add a title for your password record using '--title'") 
     return
+
+  if false == canUseAutoPassword:
+    if nil == password:
+      stderr.write("Error: you have to add a password for your password record using 'password'") 
+      stderr.writeln(" or use 'autopassword' to let the app generate a random password for you") 
+      return
+    if true == canUseUpperCase:
+      stderr.writeln("Error: 'useuppercase' option can only be used if 'autopassword' is defined") 
+      return
+    if true == canUseLowerCase:
+      stderr.writeln("Error: 'uselowercase' option can only be used if 'autopassword' is defined") 
+      return
+    if true == canUseSymbol:
+      stderr.writeln("Error: 'usesymbol' option can only be used if 'autopassword' is defined") 
+      return
+    if true == canUseNumber:
+      stderr.writeln("Error: 'usenumber' option can only be used if 'autopassword' is defined") 
+      return
+
+  if true == canUseAutoPassword:
+    if nil != password:
+      stderr.writeln("Error: you cannot use 'password' and 'autopassword' at the same time") 
+      return
+    password = autopassword.generate( passwordLen, 
+                                      canUseUpperCase,
+                                      canUseLowerCase,
+                                      canUseSymbol,
+                                      canUseNumber)
+    if nil == password:
+       stderr.writeln("Error: failed to generate a random password") 
+       return
 
   var passphraseDigest = protection.createPassphraseDigest(passphrase)
 
