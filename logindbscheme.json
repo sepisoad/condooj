@@ -1,0 +1,28 @@
+[
+    {
+        "title": "google",
+        "username": "sepehr.aryani@gmail.com",
+        "password": "123456",
+        "email": "sepehr.aryani@gmail.com",
+        "date": "27-11-2015",
+        "tags": [
+            "mail",
+            "important",
+            "good",
+            "personal"
+        ]
+    },
+    {
+        "title": "yahoo",
+        "username": "sepehr_aryani@yahoo.com",
+        "password": "123456",
+        "email": "sepehr_aryani@yahoo.com",
+        "date": "12-6-2013",
+        "tags": [
+            "mail",
+            "important",
+            "good",
+            "personal"
+        ]
+    }
+]

@@ -1,7 +1,11 @@
+*.o
+*.so
+*.obj
+*.dll
+*.class
+*.jar
+*.log
+*.exe
+_CACHE_
+data
 nimcache/
-BUILD/
-condooj
-nakefile
-condooj.sublime-project
-condooj.sublime-workspace
-

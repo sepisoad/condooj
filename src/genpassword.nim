@@ -1,7 +1,10 @@
+import os
 import times
 import math
+# import algorithm, sequtils
+# import random, random.xorshift
 
-let MAX_PASSWORD_LEN = 128
+const MAX_PASSWORD_LEN* = 128
 
 type TPassEntry = enum
   UPPERCASE,
@@ -45,7 +48,7 @@ proc generate*( passwordLen: int,
                 allowNumbers: bool): string =
   if passwordLen > MAX_PASSWORD_LEN:
     stderr.writeln("Error: the password length should be less than " & $MAX_PASSWORD_LEN & ".")
-    return nil
+    return ""
 
   var entry: seq[TPassEntry] = @[]
 
@@ -65,11 +68,12 @@ proc generate*( passwordLen: int,
 
   var entryLen = entry.len
   if 0 == entryLen:
-    return nil
-
-  if 1 == entryLen:
-    for index in countup(0, passwordLen-1):
-      case entry[0]:
+    return ""
+    
+  for index in countup(0, passwordLen-1):
+    randomize()
+    var randomChoice = random(entryLen)
+    case entry[randomChoice]:
       of UPPERCASE:
         result &= $(generateUppercase())
       of LOWERCASE:
@@ -79,21 +83,7 @@ proc generate*( passwordLen: int,
       of NUMBERS:
         result &= $(generateNumber())
       else: discard
-  else:
-    for index in countup(0, passwordLen-1):
-      randomize()
-      var randomChoice = random(entryLen)
-      case entry[randomChoice]:
-        of UPPERCASE:
-          result &= $(generateUppercase())
-        of LOWERCASE:
-          result &= $(generateLowercase())
-        of SYMBOLS: 
-          result &= $(generateSymbol())
-        of NUMBERS:
-          result &= $(generateNumber())
-        else: discard
-      
+    sleep(10)
 
 when isMainModule:
   var res = generate(10, true, true, true, true)
