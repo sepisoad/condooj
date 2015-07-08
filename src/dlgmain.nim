@@ -6,7 +6,8 @@ var dlgResult: bool = true
 var lPassPhrase = ""
 
 proc onButtonAdd(handle: PIhandle) :cint {.cdecl.} =
-  var listRecords = getHandle("listRecords") 
+  var listRecordsTitle = getHandle("listRecordsTitle") 
+  var listRecordsUids = getHandle("listRecordsUids") 
   var lr = runRecordDialog(nil)
   if nil == lr:
     return IUP_DEFAULT
@@ -14,16 +15,42 @@ proc onButtonAdd(handle: PIhandle) :cint {.cdecl.} =
   if not res.isOk:
     message("error", res.msg)  
     return IUP_DEFAULT
-  setAttribute(listRecords, "APPENDITEM", lr.title)
+  setAttribute(listRecordsTitle, "APPENDITEM", lr.title)
+  setAttribute(listRecordsUids, "APPENDITEM", lr.uid)
   return IUP_DEFAULT
 
 proc onButtonRemove(handle: PIhandle) :cint {.cdecl.} =
-  var listRecords = getHandle("listRecords") 
-  var btn = button("ooo", "sdfsdf")
-  setAttribute(listRecords, "APPENDITEM", btn)
+  var listRecordsTitle = getHandle("listRecordsTitle") 
+  var listRecordsUids = getHandle("listRecordsUids") 
+  var uidItemIndex = $getAttribute(listRecordsUids, "VALUE")
+  if "0" != uidItemIndex:
+    var uidItemStr = $getAttribute(listRecordsUids, "VALUESTRING")
+    var res = dbRemove(uidItemStr)
+    if not res.isOk:
+      message("error", res.msg)  
+    else:
+      setAttribute(listRecordsTitle, "REMOVEITEM", uidItemIndex)
+      setAttribute(listRecordsUids, "REMOVEITEM", uidItemIndex)
   return IUP_DEFAULT
 
 proc onButtonEdit(handle: PIhandle) :cint {.cdecl.} =
+  var listRecordsTitle = getHandle("listRecordsTitle") 
+  var listRecordsUids = getHandle("listRecordsUids") 
+  var uidItemIndex = $getAttribute(listRecordsUids, "VALUE")
+  if "0" != uidItemIndex:
+    var uidItemStr = $getAttribute(listRecordsUids, "VALUESTRING")
+    var queryFind = dbFindByUid(nil, uidItemStr)
+    if queryFind.isOk:
+      var lr = runRecordDialog(queryFind.record)
+      if nil != lr:
+        var queryRemove = dbRemove(uidItemStr)
+        if queryRemove.isOk:
+          var queryAdd = dbAdd(lr)
+          if queryAdd.isOk:
+            setAttribute(listRecordsTitle, "REMOVEITEM", uidItemIndex)
+            setAttribute(listRecordsUids, "REMOVEITEM", uidItemIndex)
+            setAttribute(listRecordsTitle, "APPENDITEM", lr.title)
+            setAttribute(listRecordsUids, "APPENDITEM", lr.uid)
   return IUP_DEFAULT
 
 proc onButtonExport(handle: PIhandle) :cint {.cdecl.} =
@@ -38,10 +65,26 @@ proc onButtonSetting(handle: PIhandle) :cint {.cdecl.} =
 proc onButtonAbout(handle: PIhandle) :cint {.cdecl.} =
   return IUP_DEFAULT
 
+proc onListRecordsTitle(handle: PIhandle) :cint {.cdecl.} =
+  var listRecordsTitle = getHandle("listRecordsTitle") 
+  var listRecordsUids = getHandle("listRecordsUids") 
+  var titleItemIndex = getAttribute(listRecordsTitle, "VALUE")
+  setAttribute(listRecordsUids, "VALUE", titleItemIndex)
+  return IUP_DEFAULT
+
+proc onListRecordsUids(handle: PIhandle) :cint {.cdecl.} =
+  var listRecordsTitle = getHandle("listRecordsTitle") 
+  var listRecordsUids = getHandle("listRecordsUids") 
+  var uidItemIndex = getAttribute(listRecordsUids, "VALUE")
+  setAttribute(listRecordsTitle, "VALUE", uidItemIndex)
+  return IUP_DEFAULT
+
 proc addLoginRecordsToList(lt: LoginTable): bool = 
-  var listRecords = getHandle("listRecords") 
+  var listRecordsTitle = getHandle("listRecordsTitle") 
+  var listRecordsUids = getHandle("listRecordsUids") 
   for record in items(lt):
-    setAttribute(listRecords, "APPENDITEM", record.title)
+    setAttribute(listRecordsTitle, "APPENDITEM", record.title)
+    setAttribute(listRecordsUids, "APPENDITEM", record.uid)
   return true
 
 proc runMainDialog*(passPhrase: string): bool =
@@ -100,22 +143,37 @@ proc runMainDialog*(passPhrase: string): bool =
   discard insert(hboxToolbar, nil, buttonRemove)
   discard insert(hboxToolbar, nil, buttonAdd)
 
-  var listRecords = list("onListRecords")
-  setAttribute(listRecords, "ALIGNMENT", "ALEFT") 
-  setAttribute(listRecords, "EXPAND", "VERTICAL") 
-  setAttribute(listRecords, "AUTOHIDE", "YES") 
-  setAttribute(listRecords, "SHOWIMAGE", "YES") 
-  setAttribute(listRecords, "SPACING", "3") 
-  # setAttribute(listRecords, "SIZE", "50")  
-  setAttribute(listRecords, "VISIBLELINES", "10")  
-  discard setHandle("listRecords", listRecords)
+  var listRecordsTitle = list("onListRecordsTitle")
+  setAttribute(listRecordsTitle, "ALIGNMENT", "ALEFT") 
+  setAttribute(listRecordsTitle, "EXPAND", "YES") 
+  setAttribute(listRecordsTitle, "AUTOHIDE", "YES") 
+  setAttribute(listRecordsTitle, "SHOWIMAGE", "YES") 
+  setAttribute(listRecordsTitle, "SPACING", "3") 
+  setAttribute(listRecordsTitle, "VISIBLELINES", "10")  
+  setAttribute(listRecordsTitle, "SIZE", "NATURALSIZE") 
+  discard setHandle("listRecordsTitle", listRecordsTitle)
+  discard setCallback(listRecordsTitle, "ACTION", onListRecordsTitle)
 
-  # var matrixRecors = matrix("onMatrixRecords")
-  # setAttribute(matrixRecors, "NUMCOL", "3")
-  # setAttribute(matrixRecors, "NUMCOL_VISIBLE", "3")
-  # setAttribute(matrixRecors, "0:1", "title")
-  # setAttribute(matrixRecors, "0:2", "username")
-  # setAttribute(matrixRecors, "0:2", "email")
+  var listRecordsUids = list("onListRecordsUids")
+  setAttribute(listRecordsUids, "ALIGNMENT", "ALEFT") 
+  setAttribute(listRecordsUids, "EXPAND", "NO") 
+  setAttribute(listRecordsUids, "AUTOHIDE", "YES") 
+  setAttribute(listRecordsUids, "SHOWIMAGE", "YES") 
+  setAttribute(listRecordsUids, "SPACING", "3") 
+  setAttribute(listRecordsUids, "VISIBLELINES", "10")  
+  setAttribute(listRecordsUids, "SIZE", "0") 
+  setAttribute(listRecordsUids, "VISIBLE", "NO") 
+  discard setHandle("listRecordsUids", listRecordsUids) 
+  discard setCallback(listRecordsUids, "ACTION", onListRecordsUids)
+
+  var hboxListRecords = hbox(nil)
+  setAttribute(hboxListRecords, "ALIGNMENT", "ALEFT") 
+  setAttribute(hboxListRecords, "EXPAND", "YES") 
+  setAttribute(hboxListRecords, "HORIZONTALFREE", "YES") 
+  setAttribute(hboxListRecords, "MARGIN", "5x5")
+  setAttribute(hboxListRecords, "GAP", "0")
+  discard insert(hboxListRecords, nil, listRecordsUids)
+  discard insert(hboxListRecords, nil, listRecordsTitle)
 
   var fillMain = fill()
 
@@ -127,13 +185,11 @@ proc runMainDialog*(passPhrase: string): bool =
   var vboxMain = vbox(nil)
   setAttribute(vboxMain, "ALIGNMENT", "ALEFT") 
   setAttribute(vboxMain, "EXPAND", "YES") 
-  setAttribute(vboxMain, "EXPANDCHILDREN", "YES") 
   setAttribute(vboxMain, "MARGIN", "5x5")
   setAttribute(vboxMain, "GAP", "5")
   discard insert(vboxMain, nil, textQuickSearch)
   discard insert(vboxMain, nil, fillMain)
-  # discard insert(vboxMain, nil, matrixRecors)
-  discard insert(vboxMain, nil, listRecords)
+  discard insert(vboxMain, nil, hboxListRecords)
   discard insert(vboxMain, nil, hboxToolbar)
 
   var dialogMain = dialog(vboxMain)

@@ -3,6 +3,7 @@ import strutils
 import logging
 import json
 import times #todo: enhance inclusion
+import oids
 
 type 
   AppInitResult* = enum
@@ -24,6 +25,7 @@ type
 
   LoginRecord* = ref object
     title*: string
+    uid*: string
     username*: string
     password*: string
     email*: string
@@ -32,7 +34,6 @@ type
     tags*: seq[string]
 
   LoginTable* = seq[LoginRecord]
-    # records*: seq[LoginRecord]
 
 const APP_FOLDER_NAME = ".condooj"
 const PROFILE_NAME = "condooj.profile"
@@ -45,6 +46,7 @@ const PROFILE_OPT_TOKEN = "access_token"
 const PROFILE_OPT_TYPE = "token_type"
 const PROFILE_OPT_UID = "app_uid"
 const RECORD_OPT_TITLE = "title"
+const RECORD_OPT_UID = "uid"
 const RECORD_OPT_USERNAME = "username"
 const RECORD_OPT_PASSWORD = "password"
 const RECORD_OPT_EMAIL = "email"
@@ -96,30 +98,38 @@ proc toJson*(profile: Profile): JsonNode =
   result.add(PROFILE_OPT_TOKEN, jStrToken)
   result.add(PROFILE_OPT_TYPE, jStrType)
   result.add(PROFILE_OPT_UID, jStrUid)
-  debug($result)
 
 proc toProfile*(profile: string): Profile = 
   var json: JsonNode
 
   try:
     json = parseJson(profile)
-    var passPhrase = json[PROFILE_OPT_PASSPHRASE].str
-    var code = json[PROFILE_OPT_CODE].str
-    var token = json[PROFILE_OPT_TOKEN].str
-    var typ = json[PROFILE_OPT_TYPE].str
-    var uid = json[PROFILE_OPT_UID].str
+    var passPhrase = 
+      if nil == json[PROFILE_OPT_PASSPHRASE]: ""
+      else: json[PROFILE_OPT_PASSPHRASE].str
+    var code = 
+      if nil == json[PROFILE_OPT_CODE]: ""
+      else: json[PROFILE_OPT_CODE].str
+    var token = 
+      if nil == json[PROFILE_OPT_TOKEN]: ""
+      else: json[PROFILE_OPT_TOKEN].str
+    var typ = 
+      if nil == json[PROFILE_OPT_TYPE]: ""
+      else: json[PROFILE_OPT_TYPE].str
+    var uid =
+      if nil == json[PROFILE_OPT_UID]: ""
+      else: json[PROFILE_OPT_UID].str
     result = newProfile(passPhrase, code, token, typ, uid)
   except ValueError:
-    debug(profile)
     fatal("failed to parse profile", getCurrentExceptionMsg())
     return nil
   except JsonParsingError:
-    debug(profile)
     fatal("failed to parse profile", getCurrentExceptionMsg())
     return nil
 
 
 proc newLoginRecord*( title: string, 
+                      uid: string  = "",
                       username: string, 
                       password: string, 
                       email: string, 
@@ -128,6 +138,10 @@ proc newLoginRecord*( title: string,
                       tags: seq[string]): LoginRecord =
   new(result)
   result.title = title
+  if "" == uid:
+    result.uid = $genOid()
+  else:
+    result.uid = uid
   result.username = username
   result.password = password
   result.email = email
@@ -141,6 +155,7 @@ proc newLoginRecord*( title: string,
 proc toJson*(rec: LoginRecord): JsonNode = 
   result = newJObject()
   var jStrTitle = newJString(rec.title)
+  var jStrUid = newJString(rec.uid)
   var jStrUsername = newJString(rec.username)
   var jStrPassword = newJString(rec.password)
   var jStrEmail = newJString(rec.email)
@@ -150,30 +165,47 @@ proc toJson*(rec: LoginRecord): JsonNode =
   for item in rec.tags:
     jStrArrTags.add(newJString(item))
   result.add(RECORD_OPT_TITLE, jStrTitle)
+  result.add(RECORD_OPT_UID, jStrUid)
   result.add(RECORD_OPT_USERNAME, jStrUsername)
   result.add(RECORD_OPT_PASSWORD, jStrPassword)
   result.add(RECORD_OPT_EMAIL, jStrEmail)
   result.add(RECORD_OPT_DATE, jStrDate)
   result.add(RECORD_OPT_DESCRIPTION, jStrDescription)
   result.add(RECORD_OPT_TAGS, jStrArrTags)
-  debug($result)
 
 proc toLoginRecord*(record: string): LoginRecord = 
   debug("toLoginRecord() called")
   try:
     var json = parseJson(record)
-    if nil == json or "" == $json:
+    if nil == json or "" == $json: 
       return nil
-    var title = json[RECORD_OPT_TITLE].str
-    var username = json[RECORD_OPT_USERNAME].str
-    var password = json[RECORD_OPT_PASSWORD].str
-    var email = json[RECORD_OPT_EMAIL].str
-    var date = json[RECORD_OPT_DATE].str
-    var description = json[RECORD_OPT_DESCRIPTION].str
+    var title = 
+      if nil == json[RECORD_OPT_TITLE]: ""
+      else: json[RECORD_OPT_TITLE].str
+    var uid = 
+      if nil == json[RECORD_OPT_UID]: "" 
+      else: json[RECORD_OPT_UID].str
+    var username =
+      if nil == json[RECORD_OPT_USERNAME]: "" 
+      else: json[RECORD_OPT_USERNAME].str
+    var password = 
+      if nil == json[RECORD_OPT_PASSWORD]: ""
+      else: json[RECORD_OPT_PASSWORD].str
+    var email = 
+      if nil == json[RECORD_OPT_EMAIL]: ""
+      else: json[RECORD_OPT_EMAIL].str
+    var date = 
+      if nil == json[RECORD_OPT_DATE]: ""
+      else: json[RECORD_OPT_DATE].str
+    var description = 
+      if nil == json[RECORD_OPT_DESCRIPTION]: ""
+      else: json[RECORD_OPT_DESCRIPTION].str
     var tags: seq[string] = @[]
-    for tag in items(json[RECORD_OPT_TAGS].elems):
-      tags.add(tag.str)
+    if nil != json[RECORD_OPT_TAGS]:
+      for tag in items(json[RECORD_OPT_TAGS].elems):
+        tags.add(tag.str)
     result = newLoginRecord(title, 
+                            uid,
                             username, 
                             password, 
                             email, 
@@ -200,22 +232,21 @@ proc remove*(lt: var LoginTable, lr: LoginRecord): bool =
   var index: int = 0
   result = false
   for item in items(lt):
+    if lr.uid == item.uid:
+      result = true
+      break
     index += 1
-    if item.title == lr.title:
-      if item.username == lr.username:
-        result = true
-        break
   if result:
     lt.delete(index)
 
 proc update*( table: LoginTable, 
-              title: string,
+              uid: string,
               newRec: LoginRecord): bool =
   var index: int = 0
   result = false
   for item in items(table):
     index += 1
-    if item.title == title:
+    if item.uid == uid:
       item.title = newRec.title
       item.username = newRec.username
       item.password = newRec.password
@@ -223,7 +254,6 @@ proc update*( table: LoginTable,
       item.date = newRec.date
       item.description = newRec.description
       item.tags = newRec.tags
-
       result = true
       break
 
@@ -434,11 +464,21 @@ proc updateDB*(lt: LoginTable): bool =
     return false
   return true
 
-proc recordExists(lt: LoginTable, lr: LoginRecord): bool = 
+proc dbFindByUid*(lt: LoginTable = nil, uid: string): tuple[isOk: bool, record: LoginRecord] = 
+  debug("dbFindByUid() called")
+  result.isOk = false
+  result.record = nil
+  var table = if nil == lt: loadDB() else: lt
+  for item in items(table):
+    if uid == item.uid:
+      result.isOk = true
+      result.record = item
+      break
+
+proc dbRecordExists(lt: LoginTable, lr: LoginRecord): bool = 
   for record in items(lt):
-    if lr.title == record.title:
-      if lr.username == record.username:
-        return true
+    if lr.uid == record.uid:
+      return true
   return false
 
 proc dbAdd*(lr: var LoginRecord): tuple[isOk: bool, msg: string] = 
@@ -448,7 +488,7 @@ proc dbAdd*(lr: var LoginRecord): tuple[isOk: bool, msg: string] =
     result.isOk = false
     result.msg = "failed to load data base"
     return
-  if recordExists(lt, lr):
+  if dbRecordExists(lt, lr):
     result.isOk = false
     result.msg = "this login information already exists"
     return
@@ -460,18 +500,19 @@ proc dbAdd*(lr: var LoginRecord): tuple[isOk: bool, msg: string] =
   result.isOk = true
   result.msg = "ok"
 
-proc dbRemove*(lr: var LoginRecord): tuple[isOk: bool, msg: string] = 
+proc dbRemove*(uid: string): tuple[isOk: bool, msg: string] = 
   debug("dbRemove() called")
   var lt = loadDB()
   if nil == lt:
     result.isOk = false
     result.msg = "failed to load data base"
     return
-  if not recordExists(lt, lr):
+  var query = dbFindByUid(lt, uid)
+  if not query.isOk:
     result.isOk = false
     result.msg = "cannot locate login information in data base"
     return
-  discard lt.remove(lr)
+  discard lt.remove(query.record)
   if not updateDB(lt):
     result.isOk = false
     result.msg = "failed to remove login record from data base"

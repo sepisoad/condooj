@@ -19,6 +19,7 @@ proc collectDataFromDialog(): LoginRecord =
   var date = $getAttribute(textDate, "VALUE")
   var description = $getAttribute(textDescription, "VALUE")
   result = newLoginRecord(title, 
+                          "",
                           username,
                           password,
                           email,
@@ -170,7 +171,6 @@ proc runRecordDialog*(lr: LoginRecord): LoginRecord =
   setAttribute(textDate, "EXPAND", "YES")
   if nil != lr:
     setAttribute(textDate, "VALUE", lr.date)
-  setAttribute(textDate, "VALUE", getDateStr())
   discard insert(hboxDate, nil,  buttonGetToday)
   discard insert(hboxDate, nil,  textDate)
   discard insert(hboxDate, nil, labelDate)
